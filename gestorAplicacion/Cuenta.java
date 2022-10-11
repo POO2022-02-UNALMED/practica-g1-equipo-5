@@ -3,7 +3,7 @@ package gestorAplicacion;
 public class Cuenta {
     private int numero;
     private String tipo;
-    private static int saldo;
+    private int saldo;
     private int deuda; //esta debe de ser de tipo prestado
     private String estado;
 
@@ -16,13 +16,13 @@ public class Cuenta {
 
     public void aumentarSaldo(int cantidad){
         if (this.estado == "Activo" || this.estado == "activo"){
-            Cuenta.saldo += cantidad;
+            this.saldo += cantidad;
         }
     }
 
     public void disminuirSaldo(int cantidad){
-        if (this.estado == "Activo" || this.estado == "activo"){
-            Cuenta.saldo -= cantidad;
+        if ((this.estado == "Activo" || this.estado == "activo") && cantidad < this.saldo){
+            this.saldo -= cantidad;
         }
     }
 
@@ -42,12 +42,12 @@ public class Cuenta {
         this.tipo = tipo;
     }
 
-    public static int getSaldo() {
+    public int getSaldo() {
         return saldo;
     }
 
-    public static void setSaldo(int saldo) {
-        Cuenta.saldo = saldo;
+    public void setSaldo(int saldo) {
+        this.saldo = saldo;
     }
 
     public int getDeuda() {
