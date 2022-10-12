@@ -4,10 +4,10 @@ public class Cuenta {
     private int numero;
     private String tipo;
     private int saldo;
-    private int deuda; //esta debe de ser de tipo prestado
-    private String estado;
+    private int deuda; //esta debe de ser de tipo prestamo
+    private boolean estado;
 
-    public Cuenta(int numero, String tipo, int deuda, String estado) {
+    public Cuenta(int numero, String tipo, int deuda, boolean estado) {
         this.numero = numero;
         this.tipo = tipo;
         this.deuda = deuda;
@@ -15,13 +15,13 @@ public class Cuenta {
     }
 
     public void aumentarSaldo(int cantidad){
-        if (this.estado == "Activo" || this.estado == "activo"){
+        if (this.estado){
             this.saldo += cantidad;
         }
     }
 
     public void disminuirSaldo(int cantidad){
-        if ((this.estado == "Activo" || this.estado == "activo") && cantidad < this.saldo){
+        if (this.estado && cantidad < this.saldo){
             this.saldo -= cantidad;
         }
     }
@@ -58,11 +58,11 @@ public class Cuenta {
         this.deuda = deuda;
     }
 
-    public String getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 }
