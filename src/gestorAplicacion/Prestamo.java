@@ -5,13 +5,35 @@ public class Prestamo {
     private String fechaPrestamo;
     private String fechaPago;
     private String tipoPrestamo;
-    private static double interes=0.1;
+    private static double interes=0.10;
     private int tope;
     public Cuenta cuentaDestino;
 
     public Prestamo(int valor,Cuenta cuenta){
         this.valorPrestamo=valor;
         this.cuentaDestino=cuenta;
+        generarPrestamo(valor);
+    }
+
+    //se calcula el interes asociado al prestamo con valorPrestamo+valorPrestamo*Prestamo.interes
+    public void generarPrestamo(int valorPrestamo){
+        int valorTotalPrestamo=(int)(valorPrestamo+valorPrestamo*Prestamo.interes);
+        cuentaDestino.setDeuda(valorTotalPrestamo);
+    }
+
+    public void pagarPrestamoParcial(int valor){
+        if (valor <= cuentaDestino.getDeuda() ) {
+            int nuevoValor = cuentaDestino.getDeuda() - valor;
+            cuentaDestino.setDeuda(nuevoValor);
+        }
+    }
+
+    public void pagarPrestamoTotal(){
+        if (cuentaDestino.getSaldo()>= cuentaDestino.getDeuda())
+            cuentaDestino.setDeuda(0);
+        else {
+            System.out.println("No tienes el suficiente dinero para realizar el pago total");
+        }
     }
 
     public int getValorPrestamo() {
@@ -54,24 +76,6 @@ public class Prestamo {
         Prestamo.interes = interes;
     }
 
-    public void generarPrestamo(int valorPrestamo){
-        int valorTotalPrestamo=(int)(valorPrestamo*Prestamo.interes);
-            cuentaDestino.setDeuda(valorTotalPrestamo);
-    }
 
-    public void pagarPrestamoParcial(int valor){
-        if (valor <= cuentaDestino.getDeuda() ) {
-            int nuevoValor = cuentaDestino.getDeuda() - valor;
-            cuentaDestino.setDeuda(nuevoValor);
-        }
-    }
-
-    public void pagarPrestamoTotal(){
-        if (cuentaDestino.getSaldo()>= cuentaDestino.getDeuda())
-                cuentaDestino.setDeuda(0);
-        else {
-            System.out.println("No tienes el suficiente dinero para realizar el pago total");
-        }
-    }
 
 }
