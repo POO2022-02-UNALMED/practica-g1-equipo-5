@@ -1,7 +1,6 @@
 package gestorAplicacion;
-
 public class Pago {
-    private int monto;
+    private long monto;
     private int id;
     private String fecha;
     private Cuenta cuenta;
@@ -11,6 +10,29 @@ public class Pago {
         this.id = id;
         this.fecha = fecha;
         this.cuenta = cuenta;
+    }
+
+    /* Este metodo calcula la diferencia del monto a la hora de pagar una multa
+    * separa casos dependiendo si es mayor menor o igual
+    * retorna un mensaje dependiendo del caso
+    * */
+    public String realizarPago(Multa multa){
+
+        multa.mora(this);
+        if (!cuenta.isEstado()) {return "su cuenta ha sido bloqueada por reatraso del pago en mora";} //en caso de que el metodo anterior haya dado false evitar problemas de consola
+
+        if (multa.getMonto() < this.monto){
+            long devolucion = (this.monto-multa.getMonto());
+            multa.eliminarMulta();
+            return "su multa fue pagada on exito. Esta es su devolucion: " + devolucion;
+        } else if (multa.getMonto() == this.monto) {
+            multa.eliminarMulta();
+            return "su multa fue pagada con exito";
+        } else {
+            multa.setMonto(this.monto-multa.getMonto());
+            return "Este es su nuevo monto: "+ multa.getMonto();
+        }
+        // no se si poner que retorne algo para posteriores metodos
     }
 
     //setters getters
@@ -27,7 +49,6 @@ public class Pago {
 
     public void setId(int id) {this.id = id;}
 
-    public int getMonto() {return monto;}
-
-    public void setMonto(int monto) {this.monto = monto;}
+    public long getMonto() {return monto;}
+    public void setMonto(long monto) {this.monto = monto;}
 }
