@@ -1,34 +1,24 @@
 package gestorAplicacion;
 
-import java.util.ArrayList;
-
-public class Cuenta {
+public abstract class Cuenta {
     private int numero;
     private String tipo;
     private int saldo;
-    ArrayList<Prestamo> prestamos= new ArrayList<>();
+    private Cliente titular;
+    private Prestamo prestamo;
     private int deuda;
+    private boolean multa;
     private boolean estado;
     private Tarjeta tarjeta;
 
-    public Cuenta(int numero, String tipo, boolean estado, Tarjeta tarjeta) {
-        this.numero = numero;
+    public Cuenta(String tipo, Cliente titular) {
         this.tipo = tipo;
-        this.estado = estado;
-        this.tarjeta = tarjeta;
+        this.titular = titular;
     }
 
-    public void aumentarSaldo(int cantidad){
-        if (estado){
-            saldo += cantidad;
-        }
-    }
+    public abstract void aumentarSaldo(int cantidad);
 
-    public void disminuirSaldo(int cantidad){
-        if (estado && cantidad < saldo){
-            saldo -= cantidad;
-        }
-    }
+    public abstract void disminuirSaldo(int cantidad);
 
     public int getNumero() {
         return numero;
@@ -46,14 +36,6 @@ public class Cuenta {
         this.tipo = tipo;
     }
 
-    public ArrayList<Prestamo> getPrestamos() {
-        return prestamos;
-    }
-
-    public void setPrestamos(Prestamo prestamos) {
-        this.prestamos.add(prestamos);
-    }
-
     public int getSaldo() {
         return saldo;
     }
@@ -62,12 +44,36 @@ public class Cuenta {
         this.saldo = saldo;
     }
 
+    public Cliente getTitular() {
+        return titular;
+    }
+
+    public void setTitular(Cliente titular) {
+        this.titular = titular;
+    }
+
+    public Prestamo getPrestamo() {
+        return prestamo;
+    }
+
+    public void setPrestamo(Prestamo prestamo) {
+        this.prestamo = prestamo;
+    }
+
     public int getDeuda() {
         return deuda;
     }
 
     public void setDeuda(int deuda) {
-        this.deuda += deuda;
+        this.deuda = deuda;
+    }
+
+    public boolean isMulta() {
+        return multa;
+    }
+
+    public void setMulta(boolean multa) {
+        this.multa = multa;
     }
 
     public boolean isEstado() {
@@ -85,6 +91,4 @@ public class Cuenta {
     public void setTarjeta(Tarjeta tarjeta) {
         this.tarjeta = tarjeta;
     }
-
-
 }
