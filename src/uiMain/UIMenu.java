@@ -29,11 +29,13 @@ public class UIMenu {
                 case 4:
                     //pagarDeudas()
                     break;
+                case 5:
+                    break;
                 default:
                     System.out.println("Por favor ingrese una opción valida");
             }
 
-        }while(opcion != 5);
+        }while(opcion != 6);
 
     }
 
