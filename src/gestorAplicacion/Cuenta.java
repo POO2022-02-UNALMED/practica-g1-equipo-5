@@ -1,18 +1,19 @@
 package gestorAplicacion;
 
+import java.util.ArrayList;
+
 public class Cuenta {
     private int numero;
     private String tipo;
     private int saldo;
-    private Prestamo prestamo;
+    ArrayList<Prestamo> prestamos= new ArrayList<>();
     private int deuda;
     private boolean estado;
     private Tarjeta tarjeta;
 
-    public Cuenta(int numero, String tipo, Prestamo deuda, boolean estado, Tarjeta tarjeta) {
+    public Cuenta(int numero, String tipo, boolean estado, Tarjeta tarjeta) {
         this.numero = numero;
         this.tipo = tipo;
-        this.prestamo = deuda;
         this.estado = estado;
         this.tarjeta = tarjeta;
     }
@@ -45,12 +46,12 @@ public class Cuenta {
         this.tipo = tipo;
     }
 
-    public Prestamo getPrestamo() {
-        return prestamo;
+    public ArrayList<Prestamo> getPrestamos() {
+        return prestamos;
     }
 
-    public void setPrestamo(Prestamo prestamo) {
-        this.prestamo = prestamo;
+    public void setPrestamos(Prestamo prestamos) {
+        this.prestamos.add(prestamos);
     }
 
     public int getSaldo() {
@@ -66,7 +67,7 @@ public class Cuenta {
     }
 
     public void setDeuda(int deuda) {
-        this.deuda = deuda;
+        this.deuda += deuda;
     }
 
     public boolean isEstado() {
