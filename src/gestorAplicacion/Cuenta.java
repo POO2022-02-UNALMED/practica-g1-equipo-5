@@ -7,6 +7,7 @@ public abstract class Cuenta {
     private Cliente titular;
     private Prestamo prestamo;
     private int deuda;
+    private boolean multa;
     private boolean estado;
     private Tarjeta tarjeta;
 
@@ -65,6 +66,14 @@ public abstract class Cuenta {
 
     public void setDeuda(int deuda) {
         this.deuda = deuda;
+    }
+
+    public boolean isMulta() {
+        return multa;
+    }
+
+    public void setMulta(boolean multa) {
+        this.multa = multa;
     }
 
     public boolean isEstado() {
