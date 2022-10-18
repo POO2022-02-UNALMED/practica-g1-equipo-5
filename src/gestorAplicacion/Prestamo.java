@@ -1,5 +1,6 @@
 package gestorAplicacion;
 public class Prestamo {
+
     private int valorPrestamo;
     private String fechaPrestamo;
     private String fechaPago;
@@ -17,7 +18,7 @@ public class Prestamo {
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
         switch (tipoPrestamo) {
-            case "hogar" -> interes = 0.06;
+            case  "hogar"-> interes = 0.06;
             case "vehiculo" -> interes = 0.04;
             case "libre" -> interes = 0.10;
             default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
@@ -25,7 +26,7 @@ public class Prestamo {
         int valorTotalPrestamo=(int)(valorPrestamo+valorPrestamo*interes);
         cuentaDestino.setDeuda(valorTotalPrestamo);
         cuentaDestino.setSaldo(cuentaDestino.getSaldo()+valorPrestamo);
-        cuentaDestino.setPrestamos(this);
+        cuentaDestino.setPrestamo(this);
     }
 
     public void pagarPrestamoParcial(int valor){

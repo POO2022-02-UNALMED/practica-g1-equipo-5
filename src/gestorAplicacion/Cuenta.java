@@ -14,6 +14,7 @@ public abstract class Cuenta {
     public Cuenta(String tipo, Cliente titular) {
         this.tipo = tipo;
         this.titular = titular;
+        this.estado=true;
     }
 
     public abstract void aumentarSaldo(int cantidad);
