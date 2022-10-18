@@ -1,24 +1,32 @@
 package gestorAplicacion;
-
 public class Prestamo {
+
     private int valorPrestamo;
     private String fechaPrestamo;
     private String fechaPago;
     private String tipoPrestamo;
-    private static double interes=0.10;
+    private double interes;
     private int tope;
     public Cuenta cuentaDestino;
 
-    public Prestamo(int valor,Cuenta cuenta){
+    public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
         this.valorPrestamo=valor;
         this.cuentaDestino=cuenta;
-        generarPrestamo(valor);
+        this.tipoPrestamo=tipoPrestamo;
+        generarPrestamo(valor,tipoPrestamo);
     }
 
-    //se calcula el interes asociado al prestamo con valorPrestamo+valorPrestamo*Prestamo.interes
-    public void generarPrestamo(int valorPrestamo){
-        int valorTotalPrestamo=(int)(valorPrestamo+valorPrestamo*Prestamo.interes);
+    public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
+        switch (tipoPrestamo) {
+            case  "hogar"-> interes = 0.06;
+            case "vehiculo" -> interes = 0.04;
+            case "libre" -> interes = 0.10;
+            default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
+        }
+        int valorTotalPrestamo=(int)(valorPrestamo+valorPrestamo*interes);
         cuentaDestino.setDeuda(valorTotalPrestamo);
+        cuentaDestino.setSaldo(cuentaDestino.getSaldo()+valorPrestamo);
+        cuentaDestino.setPrestamo(this);
     }
 
     public void pagarPrestamoParcial(int valor){
@@ -68,14 +76,20 @@ public class Prestamo {
         this.tope = tope;
     }
 
-    public static double getInteres() {
+    public double getInteres() {
         return interes;
     }
 
-    public static void setInteres(double interes) {
-        Prestamo.interes = interes;
+    public void setInteres(double interes) {
+        this.interes = interes;
     }
 
+    public String getTipoPrestamo() {
+        return tipoPrestamo;
+    }
 
+    public void setTipoPrestamo(String tipoPrestamo) {
+        this.tipoPrestamo = tipoPrestamo;
+    }
 
 }
