@@ -1,7 +1,7 @@
 package gestorAplicacion;
 
 public abstract class Cuenta {
-    private int numero;
+    private  static int numero = 10000000;
     private String tipo;
     private int saldo;
     private Cliente titular;
@@ -9,11 +9,13 @@ public abstract class Cuenta {
     private int deuda;
     private boolean multa;
     private boolean estado;
-    private Tarjeta tarjeta;
 
     public Cuenta(String tipo, Cliente titular) {
         this.tipo = tipo;
         this.titular = titular;
+        this.estado = true;
+        Cuenta.numero++;
+
     }
 
     public abstract void aumentarSaldo(int cantidad);
@@ -25,7 +27,7 @@ public abstract class Cuenta {
     }
 
     public void setNumero(int numero) {
-        this.numero = numero;
+        Cuenta.numero = numero;
     }
 
     public String getTipo() {
@@ -84,11 +86,4 @@ public abstract class Cuenta {
         this.estado = estado;
     }
 
-    public Tarjeta getTarjeta() {
-        return tarjeta;
-    }
-
-    public void setTarjeta(Tarjeta tarjeta) {
-        this.tarjeta = tarjeta;
-    }
 }
