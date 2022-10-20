@@ -4,29 +4,29 @@ public class Pago {
     private int id;
     private String fecha;
     private Cuenta cuenta;
+    private Multa multa;
 
     public Pago(int monto,int id,String fecha, Cuenta cuenta){
         this.monto = monto;
         this.id = id;
         this.fecha = fecha;
         this.cuenta = cuenta;
+
     }
 
     /* Este metodo calcula la diferencia del monto a la hora de pagar una multa
     * separa casos dependiendo si es mayor menor o igual
     * retorna un mensaje dependiendo del caso
     * */
-    public String realizarPago(Multa multa){
+    public String realizarPagoMulta(Multa multa){
+        if (!cuenta.isMulta()) return "Usted no cuenta con multas actualmente";
 
         multa.mora(this);
-        if (!cuenta.isEstado()) {return "su cuenta ha sido bloqueada por reatraso del pago en mora";} //en caso de que el metodo anterior haya dado false evitar problemas de consola
 
-        if (multa.getMonto() < this.monto){
-            long devolucion = (this.monto-multa.getMonto());
-            multa.eliminarMulta();
-            return "su multa fue pagada on exito. Esta es su devolucion: " + devolucion;
-        } else if (multa.getMonto() == this.monto) {
-            multa.eliminarMulta();
+        if (!cuenta.isEstado()) return "su cuenta está bloqueada"; //en caso de que el metodo anterior haya dado false evitar problemas de consola
+
+        if (multa.getMonto() == this.monto) {
+            multa.eliminarMulta(this.cuenta,this.monto);
             return "su multa fue pagada con exito";
         } else {
             multa.setMonto(this.monto-multa.getMonto());
@@ -34,6 +34,61 @@ public class Pago {
         }
         // no se si poner que retorne algo para posteriores metodos
     }
+
+    /* Este metodo realiza el pago de prestamo a travez de la consulta del
+    * estado saldo y prestamo de cuenta y la consulta de cuotas fechas de pago y los dias de mora de prestamo
+    * para al final calcular el nuevo saldo y el estado del prestamo
+    * */
+    public String RealizarPagoPrestamo(){ //opcion 1 para pagar un prestamo (pago total del prestamo)
+
+        multa.mora(this,cuenta);
+
+        if(!cuenta.isEstado()) return "Su cuenta está bloqueada";
+
+        if(cuenta.getPrestamo()==null) return "Usted no cuenta con deudas pendientes";
+
+        if (cuenta.getPrestamo().getValorPrestamo() <= cuenta.getSaldo()){
+
+            cuenta.getPrestamo().saldarPrestamo();
+            return "Su deuda ha sido saldada" +
+                    "\nNuevo saldo " + cuenta.getSaldo();
+
+        } else{
+            return "Saldo insuficiente";
+        }
+
+    }
+    /* Este metodo realiza el pago de prestamo a travez de la consulta del
+     * estado saldo y prestamo de cuenta y la consulta de cuotas fechas de pago y los dias de mora de prestamo
+     * para al final calcular el nuevo saldo y el estado del prestamo
+     * */
+    public String RealizarPagoPrestamo(int cuotas){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
+
+        multa.mora(this,cuenta);
+
+        if(!cuenta.isEstado())return "Su cuenta está bloqueada";
+
+        if(cuenta.getPrestamo()==null) return "Usted no cuenta con deudas pendientes";
+
+        if (cuotas > cuenta.getPrestamo().cuotasDePago) return "Valor de cuotas es exedente";
+
+        if (cuenta.getPrestamo().getValorCuota()*cuotas > cuenta.getSaldo()) return "Saldo insuficiente";
+
+        if (cuotas == cuenta.getPrestamo().cuotasDePago){
+
+            cuenta.getPrestamo().saldarPrestamo();
+            return "Su deuda ha sido saldada" +
+                    "\nNuevo saldo " + cuenta.getSaldo();
+
+        } else {
+            cuenta.getPrestamo().saldarCuota(cuotas);
+            return "Nuevo saldo " + cuenta.getSaldo() +
+                    "\nDeuda actual " + cuenta.getDeuda() +
+                    "\nTe Faltan "+ cuenta.getPrestamo().cuotasDePago + "cuotas";
+        }
+
+    }
+
 
     //setters getters
 
