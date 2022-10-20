@@ -2,46 +2,56 @@ package gestorAplicacion;
 public class Prestamo {
 
     private int valorPrestamo;
-    private String fechaPrestamo;
+    private String diasMora;
     private String fechaPago;
     private String tipoPrestamo;
     private double interes;
-    private int tope;
+    private static final int topeMax=7000000;
+    private static final int topeMin=500000;
+    public int cuotasDePago=24;
     public Cuenta cuentaDestino;
+    private int valorCuota;
 
     public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
-        this.valorPrestamo=valor;
         this.cuentaDestino=cuenta;
-        this.tipoPrestamo=tipoPrestamo;
         generarPrestamo(valor,tipoPrestamo);
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
-        switch (tipoPrestamo) {
-            case  "hogar"-> interes = 0.06;
-            case "vehiculo" -> interes = 0.04;
-            case "libre" -> interes = 0.10;
-            default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
-        }
-        int valorTotalPrestamo=(int)(valorPrestamo+valorPrestamo*interes);
-        cuentaDestino.setDeuda(valorTotalPrestamo);
-        cuentaDestino.setSaldo(cuentaDestino.getSaldo()+valorPrestamo);
-        cuentaDestino.setPrestamo(this);
+
+        if (cuentaDestino.getPrestamo()==null)
+            if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
+                switch (tipoPrestamo) {
+                    case "universitario" -> interes = 0.06;
+                    case "hobbie" -> interes = 0.04;
+                    case "libre" -> interes = 0.10;
+                    default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
+                }
+                int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
+                cuentaDestino.setDeuda(valorTotalPrestamo);
+                cuentaDestino.setSaldo(cuentaDestino.getSaldo() + valorPrestamo);
+                cuentaDestino.setPrestamo(this);
+                this.valorCuota=valorPrestamo/cuotasDePago;
+                this.valorPrestamo=valorPrestamo;
+                this.tipoPrestamo=tipoPrestamo;
+            }
     }
 
-    public void pagarPrestamoParcial(int valor){
-        if (valor <= cuentaDestino.getDeuda() ) {
-            int nuevoValor = cuentaDestino.getDeuda() - valor;
-            cuentaDestino.setDeuda(nuevoValor);
-        }
+    public void saldarCuota(int cantidadCuotas){
+            cuentaDestino.setDeuda(cuentaDestino.getDeuda()-(valorCuota*cantidadCuotas));
+            cuotasDePago-=1;
+            this.valorPrestamo-=valorCuota;
     }
 
-    public void pagarPrestamoTotal(){
-        if (cuentaDestino.getSaldo()>= cuentaDestino.getDeuda())
-            cuentaDestino.setDeuda(0);
-        else {
-            System.out.println("No tienes el suficiente dinero para realizar el pago total");
-        }
+    public void saldarCuota(){
+        cuentaDestino.setDeuda(cuentaDestino.getDeuda()-valorCuota);
+        cuotasDePago-=1;
+        this.valorPrestamo-=valorCuota;
+    }
+
+    public void saldarPrestamo(){
+        cuentaDestino.setDeuda(0);
+        cuentaDestino.setPrestamo(null);
     }
 
     public int getValorPrestamo() {
@@ -52,12 +62,20 @@ public class Prestamo {
         this.valorPrestamo = valorPrestamo;
     }
 
-    public String getFechaPrestamo() {
-        return fechaPrestamo;
+    public String getDiasMora() {
+        return diasMora;
     }
 
-    public void setFechaPrestamo(String fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
+    public void setDiasMora(String diasMora) {
+        this.diasMora = diasMora;
+    }
+
+    public int getValorCuota() {
+        return valorCuota;
+    }
+
+    public void setValorCuota(int valorCuota) {
+        this.valorCuota = valorCuota;
     }
 
     public String getFechaPago() {
@@ -66,14 +84,6 @@ public class Prestamo {
 
     public void setFechaPago(String fechaPago) {
         this.fechaPago = fechaPago;
-    }
-
-    public int getTope() {
-        return tope;
-    }
-
-    public void setTope(int tope) {
-        this.tope = tope;
     }
 
     public double getInteres() {
