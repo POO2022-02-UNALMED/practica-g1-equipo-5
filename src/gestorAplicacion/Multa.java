@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 
 public class Multa {
-    private int plazoPago;
+    private static final int plazoPago = 30;
     private boolean estado;
     private long monto;
     private Cuenta cuenta;
@@ -13,8 +13,16 @@ public class Multa {
     private String fecha;
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Multa(int plazoPago, boolean estado, long monto, Cuenta cuenta, int tiempoMulta, String fecha){
-        this.plazoPago = plazoPago;
+    public Multa(){
+        this(null);
+    }
+
+    public Multa (Cuenta cuenta){
+        this(true, 50000, cuenta,4,"24/10/2022");
+    }
+
+    public Multa( boolean estado, long monto, Cuenta cuenta, int tiempoMulta, String fecha){
+
         this.estado = estado;
         this.monto = monto;
         this.cuenta = cuenta;
@@ -22,26 +30,50 @@ public class Multa {
         this.fecha = fecha;
     }
 
-    public void eliminarMulta(){
-        //se me olvido como hacer lo del garbaje collector :v
+    public void eliminarMulta(Cuenta cuenta,long monto){
+        cuenta.setMulta(false);
+        cuenta.setSaldo(cuenta.getSaldo()-((int) monto));
+    }
+
+    public void multarCuenta(Cuenta cuenta){
+        new Multa(cuenta);
+        cuenta.setMulta(true);
     }
 
     /* Metodo usado para calcular el monto por mora despues de no haber cumplido el
-    *   plazoPago. Si la cantidadd de dias despues de haber pasado Plazo pago
-    *   es mayor a 90 se Bloquea la targeta pasando Estado:boolean de cuenta a false
+    *   plazoPago. Si la cantidad de dias despues de haber pasado Plazopago
+    *   es mayor a 90 se Bloquea la cuenta pasando Estado:boolean a false
     * */
     public void mora(Pago pago){
-        long fechaMulta = formato.parse(this.fecha, new ParsePosition(0)).getTime();
+        long fechaMulta = formato.parse(this.fecha, new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
-        int discriminante = (int) (fechaPago-fechaMulta);
-        if (discriminante > this.plazoPago){
-            int diasMora = discriminante-this.plazoPago;
+        long discriminante =  (fechaPago-fechaMulta)/86400000;
+        if (discriminante > plazoPago){
+            long diasMora = discriminante- plazoPago;
             this.setMonto((long) (this.monto*Math.pow(1.01,diasMora))); //aplicar un mora del 1% por dia de mora
             if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
                 pago.getCuenta().setEstado(false);
             }
         }
     }
+    /* Metodo usado para calcular el monto por mora despues de no haber cumplido el
+     *   fechaPago del prestamo. Si la cantidad de dias despues de haber pasado fechaPago
+     *   es mayor a 90 se multa la cuenta pasando Multa:boolean a true y generando una nueva multa
+     * */
+    public void mora(Pago pago,Cuenta cuenta){
+        long fechaMulta = formato.parse(cuenta.getPrestamo().getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+        long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
+        long discriminante =  (fechaPago-fechaMulta)/86400000;
+        if (discriminante > plazoPago) {
+            long diasMora = discriminante - plazoPago;
+            cuenta.setDeuda((int) (cuenta.getDeuda() * Math.pow(1.01, diasMora))); //aplicar un mora del 1% por dia de mora
+            if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
+                multarCuenta(cuenta);
+            }
+        }
+    }
+
+
     
     //Setters getters
     public Cuenta getCuenta() {return cuenta;}
@@ -51,10 +83,6 @@ public class Multa {
     public long getMonto() {return monto;}
 
     public void setMonto(long monto) {this.monto = monto;}
-
-    public int getPlazoPago() {return plazoPago;}
-
-    public void setPlazoPago(int plazoPago) {this.plazoPago = plazoPago;}
 
     public boolean isEstado() {return estado;}
 
