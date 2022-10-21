@@ -1,18 +1,19 @@
 package gestorAplicacion;
 
-public abstract class Cuenta {
-    private  static int numero = 10000000;
-    private String tipo;
-    private int saldoTotal;
-    private int SaldoDisponible;
-    private Cliente titular;
-    private Prestamo prestamo;
-    private int deuda;
-    private boolean multa;
-    private boolean estado;
+import java.util.ArrayList;
 
-    public Cuenta(String tipo, Cliente titular) {
-        this.tipo = tipo;
+public abstract class Cuenta {
+    protected static int numero = 10000000;
+    protected int saldoTotal;
+    protected int SaldoDisponible;
+    protected Cliente titular;
+    protected Prestamo prestamo;
+    protected ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
+    protected int deuda;
+    protected boolean multa;
+    protected boolean estado;
+
+    public Cuenta(Cliente titular) {
         this.titular = titular;
         this.estado = true;
         Cuenta.numero++;
@@ -29,14 +30,6 @@ public abstract class Cuenta {
 
     public void setNumero(int numero) {
         Cuenta.numero = numero;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getSaldoTotal() {
@@ -95,4 +88,11 @@ public abstract class Cuenta {
         this.estado = estado;
     }
 
+    public ArrayList<Bolsillo> getAhorro() {
+        return misBolsillos;
+    }
+
+    public void setAhorro(ArrayList<Bolsillo> ahorro) {
+        this.misBolsillos = ahorro;
+    }
 }

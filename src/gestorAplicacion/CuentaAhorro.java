@@ -2,8 +2,8 @@ package gestorAplicacion;
 
 public class CuentaAhorro extends Cuenta{
 
-    public CuentaAhorro(String tipo, Cliente titular) {
-        super(tipo, titular);
+    public CuentaAhorro(Cliente titular) {
+        super(titular);
     }
 
     @Override

@@ -3,7 +3,7 @@ package gestorAplicacion;
 public class CuentaCorriente extends Cuenta{
 
     public CuentaCorriente(String tipo, Cliente titular) {
-        super(tipo, titular);
+        super(titular);
     }
 
     @Override
