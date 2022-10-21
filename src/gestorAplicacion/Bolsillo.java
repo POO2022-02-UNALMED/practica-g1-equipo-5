@@ -16,13 +16,8 @@ public class Bolsillo {
         this.cuenta = cuenta;
         this.categoria = Categoria.valueOf(categoria);
         this.metaAhorro=metaAhorro;
-        //crearBolsillo();
     }
-
-    public void crearBolsillo() {
-        cuenta.misBolsillos.add(this);
-    }
-
+    
     public void cargarBolsillo(int valor) {
         saldoDisponible = cuenta.getSaldoTotal() - valor;
         this.valorCarga+=valor;
