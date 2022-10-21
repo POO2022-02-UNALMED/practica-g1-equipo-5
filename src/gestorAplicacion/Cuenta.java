@@ -1,31 +1,32 @@
 package gestorAplicacion;
+
 import java.util.ArrayList;
 
 public abstract class Cuenta {
-    private  static int numero = 10000000;
-    private String tipo;
-    private int saldoTotal;
-    private int saldoDisponible;
-    protected ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
-    private Cliente titular;
-    private Prestamo prestamo;
-    private int deuda;
-    private boolean multa;
-    private boolean estado;
 
-    public Cuenta(String tipo, Cliente titular) {
-        this.tipo = tipo;
+    protected static int numero = 10000000;
+    protected int saldoTotal;
+    protected int SaldoDisponible;
+    protected Cliente titular;
+    protected Prestamo prestamo;
+    protected ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
+    protected int deuda;
+    protected boolean multa;
+    protected boolean estado;
+    
+    public Cuenta(Cliente titular) {
         this.titular = titular;
         this.estado = true;
         Cuenta.numero++;
-        if (getMisBolsillos().isEmpty()){
-            this.saldoDisponible = this.saldoTotal;
-        }
+
     }
+
 
     public abstract void aumentarSaldo(int cantidad);
 
     public abstract void disminuirSaldo(int cantidad);
+
+    public abstract Prestamo solicitarPrestamo();
 
     public int getNumero() {
         return numero;
@@ -33,14 +34,6 @@ public abstract class Cuenta {
 
     public void setNumero(int numero) {
         Cuenta.numero = numero;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public int getSaldoTotal() {
@@ -52,19 +45,11 @@ public abstract class Cuenta {
     }
 
     public int getSaldoDisponible() {
-        return saldoDisponible;
+        return SaldoDisponible;
     }
 
     public void setSaldoDisponible(int saldoDisponible) {
-        saldoDisponible = saldoDisponible;
-    }
-
-    public ArrayList<Bolsillo> getMisBolsillos() {
-        return misBolsillos;
-    }
-
-    public void setMisBolsillos(ArrayList<Bolsillo> misBolsillos) {
-        this.misBolsillos = misBolsillos;
+        SaldoDisponible = saldoDisponible;
     }
 
     public Cliente getTitular() {
@@ -105,6 +90,15 @@ public abstract class Cuenta {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+
+    public ArrayList<Bolsillo> getAhorro() {
+        return misBolsillos;
+    }
+
+    public void setAhorro(ArrayList<Bolsillo> ahorro) {
+        this.misBolsillos = ahorro;
     }
 
 }

@@ -3,7 +3,7 @@ package gestorAplicacion;
 public class CuentaCorriente extends Cuenta{
 
     public CuentaCorriente(String tipo, Cliente titular) {
-        super(tipo, titular);
+        super(titular);
     }
 
     @Override
@@ -18,5 +18,10 @@ public class CuentaCorriente extends Cuenta{
         if (isEstado() && (getSaldoDisponible() > cantidad)){
             setSaldoDisponible(getSaldoDisponible() - cantidad);
         }
+    }
+
+    @Override
+    public Prestamo solicitarPrestamo() { //Incompleto
+        return null;
     }
 }
