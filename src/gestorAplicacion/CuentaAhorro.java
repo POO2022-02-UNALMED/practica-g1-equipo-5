@@ -9,14 +9,13 @@ public class CuentaAhorro extends Cuenta{
     @Override
     public void aumentarSaldo(int cantidad) {
         if (isEstado()){
-            setSaldo(getSaldo() + cantidad);
+            setSaldoTotal(getSaldoTotal() + cantidad);
         }
     }
-
     @Override
     public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldo() > cantidad)){
-            setSaldo(getSaldo() - cantidad);
+        if (isEstado() && (getSaldoDisponible() > cantidad)){
+            setSaldoDisponible(getSaldoDisponible() - cantidad);
         }
     }
 }

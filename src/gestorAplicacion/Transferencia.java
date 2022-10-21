@@ -17,7 +17,7 @@ public class Transferencia extends Movimiento{
 	
 	public void enviarDinero(Cuenta cuentaOrigen,Cuenta cuentaFinal, int valor) {
 		
-		if (cuentaOrigen.getSaldo() < valor) {
+		if (cuentaOrigen.getSaldoDisponible() < valor) {
 			System.out.println("No tiene suficiente dinero para transferir");
 		}
 			else {
@@ -29,7 +29,7 @@ public class Transferencia extends Movimiento{
 				cuentaFinal.aumentarSaldo(valor);
 				int cta1= cuentaOrigen.getNumero();
 				int cta2= cuentaFinal.getNumero();
-				int val1= cuentaOrigen.getSaldo();
+				int val1= cuentaOrigen.getSaldoDisponible();
 				
 				lista.add(cta1);
 				lista.add(cta2);

@@ -3,7 +3,8 @@ package gestorAplicacion;
 public abstract class Cuenta {
     private  static int numero = 10000000;
     private String tipo;
-    private int saldo;
+    private int saldoTotal;
+    private int SaldoDisponible;
     private Cliente titular;
     private Prestamo prestamo;
     private int deuda;
@@ -38,12 +39,20 @@ public abstract class Cuenta {
         this.tipo = tipo;
     }
 
-    public int getSaldo() {
-        return saldo;
+    public int getSaldoTotal() {
+        return saldoTotal;
     }
 
-    public void setSaldo(int saldo) {
-        this.saldo = saldo;
+    public void setSaldoTotal(int saldoTotal) {
+        this.saldoTotal = saldoTotal;
+    }
+
+    public int getSaldoDisponible() {
+        return SaldoDisponible;
+    }
+
+    public void setSaldoDisponible(int saldoDisponible) {
+        SaldoDisponible = saldoDisponible;
     }
 
     public Cliente getTitular() {

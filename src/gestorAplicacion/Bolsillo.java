@@ -1,38 +1,38 @@
 package gestorAplicacion;
 import java.util.ArrayList;
 public class Bolsillo {
-    public enum Categoria{
-        VIAJE, ESTUDIO, VESTUARIO, VEHICULO, OTRO
+    public enum Categoria {
+        VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
     }
+
     private int valor;
     private Cuenta cuenta;
-    private String categoria;
+    private Categoria categoria;
     private int saldoDisponible;
     private ArrayList<Bolsillo> ahorro = new ArrayList<>();
 
-
-    public Bolsillo(int valor, Cuenta cuenta,String categoria){
+    public Bolsillo(int valor, Cuenta cuenta, String categoria) {
         this.valor = valor;
         this.cuenta = cuenta;
-        this.categoria = Categoria.valueOf(categoria).toString();
+        this.categoria = Categoria.valueOf(categoria);
     }
 
-    public void crearBolsillo(){
+    public void crearBolsillo() {
         ahorro.add(this);
     }
-    public void cargarBolsillo(){
-        saldoDisponible = cuenta.getSaldo()-valor;
-        //Agregar set y get de saldoDisponible en clase Cuenta
-        cuenta.setSaldo(saldoDisponible);
+
+    public void cargarBolsillo() {
+        saldoDisponible = cuenta.getSaldoTotal() - valor;
+        cuenta.setSaldoDisponible(saldoDisponible);
     }
 
-    public void descargarBolsillo(){
-        saldoDisponible = cuenta.getSaldo()+valor;
+    public void descargarBolsillo() {
+        saldoDisponible = cuenta.getSaldoTotal() + valor;
         //Agregar set y get de saldoDisponible en clase Cuenta
-        cuenta.setSaldo(saldoDisponible);
+        cuenta.setSaldoDisponible(saldoDisponible);
     }
 
-    public void eliminarBolsillo(){
+    public void eliminarBolsillo() {
         //Agregar atributo de tipo bolsillo en cuenta
         this.cuenta = null;
     }
@@ -40,6 +40,7 @@ public class Bolsillo {
     public int getValor() {
         return valor;
     }
+
     public void setValor(int valor) {
         this.valor = valor;
     }
@@ -52,11 +53,13 @@ public class Bolsillo {
         this.cuenta = cuenta;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 }
+
+
