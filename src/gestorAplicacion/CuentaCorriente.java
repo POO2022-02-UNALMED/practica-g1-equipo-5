@@ -19,4 +19,9 @@ public class CuentaCorriente extends Cuenta{
             setSaldoDisponible(getSaldoDisponible() - cantidad);
         }
     }
+
+    @Override
+    public Prestamo solicitarPrestamo() { //Incompleto
+        return null;
+    }
 }

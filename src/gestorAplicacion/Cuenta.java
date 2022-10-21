@@ -3,6 +3,7 @@ package gestorAplicacion;
 import java.util.ArrayList;
 
 public abstract class Cuenta {
+
     protected static int numero = 10000000;
     protected int saldoTotal;
     protected int SaldoDisponible;
@@ -12,7 +13,7 @@ public abstract class Cuenta {
     protected int deuda;
     protected boolean multa;
     protected boolean estado;
-
+    
     public Cuenta(Cliente titular) {
         this.titular = titular;
         this.estado = true;
@@ -20,9 +21,12 @@ public abstract class Cuenta {
 
     }
 
+
     public abstract void aumentarSaldo(int cantidad);
 
     public abstract void disminuirSaldo(int cantidad);
+
+    public abstract Prestamo solicitarPrestamo();
 
     public int getNumero() {
         return numero;
@@ -88,6 +92,7 @@ public abstract class Cuenta {
         this.estado = estado;
     }
 
+
     public ArrayList<Bolsillo> getAhorro() {
         return misBolsillos;
     }
@@ -95,4 +100,5 @@ public abstract class Cuenta {
     public void setAhorro(ArrayList<Bolsillo> ahorro) {
         this.misBolsillos = ahorro;
     }
+
 }

@@ -2,7 +2,9 @@ package gestorAplicacion;
 
 public class CuentaAhorro extends Cuenta{
 
+
     public CuentaAhorro(Cliente titular) {
+
         super(titular);
     }
 
@@ -17,5 +19,10 @@ public class CuentaAhorro extends Cuenta{
         if (isEstado() && (getSaldoDisponible() > cantidad)){
             setSaldoDisponible(getSaldoDisponible() - cantidad);
         }
+    }
+
+    @Override
+    public Prestamo solicitarPrestamo() { // Incompleto
+        return null;
     }
 }
