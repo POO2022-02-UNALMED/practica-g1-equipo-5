@@ -5,28 +5,32 @@ public class Bolsillo {
         VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
     }
 
-    private int valor;
+    private int valorCarga;
     private Cuenta cuenta;
     private Categoria categoria;
+    private final int metaAhorro;
     private int saldoDisponible;
-    private ArrayList<Bolsillo> ahorro = new ArrayList<>();
 
-    public Bolsillo(int valor, Cuenta cuenta, String categoria) {
-        this.valor = valor;
+
+    public Bolsillo(int metaAhorro, Cuenta cuenta, String categoria) {
         this.cuenta = cuenta;
         this.categoria = Categoria.valueOf(categoria);
+        this.metaAhorro=metaAhorro;
+        //crearBolsillo();
     }
 
     public void crearBolsillo() {
-        ahorro.add(this);
+        cuenta.misBolsillos.add(this);
     }
 
-    public void cargarBolsillo() {
+    public void cargarBolsillo(int valor) {
         saldoDisponible = cuenta.getSaldoTotal() - valor;
+        this.valorCarga+=valor;
         cuenta.setSaldoDisponible(saldoDisponible);
+        cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
 
-    public void descargarBolsillo() {
+    public void descargarBolsillo(int valor) {
         saldoDisponible = cuenta.getSaldoTotal() + valor;
         //Agregar set y get de saldoDisponible en clase Cuenta
         cuenta.setSaldoDisponible(saldoDisponible);
@@ -35,14 +39,6 @@ public class Bolsillo {
     public void eliminarBolsillo() {
         //Agregar atributo de tipo bolsillo en cuenta
         this.cuenta = null;
-    }
-
-    public int getValor() {
-        return valor;
-    }
-
-    public void setValor(int valor) {
-        this.valor = valor;
     }
 
     public Cuenta getCuenta() {
@@ -59,6 +55,16 @@ public class Bolsillo {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Bolsillo{" +
+                "valorCarga=" + valorCarga +
+                ", cuenta=" + cuenta.getNumero() +
+                ", categoria=" + categoria +
+                ", metaAhorro=" + metaAhorro +
+                '}';
     }
 }
 

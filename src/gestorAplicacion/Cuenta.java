@@ -4,7 +4,8 @@ public abstract class Cuenta {
     private  static int numero = 10000000;
     private String tipo;
     private int saldoTotal;
-    private int SaldoDisponible;
+    private int saldoDisponible;
+    private Bolsillo bolsillo;
     private Cliente titular;
     private Prestamo prestamo;
     private int deuda;
@@ -16,7 +17,9 @@ public abstract class Cuenta {
         this.titular = titular;
         this.estado = true;
         Cuenta.numero++;
-
+        if (getBolsillo().getAhorro() == null){
+            this.saldoDisponible = this.saldoTotal;
+        }
     }
 
     public abstract void aumentarSaldo(int cantidad);
@@ -48,11 +51,19 @@ public abstract class Cuenta {
     }
 
     public int getSaldoDisponible() {
-        return SaldoDisponible;
+        return saldoDisponible;
     }
 
     public void setSaldoDisponible(int saldoDisponible) {
-        SaldoDisponible = saldoDisponible;
+        saldoDisponible = saldoDisponible;
+    }
+
+    public Bolsillo getBolsillo() {
+        return bolsillo;
+    }
+
+    public void setBolsillo(Bolsillo bolsillo) {
+        this.bolsillo = bolsillo;
     }
 
     public Cliente getTitular() {
