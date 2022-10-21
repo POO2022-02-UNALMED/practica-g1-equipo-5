@@ -2,26 +2,29 @@ package gestorAplicacion;
 
 public abstract class Cuenta {
     private  static int numero = 10000000;
-    private String tipo;
-    private int saldoTotal;
-    private int SaldoDisponible;
-    private Cliente titular;
-    private Prestamo prestamo;
-    private int deuda;
-    private boolean multa;
-    private boolean estado;
+    //private String tipo;
+    protected int saldoTotal;
+    protected int SaldoDisponible;
+    protected Cliente titular;
+    protected Prestamo prestamo;
+    protected int deuda;
+    protected boolean multa;
+    protected boolean estado;
 
-    public Cuenta(String tipo, Cliente titular) {
-        this.tipo = tipo;
+    public Cuenta(Cliente titular) {
+        //this.tipo = tipo;
         this.titular = titular;
         this.estado = true;
         Cuenta.numero++;
 
     }
 
+
     public abstract void aumentarSaldo(int cantidad);
 
     public abstract void disminuirSaldo(int cantidad);
+
+    public abstract Prestamo solicitarPrestamo();
 
     public int getNumero() {
         return numero;
@@ -31,13 +34,12 @@ public abstract class Cuenta {
         Cuenta.numero = numero;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
+    //public String getTipo() {
+       // return tipo;}
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    //public void setTipo(String tipo) {
+        //this.tipo = tipo;
+    //}
 
     public int getSaldoTotal() {
         return saldoTotal;
@@ -94,5 +96,6 @@ public abstract class Cuenta {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
 
 }
