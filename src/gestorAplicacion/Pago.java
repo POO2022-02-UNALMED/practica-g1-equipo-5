@@ -47,11 +47,11 @@ public class Pago {
 
         if(cuenta.getPrestamo()==null) return "Usted no cuenta con deudas pendientes";
 
-        if (cuenta.getPrestamo().getValorPrestamo() <= cuenta.getSaldo()){
+        if (cuenta.getPrestamo().getValorPrestamo() <= cuenta.getSaldoDisponible()){
 
             cuenta.getPrestamo().saldarPrestamo();
             return "Su deuda ha sido saldada" +
-                    "\nNuevo saldo " + cuenta.getSaldo();
+                    "\nNuevo saldo " + cuenta.getSaldoDisponible();
 
         } else{
             return "Saldo insuficiente";
@@ -72,17 +72,17 @@ public class Pago {
 
         if (cuotas > cuenta.getPrestamo().cuotasDePago) return "Valor de cuotas es exedente";
 
-        if (cuenta.getPrestamo().getValorCuota()*cuotas > cuenta.getSaldo()) return "Saldo insuficiente";
+        if (cuenta.getPrestamo().getValorCuota()*cuotas > cuenta.getSaldoDisponible()) return "Saldo insuficiente";
 
         if (cuotas == cuenta.getPrestamo().cuotasDePago){
 
             cuenta.getPrestamo().saldarPrestamo();
             return "Su deuda ha sido saldada" +
-                    "\nNuevo saldo " + cuenta.getSaldo();
+                    "\nNuevo saldo " + cuenta.getSaldoDisponible();
 
         } else {
             cuenta.getPrestamo().saldarCuota(cuotas);
-            return "Nuevo saldo " + cuenta.getSaldo() +
+            return "Nuevo saldo " + cuenta.getSaldoDisponible() +
                     "\nDeuda actual " + cuenta.getDeuda() +
                     "\nTe Faltan "+ cuenta.getPrestamo().cuotasDePago + "cuotas";
         }

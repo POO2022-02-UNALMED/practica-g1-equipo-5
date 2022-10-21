@@ -29,7 +29,7 @@ public class Prestamo {
                 }
                 int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
                 cuentaDestino.setDeuda(valorTotalPrestamo);
-                cuentaDestino.setSaldo(cuentaDestino.getSaldo() + valorPrestamo);
+                cuentaDestino.setSaldoTotal(cuentaDestino.getSaldoTotal() + valorPrestamo);
                 cuentaDestino.setPrestamo(this);
                 this.valorCuota=valorPrestamo/cuotasDePago;
                 this.valorPrestamo=valorPrestamo;

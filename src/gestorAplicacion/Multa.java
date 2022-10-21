@@ -32,7 +32,7 @@ public class Multa {
 
     public void eliminarMulta(Cuenta cuenta,long monto){
         cuenta.setMulta(false);
-        cuenta.setSaldo(cuenta.getSaldo()-((int) monto));
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
 
     public void multarCuenta(Cuenta cuenta){
