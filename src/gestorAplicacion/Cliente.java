@@ -1,21 +1,17 @@
 package gestorAplicacion;
 
-import java.util.ArrayList;
-
 public class Cliente {
     private String nombre;
-    private Cuenta cuenta;
-    private Bolsillo bolsillo;
-    private Prestamo prestamo;
+    public Cuenta cuenta;
     private int cedula;
 
-    public Cliente(String nombre, Cuenta cuenta, int cedula) {
+    public Cliente(String nombre, int cedula) {
         this.nombre = nombre;
-        this.cuenta = cuenta;
         this.cedula = cedula;
+        this.cuenta = new CuentaAhorro(this);
     }
-    public void consultarSaldo(){
-        cuenta.getSaldoTotal();
+    public int consultarSaldo(){
+        return cuenta.getSaldoTotal();
     }
     public void retirarDinero(int valorRetiro){
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorRetiro);
@@ -23,9 +19,43 @@ public class Cliente {
     public void cosignarDinero(int valoraConsignacion){
         cuenta.setSaldoTotal(cuenta.getSaldoTotal()+valoraConsignacion);
     }
-    public void solicitarPrestamo(){
+
+    public void solicitarPrestamo(int valor,String tipoPrestamo){
+        cuenta.setPrestamo(new Prestamo(valor,cuenta,tipoPrestamo));
+    }
+
+    public void generarAhorro(int valor,int categoria){
+        cuenta.getMisBolsillos().add(Bolsillo.crearBolsillo(valor,cuenta,categoria));
 
     }
+    public void cargarAhorro(int valor,int id){
+        for (Bolsillo i : cuenta.getMisBolsillos()) {
+            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
+                i.cargarBolsillo(valor);
+            }
+
+        }
+    }
+
+    public void cargarAhorro(int id){
+        for (Bolsillo i : cuenta.getMisBolsillos()) {
+            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
+                i.cargarBolsillo();
+            }
+
+        }
+    }
+
+    public void descargarAhorro(int valor, int id){
+        for (Bolsillo i : cuenta.getMisBolsillos()) {
+            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
+                i.descargarBolsillo(valor);
+            }
+
+        }
+    }
+
+
 
     public String getNombre() {
         return nombre;
@@ -33,6 +63,10 @@ public class Cliente {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getCedula() {
+        return cedula;
     }
 
     public Cuenta getCuenta() {
@@ -43,11 +77,8 @@ public class Cliente {
         this.cuenta = cuenta;
     }
 
-    public int getCedula() {
-        return cedula;
-    }
-
     public void setCedula(int cedula) {
         this.cedula = cedula;
     }
+
 }
