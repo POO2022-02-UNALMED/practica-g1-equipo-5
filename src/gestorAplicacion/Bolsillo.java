@@ -12,9 +12,9 @@ public class Bolsillo {
     private int saldoDisponible;
 
 
-    public Bolsillo(int metaAhorro, Cuenta cuenta, String categoria) {
+    public Bolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
         this.cuenta = cuenta;
-        this.categoria = Categoria.valueOf(categoria);
+        this.categoria = Categoria.values()[opcion];
         this.metaAhorro=metaAhorro;
     }
     public void cargarBolsillo() {
@@ -39,7 +39,7 @@ public class Bolsillo {
     public void eliminarBolsillo() {
         this.cuenta = null;
     }
-    
+
     public Cuenta getCuenta() {
         return cuenta;
     }
