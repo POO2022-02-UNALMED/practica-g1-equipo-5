@@ -4,7 +4,6 @@ public class CuentaAhorro extends Cuenta{
 
 
     public CuentaAhorro(Cliente titular) {
-
         super(titular);
     }
 
@@ -22,7 +21,9 @@ public class CuentaAhorro extends Cuenta{
     }
 
     @Override
-    public Prestamo solicitarPrestamo() { // Incompleto
-        return null;
+    public void solicitarPrestamo(int valorPrestamo, String tipoPrestamo) {
+        prestamo = new Prestamo(valorPrestamo, this, tipoPrestamo);
     }
+
+
 }

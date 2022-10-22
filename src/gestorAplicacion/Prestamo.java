@@ -14,6 +14,8 @@ public class Prestamo {
 
     public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
         this.cuentaDestino=cuenta;
+        this.valorPrestamo = valor;
+        this.tipoPrestamo = tipoPrestamo;
         generarPrestamo(valor,tipoPrestamo);
     }
 

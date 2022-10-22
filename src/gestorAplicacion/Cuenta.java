@@ -26,7 +26,7 @@ public abstract class Cuenta {
 
     public abstract void disminuirSaldo(int cantidad);
 
-    public abstract Prestamo solicitarPrestamo();
+    public abstract void  solicitarPrestamo(int valorPrestamo, String tipoPrestamo);
 
     public int getNumero() {
         return numero;

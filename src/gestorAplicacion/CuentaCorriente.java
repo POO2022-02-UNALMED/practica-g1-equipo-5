@@ -2,7 +2,7 @@ package gestorAplicacion;
 
 public class CuentaCorriente extends Cuenta{
 
-    public CuentaCorriente(String tipo, Cliente titular) {
+    public CuentaCorriente(Cliente titular) {
         super(titular);
     }
 
@@ -21,7 +21,9 @@ public class CuentaCorriente extends Cuenta{
     }
 
     @Override
-    public Prestamo solicitarPrestamo() { //Incompleto
-        return null;
+    public void solicitarPrestamo(int valorPrestamo, String tipoPrestamo) {
+        prestamo = new Prestamo(valorPrestamo, this, tipoPrestamo);
     }
+
+
 }
