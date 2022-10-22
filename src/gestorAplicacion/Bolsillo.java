@@ -1,10 +1,9 @@
 package gestorAplicacion;
-import java.util.ArrayList;
 public class Bolsillo {
     public enum Categoria {
         VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
     }
-
+    public int id;
     private int cargarBolsillo;
     private Cuenta cuenta;
     private Categoria categoria;
@@ -17,9 +16,16 @@ public class Bolsillo {
         this.categoria = Categoria.values()[opcion];
         this.metaAhorro=metaAhorro;
     }
-    public void cargarBolsillo() {
+    public static Bolsillo crearBolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
+        return new Bolsillo(metaAhorro, cuenta, opcion);
+    }
+
+    public String cargarBolsillo() {
         saldoDisponible = cuenta.getSaldoTotal() - metaAhorro;
+        this.cargarBolsillo=metaAhorro;
         cuenta.setSaldoDisponible(saldoDisponible);
+        cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
+        return "Lograste la meta";
     }
     public void cargarBolsillo(int valor) {
         saldoDisponible = cuenta.getSaldoTotal() - valor;
@@ -29,10 +35,12 @@ public class Bolsillo {
     }
     public void descargarBolsillo() {
         cuenta.saldoTotal = cuenta.getSaldoDisponible() + metaAhorro;
+        this.cargarBolsillo-=metaAhorro;
+        cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
     public void descargarBolsillo(int valor) {
-        cuenta.saldoTotal = cuenta.getSaldoDisponible() + valor;
-        this.cargarBolsillo+=valor;
+        cuenta.saldoTotal = cuenta.getSaldoDisponible() + metaAhorro;
+        this.cargarBolsillo-=valor;
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
 
@@ -56,6 +64,14 @@ public class Bolsillo {
         this.categoria = categoria;
     }
 
+    public int getId() {
+        return cuenta.getMisBolsillos().indexOf(this);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Bolsillo{" +
@@ -63,6 +79,7 @@ public class Bolsillo {
                 ", Número de cuenta =" + cuenta.getNumero() +
                 ", Categoria=" + categoria +
                 ", Meta de Ahorro=" + metaAhorro +
+                ", ID = "+this.getId()+
                 '}';
     }
 }
