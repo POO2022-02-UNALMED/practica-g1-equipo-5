@@ -21,7 +21,7 @@ public class Prestamo {
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
 
-        if (cuentaDestino.getPrestamo()==null)
+        if (!cuentaDestino.tienePrestamo())
             if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
                 switch (tipoPrestamo) {
                     case "universitario" -> interes = 0.06;

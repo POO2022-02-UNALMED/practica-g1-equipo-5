@@ -19,15 +19,18 @@ public class Pago {
     * retorna un mensaje dependiendo del caso
     * */
     public String realizarPagoMulta(Multa multa){
-        if (!cuenta.isMulta()) return "Usted no cuenta con multas actualmente";
+        if (!cuenta.tieneMultta()) return "Usted no cuenta con multas actualmente";
 
         multa.mora(this);
 
         if (!cuenta.isEstado()) return "su cuenta está bloqueada"; //en caso de que el metodo anterior haya dado false evitar problemas de consola
 
+        if (cuenta.getSaldoDisponible()< monto) return "Saldo insuficiente";
+
         if (multa.getMonto() == this.monto) {
             multa.eliminarMulta(this.cuenta,this.monto);
-            return "su multa fue pagada con exito";
+            return "su multa fue pagada con exito" +
+                    "Este es su nuevo Saldo: "+ multa.getCuenta().getSaldoDisponible();
         } else {
             multa.setMonto(this.monto-multa.getMonto());
             return "Este es su nuevo monto: "+ multa.getMonto();
@@ -51,7 +54,7 @@ public class Pago {
 
             cuenta.getPrestamo().saldarPrestamo();
             return "Su deuda ha sido saldada" +
-                    "\nNuevo saldo " + cuenta.getSaldoDisponible();
+                    "\nNuevo saldo: " + cuenta.getSaldoDisponible();
 
         } else{
             return "Saldo insuficiente";
@@ -78,12 +81,12 @@ public class Pago {
 
             cuenta.getPrestamo().saldarPrestamo();
             return "Su deuda ha sido saldada" +
-                    "\nNuevo saldo " + cuenta.getSaldoDisponible();
+                    "\nNuevo saldo: " + cuenta.getSaldoDisponible();
 
         } else {
             cuenta.getPrestamo().saldarCuota(cuotas);
-            return "Nuevo saldo " + cuenta.getSaldoDisponible() +
-                    "\nDeuda actual " + cuenta.getDeuda() +
+            return "Nuevo saldo: " + cuenta.getSaldoDisponible() +
+                    "\nDeuda actual: " + cuenta.getDeuda() +
                     "\nTe Faltan "+ cuenta.getPrestamo().cuotasDePago + "cuotas";
         }
 

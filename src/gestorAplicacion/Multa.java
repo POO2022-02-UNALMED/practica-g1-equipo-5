@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 
 public class Multa {
-    private static final int plazoPago = 30;
+    public static final int plazoPago = 30;
     private boolean estado;
     private long monto;
     private Cuenta cuenta;
@@ -31,13 +31,16 @@ public class Multa {
     }
 
     public void eliminarMulta(Cuenta cuenta,long monto){
-        cuenta.setMulta(false);
+        cuenta.setMulta(null);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
 
     public void multarCuenta(Cuenta cuenta){
-        new Multa(cuenta);
-        cuenta.setMulta(true);
+        if (!cuenta.tieneMultta()){
+        cuenta.setMulta(new Multa(cuenta));
+        } else {
+            cuenta.setEstado(false);
+        }
     }
 
     /* Metodo usado para calcular el monto por mora despues de no haber cumplido el
@@ -48,11 +51,13 @@ public class Multa {
         long fechaMulta = formato.parse(this.fecha, new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
+
         if (discriminante > plazoPago){
             long diasMora = discriminante- plazoPago;
             this.setMonto((long) (this.monto*Math.pow(1.01,diasMora))); //aplicar un mora del 1% por dia de mora
+
             if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
-                pago.getCuenta().setEstado(false);
+                multarCuenta(pago.getCuenta());
             }
         }
     }
@@ -64,9 +69,11 @@ public class Multa {
         long fechaMulta = formato.parse(cuenta.getPrestamo().getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
+
         if (discriminante > plazoPago) {
             long diasMora = discriminante - plazoPago;
             cuenta.setDeuda((int) (cuenta.getDeuda() * Math.pow(1.01, diasMora))); //aplicar un mora del 1% por dia de mora
+
             if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
                 multarCuenta(cuenta);
             }
