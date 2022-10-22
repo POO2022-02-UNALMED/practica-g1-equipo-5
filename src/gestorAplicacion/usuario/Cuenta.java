@@ -1,4 +1,8 @@
-package gestorAplicacion;
+package gestorAplicacion.usuario;
+
+import gestorAplicacion.transacciones.Bolsillo;
+import gestorAplicacion.transacciones.Multa;
+import gestorAplicacion.transacciones.Prestamo;
 
 import java.util.ArrayList;
 
@@ -9,7 +13,7 @@ public abstract class Cuenta {
     protected int SaldoDisponible;
     protected Cliente titular;
     protected Prestamo prestamo;
-    protected ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
+    public ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
     protected int deuda;
     protected Multa multa;
     protected boolean estado;
@@ -104,12 +108,22 @@ public abstract class Cuenta {
     }
 
 
-    public ArrayList<Bolsillo> getAhorro() {
-        return misBolsillos;
-    }
 
     public void setAhorro(ArrayList<Bolsillo> ahorro) {
         this.misBolsillos = ahorro;
     }
 
+
+    @Override
+    public String toString() {
+        return "Cuenta{" +
+                "saldoTotal=" + saldoTotal +
+                ", SaldoDisponible=" + SaldoDisponible +
+                ", titular=" + titular +
+                ", prestamo=" + prestamo +
+                ", deuda=" + deuda +
+                ", multa=" + multa +
+                ", estado=" + estado +
+                '}';
+    }
 }

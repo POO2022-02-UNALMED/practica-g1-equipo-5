@@ -1,4 +1,7 @@
-package gestorAplicacion;
+package gestorAplicacion.transacciones;
+
+import gestorAplicacion.usuario.Cuenta;
+
 public class Pago {
     private long monto;
     private int id;

@@ -1,6 +1,7 @@
-package gestorAplicacion;
+package gestorAplicacion.transacciones;
 
 
+import gestorAplicacion.usuario.Cuenta;
 
 public abstract class Movimiento {
 	private String tipoMovimiento;

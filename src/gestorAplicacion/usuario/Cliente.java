@@ -1,4 +1,7 @@
-package gestorAplicacion;
+package gestorAplicacion.usuario;
+
+import gestorAplicacion.transacciones.Bolsillo;
+import gestorAplicacion.transacciones.Prestamo;
 
 public class Cliente {
     private String nombre;
@@ -30,9 +33,9 @@ public class Cliente {
     }
     public void cargarAhorro(int valor,int id){
         for (Bolsillo i : cuenta.getMisBolsillos()) {
-            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
-                i.cargarBolsillo(valor);
-            }
+             if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
+                 i.cargarBolsillo(valor);
+             }
 
         }
     }
@@ -47,12 +50,12 @@ public class Cliente {
     }
 
     public void descargarAhorro(int valor, int id){
-        for (Bolsillo i : cuenta.getMisBolsillos()) {
-            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
-                i.descargarBolsillo(valor);
-            }
+                for (Bolsillo i : cuenta.getMisBolsillos()) {
+                if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
+                    i.descargarBolsillo(valor);
+                }
 
-        }
+            }
     }
 
 
