@@ -13,8 +13,9 @@ public class Main {
 
         cuentaA.solicitarPrestamo(10000, "universitario");
         System.out.println(cuentaA.prestamo.getValorPrestamo());
-        System.out.println(cuentaA.prestamo.getInteres());
         System.out.println(cuentaA.prestamo.getTipoPrestamo());
+        System.out.println(cuentaA.prestamo.getInteres());
+
 
 
 

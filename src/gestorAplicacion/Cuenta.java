@@ -28,6 +28,10 @@ public abstract class Cuenta {
 
     public abstract void  solicitarPrestamo(int valorPrestamo, String tipoPrestamo);
 
+    public abstract boolean tieneMultta();
+
+    public abstract boolean tienePrestamo();
+
     public int getNumero() {
         return numero;
     }

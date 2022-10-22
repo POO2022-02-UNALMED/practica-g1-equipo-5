@@ -25,5 +25,16 @@ public class CuentaAhorro extends Cuenta{
         prestamo = new Prestamo(valorPrestamo, this, tipoPrestamo);
     }
 
+    @Override
+    public boolean tieneMultta() {
+        return multa;
+
+    }
+
+    @Override
+    public boolean tienePrestamo() {
+        return prestamo != null;
+    }
+
 
 }
