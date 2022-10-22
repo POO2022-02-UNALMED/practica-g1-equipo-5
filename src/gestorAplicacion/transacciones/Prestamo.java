@@ -1,27 +1,33 @@
-package gestorAplicacion;
+package gestorAplicacion.transacciones;
+
+import gestorAplicacion.usuario.Cuenta;
+
+import java.time.LocalDate;
+
 public class Prestamo {
 
     private int valorPrestamo;
     private String diasMora;
     private String fechaPago;
+    private String fechaPrestamo;
+    LocalDate currentDate = LocalDate.now();
     private String tipoPrestamo;
     private double interes;
     private static final int topeMax=7000000;
     private static final int topeMin=500000;
     public int cuotasDePago=24;
-    public Cuenta cuentaDestino;
+    public Cuenta cuenta;
     private int valorCuota;
 
     public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
-        this.cuentaDestino=cuenta;
-        this.valorPrestamo = valor;
-        this.tipoPrestamo = tipoPrestamo;
+        this.cuenta =cuenta;
+        if (this.cuenta.getPrestamo()==null)
         generarPrestamo(valor,tipoPrestamo);
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
 
-        if (!cuentaDestino.tienePrestamo())
+
             if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
                 switch (tipoPrestamo) {
                     case "universitario" -> interes = 0.06;
@@ -30,30 +36,31 @@ public class Prestamo {
                     default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
                 }
                 int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
-                cuentaDestino.setDeuda(valorTotalPrestamo);
-                cuentaDestino.setSaldoTotal(cuentaDestino.getSaldoTotal() + valorPrestamo);
-                cuentaDestino.setPrestamo(this);
+                cuenta.setDeuda(valorTotalPrestamo);
+                cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
+                cuenta.setPrestamo(this);
                 this.valorCuota=valorPrestamo/cuotasDePago;
                 this.valorPrestamo=valorPrestamo;
                 this.tipoPrestamo=tipoPrestamo;
+                this.fechaPrestamo = String.valueOf(currentDate);
             }
     }
 
     public void saldarCuota(int cantidadCuotas){
-            cuentaDestino.setDeuda(cuentaDestino.getDeuda()-(valorCuota*cantidadCuotas));
-            cuotasDePago-=1;
+            cuenta.setDeuda(cuenta.getDeuda()-(valorCuota*cantidadCuotas));
+            cuotasDePago-=cantidadCuotas;
             this.valorPrestamo-=valorCuota;
     }
 
     public void saldarCuota(){
-        cuentaDestino.setDeuda(cuentaDestino.getDeuda()-valorCuota);
+        cuenta.setDeuda(cuenta.getDeuda()-valorCuota);
         cuotasDePago-=1;
         this.valorPrestamo-=valorCuota;
     }
 
     public void saldarPrestamo(){
-        cuentaDestino.setDeuda(0);
-        cuentaDestino.setPrestamo(null);
+        cuenta.setDeuda(0);
+        cuenta.setPrestamo(null);
     }
 
     public int getValorPrestamo() {
@@ -104,4 +111,21 @@ public class Prestamo {
         this.tipoPrestamo = tipoPrestamo;
     }
 
+    public String getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    @Override
+    public String toString() {
+        return "Ha sido aprobado tu prestamo" +
+                " con un valor de " + valorPrestamo +
+                " en la fecha " + fechaPrestamo + '\'' +
+                " de tipo " + tipoPrestamo + '\'' +
+                " con una tasa de interes de " + interes +
+                ", fue desembolsado en la cuenta" + cuenta.getNumero() +
+                " la cuota a pagar será de " + valorCuota +
+                " "+
+                " para una deuda total de" + cuenta.getDeuda() +
+                '}';
+    }
 }

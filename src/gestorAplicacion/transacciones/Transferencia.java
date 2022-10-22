@@ -1,4 +1,6 @@
-package gestorAplicacion;
+package gestorAplicacion.transacciones;
+
+import gestorAplicacion.usuario.Cuenta;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class Transferencia extends Movimiento{
 		System.out.println(mov.get(id));
 	}
 	
-	public void enviarDinero(Cuenta cuentaOrigen,Cuenta cuentaFinal, int valor) {
+	public void enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
 		
 		if (cuentaOrigen.getSaldoDisponible() < valor) {
 			System.out.println("No tiene suficiente dinero para transferir");

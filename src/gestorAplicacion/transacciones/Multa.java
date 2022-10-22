@@ -1,4 +1,6 @@
-package gestorAplicacion;
+package gestorAplicacion.transacciones;
+
+import gestorAplicacion.usuario.Cuenta;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;

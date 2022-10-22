@@ -1,4 +1,7 @@
-package gestorAplicacion;
+package gestorAplicacion.transacciones;
+
+import gestorAplicacion.usuario.Cuenta;
+
 public class Bolsillo {
     public enum Categoria {
         VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
@@ -34,13 +37,15 @@ public class Bolsillo {
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
     public void descargarBolsillo() {
-        cuenta.saldoTotal = cuenta.getSaldoDisponible() + metaAhorro;
+        saldoDisponible= cuenta.getSaldoDisponible() + metaAhorro;
         this.cargarBolsillo-=metaAhorro;
+        cuenta.setSaldoTotal(saldoDisponible);
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
     public void descargarBolsillo(int valor) {
-        cuenta.saldoTotal = cuenta.getSaldoDisponible() + metaAhorro;
+        saldoDisponible= cuenta.getSaldoDisponible() + metaAhorro;
         this.cargarBolsillo-=valor;
+        cuenta.setSaldoTotal(saldoDisponible);
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
 

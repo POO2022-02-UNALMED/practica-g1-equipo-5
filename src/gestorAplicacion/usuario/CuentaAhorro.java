@@ -1,4 +1,6 @@
-package gestorAplicacion;
+package gestorAplicacion.usuario;
+
+import gestorAplicacion.transacciones.Prestamo;
 
 public class CuentaAhorro extends Cuenta{
 
