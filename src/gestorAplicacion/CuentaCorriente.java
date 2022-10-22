@@ -27,8 +27,7 @@ public class CuentaCorriente extends Cuenta{
 
     @Override
     public boolean tieneMultta() {
-        return multa;
-
+        return multa != null;
     }
 
     @Override

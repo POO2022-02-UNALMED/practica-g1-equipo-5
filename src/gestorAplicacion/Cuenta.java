@@ -11,7 +11,7 @@ public abstract class Cuenta {
     protected Prestamo prestamo;
     protected ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
     protected int deuda;
-    protected boolean multa;
+    protected Multa multa;
     protected boolean estado;
     
     public Cuenta(Cliente titular) {
@@ -20,7 +20,6 @@ public abstract class Cuenta {
         Cuenta.numero++;
 
     }
-
 
     public abstract void aumentarSaldo(int cantidad);
 
@@ -80,11 +79,19 @@ public abstract class Cuenta {
         this.deuda = deuda;
     }
 
-    public boolean isMulta() {
+    public ArrayList<Bolsillo> getMisBolsillos() {
+        return misBolsillos;
+    }
+
+    public void setMisBolsillos(ArrayList<Bolsillo> misBolsillos) {
+        this.misBolsillos = misBolsillos;
+    }
+
+    public Multa getMulta() {
         return multa;
     }
 
-    public void setMulta(boolean multa) {
+    public void setMulta(Multa multa) {
         this.multa = multa;
     }
 
