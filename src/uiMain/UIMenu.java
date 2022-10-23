@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.usuario.Cliente;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 public class UIMenu {
     public static void main(String [] args){
@@ -13,7 +14,7 @@ public class UIMenu {
         int opcion;
 
         do{
-            System.out.println("Bienvenido a PiggyBank\n Elija una opción:");
+            System.out.println("Bienvenido a BancoUnal\n Elija una opción:");
             System.out.println(
                     """
                             1. Solicitar Prestamo
@@ -26,15 +27,15 @@ public class UIMenu {
 
             switch (opcion){
                 case 1:
-
+                    System.out.println("Puedes solicitar un prestamo entre 500.000 y 7'000.000 a 24 cuotas\n Ingresa el valor a solicitar");
+                    int valor=sc.nextInt();
+                    System.out.println("Elige el tipo de prestamo (universitario,hobbie,libre)");
+                    String tipoPrestamo =sc.next();
+                    ((CuentaAhorro)cliente.cuenta).solicitarPrestamo(valor,tipoPrestamo);
+                    System.out.println(((CuentaAhorro) cliente.cuenta).getPrestamo().toString());
                     break;
                 case 2:
-                    System.out.println("Solicita tu prestamo con valor desde 500.000 hasta 7'000.000 a 24 cuotas");
-                    int valor=sc.nextInt();
-                    System.out.println("cuentanos el tipo de prestamo que quieres solicitar(universitario,hobbie,libre)");
-                    String tipoPrestamo =sc.next();
-                    cliente.solicitarPrestamo(valor,tipoPrestamo);
-                    //System.out.println(cliente.cuenta.getPrestamo().toString());
+
                     break;
                 case 3:
                     System.out.println("selecciona una de las opciones disponibles");
