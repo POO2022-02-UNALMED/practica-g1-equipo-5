@@ -2,6 +2,7 @@ package uiMain;
 
 import java.util.Scanner;
 
+import gestorAplicacion.Cuenta;
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.CuentaAhorro;
@@ -94,6 +95,18 @@ public class UIMenu {
                     }
                     break;
                 case 4:
+                	
+                	System.out.println("Ingrese el numero de cuenta Destino");
+                	int numeroCuenta= sc.nextInt();
+                	System.out.println("Ingrese valor a transferir");
+                	int valor1= sc.nextInt();
+                	for (int i = 0; i < cuentaExterna.size; i++) {
+                		if (cuentaExterna.get(i).getNumero()== numeroCuenta ) {
+                		Cuenta cuentaDestino= cuentaExterna.get(i);      		
+                		}
+                		}
+                	
+                	cliente.hacerTransferencia(cuentaDestino,valor1);
 
                     break;
                 case 5:

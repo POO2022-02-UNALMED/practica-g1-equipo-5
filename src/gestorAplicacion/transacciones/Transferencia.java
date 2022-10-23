@@ -8,39 +8,49 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class Transferencia extends Movimiento{
-	
-	HashMap<Integer,ArrayList<Integer>> mov= new HashMap<>	();
-	Transferencia (){
-	}
-	public void consultarMovimientos (int id) {
-		System.out.println(mov.get(id));
-	}
-	
+public class Transferencia {
+	private String fecha;
+	public Cuenta cuenta;
+	private static  int id;
+	public static ArrayList <ArrayList<String>> listaM=new ArrayList<>();
+	public Transferencia (){
+	}	
 	public void enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
 		
-		if (cuentaOrigen.getSaldoDisponible() < valor) {
-			System.out.println("No tiene suficiente dinero para transferir");
+		if (cuentaOrigen.getSaldoDisponible() < valor || cuentaOrigen.isEstado()== false) {
+			System.out.println("No puede hacer la transferencia");
 		}
 			else {
 				String  fecha= new SimpleDateFormat("ddMMyyyy").format(new Date());
-				int fecha1= Integer.parseInt(fecha);
-				ArrayList<Integer> lista =new ArrayList<>();
+				
+				ArrayList<String> lista =new ArrayList<>();
 				setId(getId()+1);	
 				cuentaOrigen.disminuirSaldo(valor);
 				cuentaFinal.aumentarSaldo(valor);
-				//int cta1= cuentaOrigen.getNumero();
-				//int cta2= cuentaFinal.getNumero();
-				//int val1= cuentaOrigen.getSaldoDisponible();
-				
-				//lista.add(cta1);
-				//lista.add(cta2);
-				lista.add(valor);
-				//lista.add(val1);
-				lista.add(fecha1);
-				mov.put(this.getId(),lista );
+				String cta1= String.valueOf(cuentaOrigen.getNumero());
+				String cta2= String.valueOf(cuentaFinal.getNumero());
+				String val1= String.valueOf(cuentaOrigen.getSaldoDisponible());
+				String vt= String.valueOf(valor);
+				int id1=getId();
+				String id11=String.valueOf(id1);
+				lista.add("id: " + id11);
+				lista.add("fecha: "+fecha);
+				lista.add("cuenta origen: "+cta1);
+				lista.add("cuenta destino: "+cta2);
+				lista.add("Cantidad tranferir: "+vt);
+				lista.add("total cuenta: "+val1);
+				listaM.add(lista);
 					
 		}	
 	}
-}
+	public static void consultarMovimientos() {
+		System.out.println(listaM);
+	}
+	
+	public static int getId() {return  id;}
+	public static  void setId(int id) {Transferencia.id = id;}
+	public String getFecha() {return fecha;}
+	public void setFecha(String fecha) {this.fecha = fecha;}
+	
 
+}	
