@@ -1,6 +1,7 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.time.LocalDate;
 
@@ -16,10 +17,10 @@ public class Prestamo {
     private static final int topeMax=7000000;
     private static final int topeMin=500000;
     public int cuotasDePago=24;
-    public Cuenta cuenta;
+    public CuentaAhorro cuenta;
     private int valorCuota;
 
-    public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
+    public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
         if (this.cuenta.getPrestamo()==null)
         generarPrestamo(valor,tipoPrestamo);
