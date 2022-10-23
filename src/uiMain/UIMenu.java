@@ -1,13 +1,15 @@
 package uiMain;
 
 import java.util.Scanner;
-
 import gestorAplicacion.transacciones.Bolsillo;
+import gestorAplicacion.transacciones.Multa;
+import gestorAplicacion.transacciones.Prestamo;
 import gestorAplicacion.usuario.Cliente;
+import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 public class UIMenu {
     public static void main(String [] args){
-
         Cliente cliente= new Cliente("Jaimico",20192121);
         Scanner sc = new Scanner(System.in);
         int opcion;
@@ -26,15 +28,15 @@ public class UIMenu {
 
             switch (opcion){
                 case 1:
-
-                    break;
-                case 2:
                     System.out.println("Solicita tu prestamo con valor desde 500.000 hasta 7'000.000 a 24 cuotas");
                     int valor=sc.nextInt();
                     System.out.println("cuentanos el tipo de prestamo que quieres solicitar(universitario,hobbie,libre)");
                     String tipoPrestamo =sc.next();
                     cliente.solicitarPrestamo(valor,tipoPrestamo);
                     System.out.println(cliente.cuenta.getPrestamo().toString());
+                    break;
+                case 2:
+                    UIPago.Pagar(cliente);
                     break;
                 case 3:
                     System.out.println("selecciona una de las opciones disponibles");
@@ -97,6 +99,8 @@ public class UIMenu {
                     break;
                 case 5:
                     break;
+                case 6:
+                    break;
                 default:
                     System.out.println("Por favor ingrese una opción valida");
             }
@@ -104,10 +108,4 @@ public class UIMenu {
         }while(opcion != 6);
 
     }
-
-
-
-
-
-
 }

@@ -2,6 +2,7 @@ package gestorAplicacion.usuario;
 
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.transacciones.Prestamo;
+import gestorAplicacion.transacciones.Pago;
 
 public class Cliente {
     private String nombre;
@@ -58,8 +59,28 @@ public class Cliente {
             }
     }
 
+    public String hacerPagoPrestamo( int indexPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
+        Pago pago = new Pago(this.getCuenta().getPrestamo().getValorCuota(),this.getCuenta());
+        return pago.RealizarPagoPrestamo();
+    }
+
+    public String hacerPagoPrestamo( int cuotas, int indexPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
+        Pago pago = new Pago(cuotas*this.getCuenta().getPrestamo().getValorCuota(),this.getCuenta());
+        return pago.RealizarPagoPrestamo(cuotas);
+    }
+
+    public String hacerPagoMulta(int indexMulta){ //arreglar para arrojar el prestamo numeroDeMulta
+        Pago pago = new Pago((int) cuenta.getMulta().getMonto() ,this.getCuenta());
+        return pago.realizarPagoMulta(cuenta.getMulta());
+    }
+
+    public String hacerPagoMulta(int valor, int indexMulta){ //arreglar para arrojar el prestamo numeroDeMulta
+        Pago pago = new Pago(valor ,this.getCuenta());
+        return pago.realizarPagoMulta(cuenta.getMulta());
+    }
 
 
+    //Getters y Setters
     public String getNombre() {
         return nombre;
     }

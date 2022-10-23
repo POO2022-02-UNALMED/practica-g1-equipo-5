@@ -2,7 +2,10 @@ package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Prestamo {
 
@@ -18,11 +21,12 @@ public class Prestamo {
     public int cuotasDePago=24;
     public Cuenta cuenta;
     private int valorCuota;
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
     public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
         if (this.cuenta.getPrestamo()==null)
-        generarPrestamo(valor,tipoPrestamo);
+            generarPrestamo(valor,tipoPrestamo);
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
@@ -38,11 +42,16 @@ public class Prestamo {
                 int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
                 cuenta.setDeuda(valorTotalPrestamo);
                 cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
+                cuenta.setSaldoDisponible(cuenta.getSaldoDisponible() + valorPrestamo);
                 cuenta.setPrestamo(this);
                 this.valorCuota=valorPrestamo/cuotasDePago;
                 this.valorPrestamo=valorPrestamo;
                 this.tipoPrestamo=tipoPrestamo;
                 this.fechaPrestamo = String.valueOf(currentDate);
+
+                long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
+                this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
+
             }
     }
 
@@ -118,14 +127,12 @@ public class Prestamo {
     @Override
     public String toString() {
         return "Ha sido aprobado tu prestamo" +
-                " con un valor de " + valorPrestamo +
-                " en la fecha " + fechaPrestamo + '\'' +
-                " de tipo " + tipoPrestamo + '\'' +
-                " con una tasa de interes de " + interes +
-                ", fue desembolsado en la cuenta" + cuenta.getNumero() +
-                " la cuota a pagar será de " + valorCuota +
-                " "+
-                " para una deuda total de" + cuenta.getDeuda() +
-                '}';
+                "\nCon un valor de " + valorPrestamo +
+                "\nEn la fecha " + fechaPrestamo +
+                "\nDe tipo " + tipoPrestamo +
+                "\nCon una tasa de interes de " + interes +
+                "," +"\nFue desembolsado en la cuenta " + cuenta.getNumero() +
+                "\nLa cuota a pagar será de " + valorCuota +
+                "\nPara una deuda total de " + cuenta.getDeuda();
     }
 }

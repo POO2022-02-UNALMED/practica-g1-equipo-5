@@ -1,48 +1,47 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
-
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class Multa {
     public static final int plazoPago = 30;
-    private boolean estado;
     private long monto;
     private Cuenta cuenta;
-    private int tiempoMulta;
     private String fecha;
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+    static ArrayList<Multa> Multas = new ArrayList<Multa>();
 
     public Multa(){
+
         this(null);
     }
 
     public Multa (Cuenta cuenta){
-        this(true, 50000, cuenta,4,"24/10/2022");
+        this( 50000, cuenta,String.valueOf(LocalDate.now()));
+
     }
 
-    public Multa( boolean estado, long monto, Cuenta cuenta, int tiempoMulta, String fecha){
+    public Multa( long monto, Cuenta cuenta, String fecha){
 
-        this.estado = estado;
+
         this.monto = monto;
         this.cuenta = cuenta;
-        this.tiempoMulta = tiempoMulta;
         this.fecha = fecha;
+        Multas.add(this);
     }
 
-    public void eliminarMulta(Cuenta cuenta,long monto){
+    public static void eliminarMulta(Cuenta cuenta,long monto){
         cuenta.setMulta(null);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
 
-    public void multarCuenta(Cuenta cuenta){
-        if (!cuenta.tieneMultta()){
+    public static void multarCuenta(Cuenta cuenta){
         cuenta.setMulta(new Multa(cuenta));
-        } else {
-            cuenta.setEstado(false);
-        }
+
     }
 
     /* Metodo usado para calcular el monto por mora despues de no haber cumplido el
@@ -83,7 +82,19 @@ public class Multa {
     }
 
 
-    
+    public String toString() {
+        if (cuenta.tieneMultta()){
+
+            return "Usted actualmente cuenta con una multa de: " + this.getMonto() +
+                    "\nDesde: " + this.getFecha();
+
+        } else {
+
+            return "Usted no cuenta con multas actualmente";
+
+        }
+    }
+
     //Setters getters
     public Cuenta getCuenta() {return cuenta;}
 
@@ -92,14 +103,6 @@ public class Multa {
     public long getMonto() {return monto;}
 
     public void setMonto(long monto) {this.monto = monto;}
-
-    public boolean isEstado() {return estado;}
-
-    public void setEstado(boolean estado) {this.estado = estado;}
-
-    public int getTiempoMulta() {return tiempoMulta;}
-
-    public void setTiempoMulta(int tiempoMulta) {this.tiempoMulta = tiempoMulta;}
 
     public String getFecha() {return fecha;}
 
