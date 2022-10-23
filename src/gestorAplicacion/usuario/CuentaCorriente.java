@@ -9,33 +9,13 @@ public class CuentaCorriente extends Cuenta{
     }
 
     @Override
-    public void aumentarSaldo(int cantidad) {
-        if (isEstado()){
-            setSaldoTotal(getSaldoTotal() + cantidad);
-        }
+    public String toString() {
+        return "Cuenta{" +
+                "saldoTotal=" + saldoTotal +
+                ", SaldoDisponible=" + SaldoDisponible +
+                ", titular=" + titular +
+                ", estado=" + estado +
+                ", id= "+getId()+
+                '}';
     }
-
-    @Override
-    public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
-        }
-    }
-
-    @Override
-    public void solicitarPrestamo(int valorPrestamo, String tipoPrestamo) {
-        prestamo = new Prestamo(valorPrestamo, this, tipoPrestamo);
-    }
-
-    @Override
-    public boolean tieneMultta() {
-        return multa != null;
-    }
-
-    @Override
-    public boolean tienePrestamo() {
-        return prestamo != null;
-    }
-
-
 }
