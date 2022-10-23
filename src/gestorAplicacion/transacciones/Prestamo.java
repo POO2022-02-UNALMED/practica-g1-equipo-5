@@ -23,39 +23,43 @@ public class Prestamo {
     public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
         if (this.cuenta.getPrestamo()==null)
-        generarPrestamo(valor,tipoPrestamo);
+            generarPrestamo(valor,tipoPrestamo);
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
-
-
-            if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
-                switch (tipoPrestamo) {
-                    case "universitario" -> interes = 0.06;
-                    case "hobbie" -> interes = 0.04;
-                    case "libre" -> interes = 0.10;
-                    default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
-                }
-                int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
-                cuenta.setDeuda(valorTotalPrestamo);
-                cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
-                cuenta.setPrestamo(this);
-                this.valorCuota=valorPrestamo/cuotasDePago;
-                this.valorPrestamo=valorPrestamo;
-                this.tipoPrestamo=tipoPrestamo;
-                this.fechaPrestamo = String.valueOf(currentDate);
+        if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
+            switch (tipoPrestamo) {
+                case "universitario" -> interes = 0.06;
+                case "hobbie" -> interes = 0.04;
+                case "libre" -> interes = 0.10;
+                default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
             }
+            int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
+            cuenta.setDeuda(valorTotalPrestamo);
+            cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
+            cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()+valorPrestamo);
+            cuenta.setPrestamo(this);
+            this.valorCuota=valorPrestamo/cuotasDePago;
+            this.valorPrestamo=valorPrestamo;
+            this.tipoPrestamo=tipoPrestamo;
+            this.fechaPrestamo = String.valueOf(currentDate);
+        }
     }
 
     public void saldarCuota(int cantidadCuotas){
-            cuenta.setDeuda(cuenta.getDeuda()-(valorCuota*cantidadCuotas));
-            cuotasDePago-=cantidadCuotas;
-            this.valorPrestamo-=valorCuota;
+        int valor=valorCuota*cantidadCuotas;
+        cuenta.setDeuda(cuenta.getDeuda()-(valor));
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valor);
+        cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valor);
+        cuotasDePago-=cantidadCuotas;
+        this.valorPrestamo-=valorCuota;
     }
 
     public void saldarCuota(){
         cuenta.setDeuda(cuenta.getDeuda()-valorCuota);
         cuotasDePago-=1;
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorCuota);
+        cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valorCuota);
         this.valorPrestamo-=valorCuota;
     }
 
@@ -120,13 +124,11 @@ public class Prestamo {
     public String toString() {
         return "Ha sido aprobado tu prestamo" +
                 " con un valor de " + valorPrestamo +
-                " en la fecha " + fechaPrestamo + '\'' +
-                " de tipo " + tipoPrestamo + '\'' +
+                " en la fecha " + fechaPrestamo +
+                " de tipo " + tipoPrestamo +
                 " con una tasa de interes de " + interes +
-                ", fue desembolsado en la cuenta" + cuenta.getNumero() +
+                ", fue desembolsado en la cuenta " + cuenta.getNumero() +
                 " la cuota a pagar será de " + valorCuota +
-                " "+
-                " para una deuda total de" + cuenta.getDeuda() +
-                '}';
+                " para una deuda total de " + cuenta.getDeuda();
     }
 }
