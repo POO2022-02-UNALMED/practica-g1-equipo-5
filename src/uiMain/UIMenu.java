@@ -1,15 +1,16 @@
 package uiMain;
 
 import java.util.Scanner;
-
 import gestorAplicacion.Cuenta;
 import gestorAplicacion.transacciones.Bolsillo;
+import gestorAplicacion.transacciones.Multa;
+import gestorAplicacion.transacciones.Prestamo;
 import gestorAplicacion.usuario.Cliente;
+import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
 public class UIMenu {
     public static void main(String [] args){
-
         Cliente cliente= new Cliente("Jaimico",20192121);
         Scanner sc = new Scanner(System.in);
         int opcion;
@@ -37,6 +38,9 @@ public class UIMenu {
                     break;
                 case 2:
 
+                    break;
+                case 2:
+                    UIPago.Pagar(cliente);
                     break;
                 case 3:
                     System.out.println("selecciona una de las opciones disponibles");
@@ -111,6 +115,8 @@ public class UIMenu {
                     break;
                 case 5:
                     break;
+                case 6:
+                    break;
                 default:
                     System.out.println("Por favor ingrese una opción valida");
             }
@@ -118,10 +124,4 @@ public class UIMenu {
         }while(opcion != 6);
 
     }
-
-
-
-
-
-
 }
