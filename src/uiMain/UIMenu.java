@@ -34,7 +34,7 @@ public class UIMenu {
                     System.out.println("cuentanos el tipo de prestamo que quieres solicitar(universitario,hobbie,libre)");
                     String tipoPrestamo =sc.next();
                     cliente.solicitarPrestamo(valor,tipoPrestamo);
-                    System.out.println(cliente.cuenta.getPrestamo().toString());
+                    //System.out.println(cliente.cuenta.getPrestamo().toString());
                     break;
                 case 3:
                     System.out.println("selecciona una de las opciones disponibles");

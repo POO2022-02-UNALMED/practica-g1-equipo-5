@@ -1,15 +1,16 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 public class Pago {
     private long monto;
     private int id;
     private String fecha;
-    private Cuenta cuenta;
+    private CuentaAhorro cuenta;
     private Multa multa;
 
-    public Pago(int monto,int id,String fecha, Cuenta cuenta){
+    public Pago(int monto,int id,String fecha, CuentaAhorro cuenta){
         this.monto = monto;
         this.id = id;
         this.fecha = fecha;
@@ -104,7 +105,7 @@ public class Pago {
 
     public Cuenta getCuenta() {return cuenta;}
 
-    public void setCuenta(Cuenta cuenta) {this.cuenta = cuenta;}
+    public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
     public int getId() {return id;}
 
