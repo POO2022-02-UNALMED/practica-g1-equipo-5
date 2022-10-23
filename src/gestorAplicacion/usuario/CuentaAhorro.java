@@ -23,7 +23,6 @@ public class CuentaAhorro extends Cuenta{
                 ", deuda=" + deuda +
                 ", multa=" + multa +
                 ", estado=" + estado +
-                ", id= "+getId()+
                 '}';
     }
 

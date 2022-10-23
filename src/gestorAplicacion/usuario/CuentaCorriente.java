@@ -15,7 +15,6 @@ public class CuentaCorriente extends Cuenta{
                 ", SaldoDisponible=" + SaldoDisponible +
                 ", titular=" + titular +
                 ", estado=" + estado +
-                ", id= "+getId()+
                 '}';
     }
 }

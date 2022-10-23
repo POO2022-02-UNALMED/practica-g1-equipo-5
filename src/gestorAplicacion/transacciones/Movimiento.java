@@ -1,16 +1,20 @@
 package gestorAplicacion.transacciones;
 
 
+import gestorAplicacion.Transferencia;
 import gestorAplicacion.usuario.Cuenta;
 
-public abstract class Movimiento {
+public  class Movimiento {
 	private String tipoMovimiento;
 	private String fecha;
 	private Cuenta cuenta;
-	private static int id;
-	private int valor;
+
 	
-	public abstract void consultarMovimientos (int id);
+	
+	public static  void consultarTransferencias () {
+		Transferencia.consultarMovimientos();
+		}
+
 
 	public String getTipoMovimiento() {
 		return tipoMovimiento;
@@ -34,24 +38,7 @@ public abstract class Movimiento {
 
 	public void setCuenta(Cuenta cuenta) {
 		this.cuenta = cuenta;
+	}		
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		Movimiento.id = id;
-	}
-
-	public int getValor() {
-		return valor;
-	}
-
-	public void setValor(int valor) {
-		this.valor = valor;
-	}
-				
-				
-	}
 

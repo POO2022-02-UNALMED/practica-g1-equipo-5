@@ -2,21 +2,20 @@ package uiMain;
 
 import java.util.Scanner;
 
+import gestorAplicacion.Cuenta;
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.usuario.Cliente;
-import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
 public class UIMenu {
-    public static Cliente cliente= new Cliente("Jaimico",20192121,0);
     public static void main(String [] args){
 
-
+        Cliente cliente= new Cliente("Jaimico",20192121);
         Scanner sc = new Scanner(System.in);
         int opcion;
 
         do{
-            System.out.println("Bienvenido a PiggyBank\n Elija una opción:");
+            System.out.println("Bienvenido a BancoUnal\n Elija una opción:");
             System.out.println(
                     """
                             1. Solicitar Prestamo
@@ -29,31 +28,27 @@ public class UIMenu {
 
             switch (opcion){
                 case 1:
-                    System.out.println("Ingresa el ID de la cuenta que deseas aplicar el prestamo");
-                    traercuentas();
-                    opcion = sc.nextInt();
                     System.out.println("Puedes solicitar un prestamo entre 500.000 y 7'000.000 a 24 cuotas\n Ingresa el valor a solicitar");
                     int valor=sc.nextInt();
                     System.out.println("Elige el tipo de prestamo (universitario,hobbie,libre)");
                     String tipoPrestamo =sc.next();
-                    cliente.solicitarPrestamo(valor,tipoPrestamo,opcion);
-                    System.out.println(((CuentaAhorro)cliente.listaCuentas.get(opcion)).getPrestamo());
+                    ((CuentaAhorro)cliente.cuenta).solicitarPrestamo(valor,tipoPrestamo);
+                    System.out.println(((CuentaAhorro) cliente.cuenta).getPrestamo().toString());
                     break;
                 case 2:
 
                     break;
                 case 3:
-                    traercuentas();
                     System.out.println("selecciona una de las opciones disponibles");
                     int opcionBolsillos=sc.nextInt();
-                    opcion = sc.nextInt();
                     switch (opcionBolsillos) {
                         case (1) -> {
+
                             System.out.println("menciona el valor de tu ahorro");
                             int valorAhorro = sc.nextInt();
                             System.out.println("menciona tu categoria");
                             int categoria = sc.nextInt();
-                            cliente.generarAhorro(valorAhorro, categoria,opcion);
+                            cliente.generarAhorro(valorAhorro, categoria);
 
 
                         }
@@ -84,6 +79,7 @@ public class UIMenu {
                                 default -> {}
                             }
 
+
                         }
 
                         case (3) -> {
@@ -97,9 +93,20 @@ public class UIMenu {
                             cliente.descargarAhorro(valordescarga, bolsilloNum);
                         }
                     }
-                    traerBolsillos(opcion);
                     break;
                 case 4:
+                	
+                	System.out.println("Ingrese el numero de cuenta Destino");
+                	int numeroCuenta= sc.nextInt();
+                	System.out.println("Ingrese valor a transferir");
+                	int valor1= sc.nextInt();
+                	for (int i = 0; i < cuentaExterna.size; i++) {
+                		if (cuentaExterna.get(i).getNumero()== numeroCuenta ) {
+                		Cuenta cuentaDestino= cuentaExterna.get(i);      		
+                		}
+                		}
+                	
+                	cliente.hacerTransferencia(cuentaDestino,valor1);
 
                     break;
                 case 5:
@@ -110,18 +117,6 @@ public class UIMenu {
 
         }while(opcion != 6);
 
-    }
-
-    public static void traercuentas(){
-        for (Cuenta i: cliente.listaCuentas) {
-            System.out.println(i.toString());
-        }
-    }
-
-    public static void traerBolsillos(int id){
-        for (Bolsillo i: Cliente.listaCuentas.get(id).misBolsillos) {
-            System.out.println(i.toString());
-        }
     }
 
 

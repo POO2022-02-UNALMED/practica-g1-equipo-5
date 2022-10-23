@@ -1,6 +1,7 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -10,7 +11,7 @@ public class Multa {
     public static final int plazoPago = 30;
     private boolean estado;
     private long monto;
-    private Cuenta cuenta;
+    private CuentaAhorro cuenta;
     private int tiempoMulta;
     private String fecha;
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
@@ -19,11 +20,11 @@ public class Multa {
         this(null);
     }
 
-    public Multa (Cuenta cuenta){
+    public Multa (CuentaAhorro cuenta){
         this(true, 50000, cuenta,4,"24/10/2022");
     }
 
-    public Multa( boolean estado, long monto, Cuenta cuenta, int tiempoMulta, String fecha){
+    public Multa( boolean estado, long monto, CuentaAhorro cuenta, int tiempoMulta, String fecha){
 
         this.estado = estado;
         this.monto = monto;
@@ -32,12 +33,12 @@ public class Multa {
         this.fecha = fecha;
     }
 
-    public void eliminarMulta(Cuenta cuenta,long monto){
+    public void eliminarMulta(CuentaAhorro cuenta,long monto){
         cuenta.setMulta(null);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
 
-    public void multarCuenta(Cuenta cuenta){
+    public void multarCuenta(CuentaAhorro cuenta){
         if (!cuenta.tieneMultta()){
         cuenta.setMulta(new Multa(cuenta));
         } else {
@@ -59,7 +60,7 @@ public class Multa {
             this.setMonto((long) (this.monto*Math.pow(1.01,diasMora))); //aplicar un mora del 1% por dia de mora
 
             if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
-                multarCuenta(pago.getCuenta());
+                multarCuenta((CuentaAhorro) pago.getCuenta());
             }
         }
     }
@@ -67,7 +68,7 @@ public class Multa {
      *   fechaPago del prestamo. Si la cantidad de dias despues de haber pasado fechaPago
      *   es mayor a 90 se multa la cuenta pasando Multa:boolean a true y generando una nueva multa
      * */
-    public void mora(Pago pago,Cuenta cuenta){
+    public void mora(Pago pago,CuentaAhorro cuenta){
         long fechaMulta = formato.parse(cuenta.getPrestamo().getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
@@ -87,7 +88,7 @@ public class Multa {
     //Setters getters
     public Cuenta getCuenta() {return cuenta;}
 
-    public void setCuenta(Cuenta cuenta) {this.cuenta = cuenta;}
+    public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
     public long getMonto() {return monto;}
 
