@@ -25,7 +25,7 @@ public class Serializador {
                 try {
                     fos = new FileOutputStream(file);
                     oos = new ObjectOutputStream(fos);
-                    oos.writeObject(cliente.getCuenta().getPrestamo());
+                    oos.writeObject(cliente);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 

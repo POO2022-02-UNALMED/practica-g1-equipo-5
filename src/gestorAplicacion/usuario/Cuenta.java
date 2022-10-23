@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 public abstract class Cuenta {
 
-    protected int numero;
+    protected int id;
+    protected static int numero = 10000000;
     protected int saldoTotal;
     protected int SaldoDisponible;
     protected Cliente titular;
@@ -18,7 +19,7 @@ public abstract class Cuenta {
     public Cuenta(Cliente titular) {
         this.titular = titular;
         this.estado = true;
-        this.numero = (int)((Math.random() * ((100000 - 1000) + 1)) + 1000);
+        Cuenta.numero++;
 
     }
 
@@ -36,13 +37,12 @@ public abstract class Cuenta {
         }
     }
 
-
-    public double getNumero() {
+    public static int getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public static void setNumero(int numero) {
+        Cuenta.numero = numero;
     }
 
     public int getSaldoTotal() {
@@ -83,5 +83,13 @@ public abstract class Cuenta {
 
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+
+    public int getId() {
+        return Cliente.listaCuentas.indexOf(this);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
