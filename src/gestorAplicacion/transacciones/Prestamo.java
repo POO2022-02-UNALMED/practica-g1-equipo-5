@@ -1,6 +1,7 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -19,20 +20,18 @@ public class Prestamo {
     private static final int topeMax=7000000;
     private static final int topeMin=500000;
     public int cuotasDePago=24;
-    public Cuenta cuenta;
+    public CuentaAhorro cuenta;
     private int valorCuota;
     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
-    public Prestamo(int valor,Cuenta cuenta,String tipoPrestamo){
+    public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
         if (this.cuenta.getPrestamo()==null)
             generarPrestamo(valor,tipoPrestamo);
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
-
-
-            if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
+                    if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
                 switch (tipoPrestamo) {
                     case "universitario" -> interes = 0.06;
                     case "hobbie" -> interes = 0.04;
@@ -51,19 +50,23 @@ public class Prestamo {
 
                 long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
                 this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
-
-            }
+        }
     }
 
     public void saldarCuota(int cantidadCuotas){
-            cuenta.setDeuda(cuenta.getDeuda()-(valorCuota*cantidadCuotas));
-            cuotasDePago-=cantidadCuotas;
-            this.valorPrestamo-=valorCuota;
+        int valor=valorCuota*cantidadCuotas;
+        cuenta.setDeuda(cuenta.getDeuda()-(valor));
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valor);
+        cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valor);
+        cuotasDePago-=cantidadCuotas;
+        this.valorPrestamo-=valorCuota;
     }
 
     public void saldarCuota(){
         cuenta.setDeuda(cuenta.getDeuda()-valorCuota);
         cuotasDePago-=1;
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorCuota);
+        cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valorCuota);
         this.valorPrestamo-=valorCuota;
     }
 
@@ -134,5 +137,6 @@ public class Prestamo {
                 "," +"\nFue desembolsado en la cuenta " + cuenta.getNumero() +
                 "\nLa cuota a pagar será de " + valorCuota +
                 "\nPara una deuda total de " + cuenta.getDeuda();
+
     }
 }

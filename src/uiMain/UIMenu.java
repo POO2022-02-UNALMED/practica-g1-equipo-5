@@ -1,6 +1,7 @@
 package uiMain;
 
 import java.util.Scanner;
+import gestorAplicacion.Cuenta;
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.transacciones.Multa;
 import gestorAplicacion.transacciones.Prestamo;
@@ -15,7 +16,7 @@ public class UIMenu {
         int opcion;
 
         do{
-            System.out.println("Bienvenido a PiggyBank\n Elija una opción:");
+            System.out.println("Bienvenido a BancoUnal\n Elija una opción:");
             System.out.println(
                     """
                             1. Solicitar Prestamo
@@ -28,12 +29,15 @@ public class UIMenu {
 
             switch (opcion){
                 case 1:
-                    System.out.println("Solicita tu prestamo con valor desde 500.000 hasta 7'000.000 a 24 cuotas");
+                    System.out.println("Puedes solicitar un prestamo entre 500.000 y 7'000.000 a 24 cuotas\n Ingresa el valor a solicitar");
                     int valor=sc.nextInt();
-                    System.out.println("cuentanos el tipo de prestamo que quieres solicitar(universitario,hobbie,libre)");
+                    System.out.println("Elige el tipo de prestamo (universitario,hobbie,libre)");
                     String tipoPrestamo =sc.next();
-                    cliente.solicitarPrestamo(valor,tipoPrestamo);
-                    System.out.println(cliente.cuenta.getPrestamo().toString());
+                    ((CuentaAhorro)cliente.cuenta).solicitarPrestamo(valor,tipoPrestamo);
+                    System.out.println(((CuentaAhorro) cliente.cuenta).getPrestamo().toString());
+                    break;
+                case 2:
+
                     break;
                 case 2:
                     UIPago.Pagar(cliente);
@@ -95,6 +99,18 @@ public class UIMenu {
                     }
                     break;
                 case 4:
+                	
+                	System.out.println("Ingrese el numero de cuenta Destino");
+                	int numeroCuenta= sc.nextInt();
+                	System.out.println("Ingrese valor a transferir");
+                	int valor1= sc.nextInt();
+                	for (int i = 0; i < cuentaExterna.size; i++) {
+                		if (cuentaExterna.get(i).getNumero()== numeroCuenta ) {
+                		Cuenta cuentaDestino= cuentaExterna.get(i);      		
+                		}
+                		}
+                	
+                	cliente.hacerTransferencia(cuentaDestino,valor1);
 
                     break;
                 case 5:

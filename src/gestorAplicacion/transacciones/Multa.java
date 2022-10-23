@@ -1,6 +1,9 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
+
+import gestorAplicacion.usuario.CuentaAhorro;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,7 +13,9 @@ import java.util.ArrayList;
 public class Multa {
     public static final int plazoPago = 30;
     private long monto;
-    private Cuenta cuenta;
+
+    private CuentaAhorro cuenta;
+    private int tiempoMulta;
     private String fecha;
     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
     static ArrayList<Multa> Multas = new ArrayList<Multa>();
@@ -35,9 +40,12 @@ public class Multa {
     }
 
     public static void eliminarMulta(Cuenta cuenta,long monto){
+
+
         cuenta.setMulta(null);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
+
 
     public static void multarCuenta(Cuenta cuenta){
         cuenta.setMulta(new Multa(cuenta));
@@ -58,7 +66,7 @@ public class Multa {
             this.setMonto((long) (this.monto*Math.pow(1.01,diasMora))); //aplicar un mora del 1% por dia de mora
 
             if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
-                multarCuenta(pago.getCuenta());
+                multarCuenta((CuentaAhorro) pago.getCuenta());
             }
         }
     }
@@ -66,7 +74,7 @@ public class Multa {
      *   fechaPago del prestamo. Si la cantidad de dias despues de haber pasado fechaPago
      *   es mayor a 90 se multa la cuenta pasando Multa:boolean a true y generando una nueva multa
      * */
-    public void mora(Pago pago,Cuenta cuenta){
+    public void mora(Pago pago,CuentaAhorro cuenta){
         long fechaMulta = formato.parse(cuenta.getPrestamo().getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
@@ -98,7 +106,7 @@ public class Multa {
     //Setters getters
     public Cuenta getCuenta() {return cuenta;}
 
-    public void setCuenta(Cuenta cuenta) {this.cuenta = cuenta;}
+    public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
     public long getMonto() {return monto;}
 

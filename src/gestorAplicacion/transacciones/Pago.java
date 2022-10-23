@@ -1,6 +1,7 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,9 +10,8 @@ public class Pago {
     private long monto;
     private static int id =1000 ;
     private String fecha;
-    private Cuenta cuenta;
+    private CuentaAhorro cuenta;
     private Multa multa;
-
     LocalDate currentDate = LocalDate.now();
     static ArrayList<Pago> pagos = new ArrayList<Pago>();
 
@@ -107,7 +107,7 @@ public class Pago {
 
     public Cuenta getCuenta() {return cuenta;}
 
-    public void setCuenta(Cuenta cuenta) {this.cuenta = cuenta;}
+    public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
     public int getId() {return id;}
     public long getMonto() {return monto;}

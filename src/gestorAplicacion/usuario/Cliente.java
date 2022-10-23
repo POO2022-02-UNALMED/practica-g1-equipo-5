@@ -25,7 +25,7 @@ public class Cliente {
     }
 
     public void solicitarPrestamo(int valor,String tipoPrestamo){
-        cuenta.setPrestamo(new Prestamo(valor,cuenta,tipoPrestamo));
+        ((CuentaAhorro) cuenta).solicitarPrestamo(valor, tipoPrestamo);
     }
 
     public void generarAhorro(int valor,int categoria){
