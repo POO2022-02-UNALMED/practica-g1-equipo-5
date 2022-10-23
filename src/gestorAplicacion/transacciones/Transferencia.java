@@ -29,14 +29,14 @@ public class Transferencia extends Movimiento{
 				setId(getId()+1);	
 				cuentaOrigen.disminuirSaldo(valor);
 				cuentaFinal.aumentarSaldo(valor);
-				int cta1= cuentaOrigen.getNumero();
-				int cta2= cuentaFinal.getNumero();
-				int val1= cuentaOrigen.getSaldoDisponible();
+				//int cta1= cuentaOrigen.getNumero();
+				//int cta2= cuentaFinal.getNumero();
+				//int val1= cuentaOrigen.getSaldoDisponible();
 				
-				lista.add(cta1);
-				lista.add(cta2);
+				//lista.add(cta1);
+				//lista.add(cta2);
 				lista.add(valor);
-				lista.add(val1);
+				//lista.add(val1);
 				lista.add(fecha1);
 				mov.put(this.getId(),lista );
 					
