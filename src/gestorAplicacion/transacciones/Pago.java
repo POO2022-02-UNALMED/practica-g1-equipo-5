@@ -19,7 +19,7 @@ public class Pago {
         this.monto = monto;
         id = getId()+1;
         this.fecha = currentDate.toString();
-        this.cuenta = cuenta;
+        this.cuenta = (CuentaAhorro) cuenta;
         this.multa = new Multa();
         pagos.add(this);
 

@@ -34,12 +34,12 @@ public class Multa {
 
 
         this.monto = monto;
-        this.cuenta = cuenta;
+        this.cuenta = (CuentaAhorro) cuenta;
         this.fecha = fecha;
         Multas.add(this);
     }
 
-    public static void eliminarMulta(Cuenta cuenta,long monto){
+    public static void eliminarMulta(CuentaAhorro cuenta,long monto){
 
 
         cuenta.setMulta(null);
@@ -47,7 +47,7 @@ public class Multa {
     }
 
 
-    public static void multarCuenta(Cuenta cuenta){
+    public static void multarCuenta(CuentaAhorro cuenta){
         cuenta.setMulta(new Multa(cuenta));
 
     }
