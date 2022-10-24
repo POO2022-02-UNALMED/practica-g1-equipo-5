@@ -1,5 +1,5 @@
 package uiMain;
-
+import baseDatos.Serializador;
 import java.util.Scanner;
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.usuario.Cliente;
@@ -9,8 +9,6 @@ public class UIMenu {
     public static Cliente cliente= new Cliente("Jaimico",20192121,0);
     public static Scanner sc = new Scanner(System.in);
     public static void main(String [] args){
-
-
         int opcion;
 
         do{
@@ -28,6 +26,7 @@ public class UIMenu {
             switch (opcion){
                 case 1:
                     UIPrestamo.prestamo(cliente);
+                    break;
                 case 2:
                     UIPago.Pagar(cliente);
                     break;
@@ -35,18 +34,22 @@ public class UIMenu {
                     UIBolsillos.bolsillo(cliente);
                     break;
                 case 4:
+
                     UITranferencia.transaccion(cliente);
+
                     break;
                 case 5:
                     UIMovimiento.movimiento(cliente);
                     break;
                 case 6:
-                    break;
+                    System.out.println("Vuelva pronto");
+                    Serializador.serializar(cliente);
+                    System.exit(0);
                 default:
                     System.out.println("Por favor ingrese una opción valida");
             }
 
-        }while(opcion != 6);
+        }while(opcion != 7);
 
     }
     public static void traercuentas(){

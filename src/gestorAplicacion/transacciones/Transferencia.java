@@ -2,15 +2,18 @@ package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Transferencia {
+
+public class Transferencia implements Serializable {
 	private static int id;
 	public static ArrayList <Transferencia> listatr=new ArrayList<>();
 	public ArrayList<String> lista= new ArrayList<>();
+
 	public Transferencia (){
 		listatr.add(this);
 

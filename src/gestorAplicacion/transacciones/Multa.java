@@ -4,13 +4,14 @@ import gestorAplicacion.usuario.Cuenta;
 
 import gestorAplicacion.usuario.CuentaAhorro;
 
+import java.io.Serializable;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public class Multa {
+public class Multa implements Serializable {
     public static final int plazoPago = 30;
     private long monto;
 
