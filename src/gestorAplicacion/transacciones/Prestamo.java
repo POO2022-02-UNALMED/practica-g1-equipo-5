@@ -1,8 +1,6 @@
 package gestorAplicacion.transacciones;
 
-import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
-
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -17,8 +15,8 @@ public class Prestamo {
     LocalDate currentDate = LocalDate.now();
     private String tipoPrestamo;
     private double interes;
-    private static final int topeMax=7000000;
-    private static final int topeMin=500000;
+    public static final int topeMax=7000000;
+    public static final int topeMin=500000;
     public int cuotasDePago=24;
     public CuentaAhorro cuenta;
     private int valorCuota;
@@ -31,7 +29,6 @@ public class Prestamo {
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
-                    if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
                 switch (tipoPrestamo) {
                     case "universitario" -> interes = 0.06;
                     case "hobbie" -> interes = 0.04;
@@ -51,7 +48,6 @@ public class Prestamo {
                 long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
                 this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
         }
-    }
 
     public void saldarCuota(int cantidadCuotas){
         int valor=valorCuota*cantidadCuotas;
@@ -130,13 +126,14 @@ public class Prestamo {
     @Override
     public String toString() {
         return "Ha sido aprobado tu prestamo" +
-                "\nCon un valor de " + valorPrestamo +
-                "\nEn la fecha " + fechaPrestamo +
+                " con un valor de " + valorPrestamo +
+                " en la fecha " + fechaPrestamo +
                 "\nDe tipo " + tipoPrestamo +
-                "\nCon una tasa de interes de " + interes +
-                "," +"\nFue desembolsado en la cuenta " + cuenta.getNumero() +
-                "\nLa cuota a pagar será de " + valorCuota +
-                "\nPara una deuda total de " + cuenta.getDeuda();
+                " con una tasa de interes del " + interes +
+                "," +"fue desembolsado en la cuenta " + cuenta.getNumero() +
+                "\nLa cuota a pagar será " + valorCuota +
+                " para una deuda total de " + cuenta.getDeuda()+
+                "\n";
 
     }
 }

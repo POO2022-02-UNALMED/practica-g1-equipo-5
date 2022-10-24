@@ -1,7 +1,7 @@
 package gestorAplicacion.transacciones;
 
 
-import gestorAplicacion.Transferencia;
+//import gestorAplicacion.Transferencia;
 import gestorAplicacion.usuario.Cuenta;
 
 public  class Movimiento {
