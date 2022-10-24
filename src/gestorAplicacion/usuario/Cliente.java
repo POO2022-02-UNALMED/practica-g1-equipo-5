@@ -37,31 +37,24 @@ public class Cliente implements Serializable {
         return null;
     }
     public static Bolsillo buscarBolsillo(int id,int idbolsillo){
+
         Cuenta cuenta = buscarCuenta(id);
-        for (Bolsillo bolsillo : cuenta.misBolsillos) {
-            if (idbolsillo == cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(bolsillo)).getId()) {
-                return bolsillo;
-            }
+        return  cuenta.getMisBolsillos().get(idbolsillo);
+
         }
-        return null;
-    }
+
+
     public static Multa buscarMulta(int id,int idMulta){
+
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
-        for (Multa multa : cuenta.getMultas()) {
-            if (idMulta == cuenta.getMultas().get(cuenta.getMultas().indexOf(multa)).getId()) {
-                return multa;
-            }
-        }
-        return null;
+        return cuenta.getMultas().get(idMulta);
+
     }
     public static Prestamo buscarPrestamo(int id,int idPrestamo){
+
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
-        for (Prestamo prestamo : cuenta.getPrestamos()) {
-            if (idPrestamo == cuenta.getPrestamos().get(cuenta.getMultas().indexOf(prestamo)).getId()) {
-                return prestamo;
-            }
-        }
-        return null;
+        return cuenta.getPrestamos().get(idPrestamo);
+
     }
 
 
