@@ -2,13 +2,14 @@ package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 
-public class Transferencia {
+public class Transferencia implements Serializable {
 	private String fecha;
 	public Cuenta cuenta;
 	private static  int id;

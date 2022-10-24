@@ -1,12 +1,14 @@
 package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.CuentaAhorro;
+
+import java.io.Serializable;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Prestamo {
+public class Prestamo implements Serializable {
 
     private int valorPrestamo;
     private String diasMora;

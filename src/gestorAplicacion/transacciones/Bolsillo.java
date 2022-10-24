@@ -2,7 +2,9 @@ package gestorAplicacion.transacciones;
 
 import gestorAplicacion.usuario.Cuenta;
 
-public class Bolsillo {
+import java.io.Serializable;
+
+public class Bolsillo implements Serializable {
     public enum Categoria {
         VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
     }

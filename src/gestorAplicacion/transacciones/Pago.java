@@ -3,10 +3,11 @@ package gestorAplicacion.transacciones;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Pago {
+public class Pago implements Serializable {
     private long monto;
     private static int id =1000 ;
     private String fecha;
