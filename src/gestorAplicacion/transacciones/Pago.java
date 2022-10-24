@@ -3,18 +3,25 @@ package gestorAplicacion.transacciones;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class Pago {
     private long monto;
-    private int id;
+    private static int id =1000 ;
     private String fecha;
     private CuentaAhorro cuenta;
     private Multa multa;
+    LocalDate currentDate = LocalDate.now();
+    static ArrayList<Pago> pagos = new ArrayList<Pago>();
 
-    public Pago(int monto,int id,String fecha, CuentaAhorro cuenta){
+    public Pago(int monto, Cuenta cuenta){
         this.monto = monto;
-        this.id = id;
-        this.fecha = fecha;
-        this.cuenta = cuenta;
+        id = getId()+1;
+        this.fecha = currentDate.toString();
+        this.cuenta = (CuentaAhorro) cuenta;
+        this.multa = new Multa();
+        pagos.add(this);
 
     }
 
@@ -23,7 +30,6 @@ public class Pago {
     * retorna un mensaje dependiendo del caso
     * */
     public String realizarPagoMulta(Multa multa){
-        if (!cuenta.tieneMultta()) return "Usted no cuenta con multas actualmente";
 
         multa.mora(this);
 
@@ -32,11 +38,11 @@ public class Pago {
         if (cuenta.getSaldoDisponible()< monto) return "Saldo insuficiente";
 
         if (multa.getMonto() == this.monto) {
-            multa.eliminarMulta(this.cuenta,this.monto);
+            Multa.eliminarMulta(this.cuenta,this.monto);
             return "su multa fue pagada con exito" +
-                    "Este es su nuevo Saldo: "+ multa.getCuenta().getSaldoDisponible();
+                    "\nEste es su nuevo Saldo: "+ multa.getCuenta().getSaldoDisponible();
         } else {
-            multa.setMonto(this.monto-multa.getMonto());
+            multa.setMonto(multa.getMonto()-this.monto);
             return "Este es su nuevo monto: "+ multa.getMonto();
         }
         // no se si poner que retorne algo para posteriores metodos
@@ -47,12 +53,10 @@ public class Pago {
     * para al final calcular el nuevo saldo y el estado del prestamo
     * */
     public String RealizarPagoPrestamo(){ //opcion 1 para pagar un prestamo (pago total del prestamo)
-
+        //organizar para tener un index de prestamo
         multa.mora(this,cuenta);
 
         if(!cuenta.isEstado()) return "Su cuenta está bloqueada";
-
-        if(cuenta.getPrestamo()==null) return "Usted no cuenta con deudas pendientes";
 
         if (cuenta.getPrestamo().getValorPrestamo() <= cuenta.getSaldoDisponible()){
 
@@ -70,16 +74,14 @@ public class Pago {
      * para al final calcular el nuevo saldo y el estado del prestamo
      * */
     public String RealizarPagoPrestamo(int cuotas){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
-
+        //organizar para tener un index de prestamo
         multa.mora(this,cuenta);
 
         if(!cuenta.isEstado())return "Su cuenta está bloqueada";
 
-        if(cuenta.getPrestamo()==null) return "Usted no cuenta con deudas pendientes";
-
         if (cuotas > cuenta.getPrestamo().cuotasDePago) return "Valor de cuotas es exedente";
 
-        if (cuenta.getPrestamo().getValorCuota()*cuotas > cuenta.getSaldoDisponible()) return "Saldo insuficiente";
+        if (this.monto > cuenta.getSaldoDisponible()) return "Saldo insuficiente";
 
         if (cuotas == cuenta.getPrestamo().cuotasDePago){
 
@@ -108,9 +110,6 @@ public class Pago {
     public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
     public int getId() {return id;}
-
-    public void setId(int id) {this.id = id;}
-
     public long getMonto() {return monto;}
     public void setMonto(long monto) {this.monto = monto;}
 }

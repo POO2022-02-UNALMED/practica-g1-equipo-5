@@ -3,7 +3,10 @@ package gestorAplicacion.transacciones;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Prestamo {
 
@@ -19,6 +22,7 @@ public class Prestamo {
     public int cuotasDePago=24;
     public CuentaAhorro cuenta;
     private int valorCuota;
+    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
     public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
@@ -27,22 +31,25 @@ public class Prestamo {
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
-        if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
-            switch (tipoPrestamo) {
-                case "universitario" -> interes = 0.06;
-                case "hobbie" -> interes = 0.04;
-                case "libre" -> interes = 0.10;
-                default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
-            }
-            int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
-            cuenta.setDeuda(valorTotalPrestamo);
-            cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
-            cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()+valorPrestamo);
-            cuenta.setPrestamo(this);
-            this.valorCuota=valorPrestamo/cuotasDePago;
-            this.valorPrestamo=valorPrestamo;
-            this.tipoPrestamo=tipoPrestamo;
-            this.fechaPrestamo = String.valueOf(currentDate);
+                    if (valorPrestamo>=topeMin && valorPrestamo<= topeMax) {
+                switch (tipoPrestamo) {
+                    case "universitario" -> interes = 0.06;
+                    case "hobbie" -> interes = 0.04;
+                    case "libre" -> interes = 0.10;
+                    default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
+                }
+                int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
+                cuenta.setDeuda(valorTotalPrestamo);
+                cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
+                cuenta.setSaldoDisponible(cuenta.getSaldoDisponible() + valorPrestamo);
+                cuenta.setPrestamo(this);
+                this.valorCuota=valorPrestamo/cuotasDePago;
+                this.valorPrestamo=valorPrestamo;
+                this.tipoPrestamo=tipoPrestamo;
+                this.fechaPrestamo = String.valueOf(currentDate);
+
+                long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
+                this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
         }
     }
 
@@ -123,12 +130,13 @@ public class Prestamo {
     @Override
     public String toString() {
         return "Ha sido aprobado tu prestamo" +
-                " con un valor de " + valorPrestamo +
-                " en la fecha " + fechaPrestamo +
-                " de tipo " + tipoPrestamo +
-                " con una tasa de interes de " + interes +
-                ", fue desembolsado en la cuenta " + cuenta.getNumero() +
-                " la cuota a pagar será de " + valorCuota +
-                " para una deuda total de " + cuenta.getDeuda();
+                "\nCon un valor de " + valorPrestamo +
+                "\nEn la fecha " + fechaPrestamo +
+                "\nDe tipo " + tipoPrestamo +
+                "\nCon una tasa de interes de " + interes +
+                "," +"\nFue desembolsado en la cuenta " + cuenta.getNumero() +
+                "\nLa cuota a pagar será de " + valorCuota +
+                "\nPara una deuda total de " + cuenta.getDeuda();
+
     }
 }

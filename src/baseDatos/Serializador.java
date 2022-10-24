@@ -1,5 +1,6 @@
 package baseDatos;
 import gestorAplicacion.usuario.Cliente;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.io.*;
 
@@ -25,7 +26,7 @@ public class Serializador {
                 try {
                     fos = new FileOutputStream(file);
                     oos = new ObjectOutputStream(fos);
-                    oos.writeObject(cliente);
+                    oos.writeObject(((CuentaAhorro) cliente.cuenta).getPrestamo());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
