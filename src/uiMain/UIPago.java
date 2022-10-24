@@ -42,7 +42,7 @@ public class UIPago {
                                             2.No""");
                         int caso = sc.nextInt();
                         if (caso == 1) {
-                            System.out.println(cliente.hacerPagoPrestamo(cuotas, numeroDePrestamo));
+                            //System.out.println(cliente.hacerPagoPrestamo(cuotas, numeroDePrestamo));
                         }
                     }
                     case (2) -> {
@@ -54,7 +54,7 @@ public class UIPago {
                                             2.No""");
                         int caso = sc.nextInt();
                         if (caso == 1) {
-                            System.out.println(cliente.hacerPagoPrestamo(numeroDePrestamo));
+                            //System.out.println(cliente.hacerPagoPrestamo(numeroDePrestamo));
                         }
                     }
                 }
@@ -78,7 +78,7 @@ public class UIPago {
                         System.out.println("Ingrese el valor de la transaccion");
                         int valorM = sc.nextInt();
 
-                        System.out.println(cliente.hacerPagoMulta(valorM, numeroDeMulta));
+                        //System.out.println(cliente.hacerPagoMulta(valorM, numeroDeMulta));
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");
@@ -90,7 +90,7 @@ public class UIPago {
 
                         int caso = sc.nextInt();
                         if (caso == 1) {
-                            System.out.println(cliente.hacerPagoMulta(numeroDeMulta));
+                            //System.out.println(cliente.hacerPagoMulta(numeroDeMulta));
                         }
                     }
                 }

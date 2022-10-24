@@ -15,10 +15,11 @@ public class CuentaAhorro extends Cuenta{
 
     @Override
     public String toString() {
-        return "Cuenta{" +
+        return "Cuenta "+getId()+"\n"+
                 "saldoTotal=" + saldoTotal +
                 ", SaldoDisponible=" + SaldoDisponible +
                 ", titular=" + titular +
+                ", numero="+numero+
                 ", prestamo=" + prestamo +
                 ", deuda=" + deuda +
                 ", multa=" + multa +

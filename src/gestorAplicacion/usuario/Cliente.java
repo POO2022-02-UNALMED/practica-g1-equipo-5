@@ -4,19 +4,20 @@ import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.transacciones.Prestamo;
 import gestorAplicacion.transacciones.Pago;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-
-public class Cliente implements Serializable {
-    public enum TipoCuenta {
-        AHORROS, CORRIENTE;
-    }
+public class Cliente {
     private String nombre;
     public Cuenta cuenta;
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
-    private TipoCuenta tipoCuenta;
     private int cedula;
+
+    public Cliente(String nombre, int cedula,int tipoCuenta) {
+        this.nombre = nombre;
+        this.cedula = cedula;
+        listaCuentas.add(new CuentaAhorro(this));
+        listaCuentas.add(new CuentaCorriente(this));
+    }
 
     public static Cuenta buscarCuenta(int id){
         for (Cuenta cuenta : listaCuentas) {
@@ -27,26 +28,18 @@ public class Cliente implements Serializable {
         return null;
     }
 
-    /*public static Bolsillo buscarBolsillo(int idCuenta){
-        for (Bolsillo bolsillo : buscarCuenta(idCuenta).getMisBolsillos()) {
-            if (id == listaCuentas.get(listaCuentas.indexOf(bolsillo)).getId()) {
+    public static Bolsillo buscarBolsillo(int id,int idbolsillo){
+        Cuenta cuenta = buscarCuenta(id);
+        for (Bolsillo bolsillo : cuenta.misBolsillos) {
+            if (idbolsillo == cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(bolsillo)).getId()) {
                 return bolsillo;
             }
         }
         return null;
-    }*/
-
-    public Cliente(String nombre, int cedula,int tipoCuenta) {
-        this.nombre = nombre;
-        this.cedula = cedula;
-        this.tipoCuenta = Cliente.TipoCuenta.values()[tipoCuenta];
-        /*switch (tipoCuenta) {
-            case (0) -> listaCuentas.add(new CuentaAhorro(this));
-            case (1) -> listaCuentas.add(new CuentaCorriente(this));
-        }*/
-        listaCuentas.add(new CuentaAhorro(this));
-        listaCuentas.add(new CuentaCorriente(this));
     }
+
+
+
     public int consultarSaldo(){
         return cuenta.getSaldoTotal();
     }
@@ -57,43 +50,32 @@ public class Cliente implements Serializable {
         cuenta.setSaldoTotal(cuenta.getSaldoTotal()+valoraConsignacion);
     }
 
-    public void solicitarPrestamo(int valor,String tipoPrestamo, int id) {
-
-        ((CuentaAhorro)buscarCuenta(id)).setPrestamo(new Prestamo(valor, ((CuentaAhorro) buscarCuenta(id)), tipoPrestamo));
+    public void solicitarPrestamo(int valor,String tipoPrestamo,int id){
+        if (valor>=Prestamo.topeMin && valor<= Prestamo.topeMax)
+            ((CuentaAhorro)buscarCuenta(id)).setPrestamo(new Prestamo(valor, ((CuentaAhorro) buscarCuenta(id)), tipoPrestamo));
     }
 
     public void generarAhorro(int valor,int categoria,int id){
         buscarCuenta(id).getMisBolsillos().add(Bolsillo.crearBolsillo(valor,buscarCuenta(id),categoria));
 
     }
-    public void cargarAhorro(int valor,int id){
-        for (Bolsillo i : cuenta.getMisBolsillos()) {
-            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
-                i.cargarBolsillo(valor);
-            }
-
-        }
+    public void cargarAhorro(int valor,int idCuenta,int idBolsillo){
+        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
     }
 
-    public void cargarAhorro(int id){
-        for (Bolsillo i : cuenta.getMisBolsillos()) {
-            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
-                i.cargarBolsillo();
-            }
-
-        }
+    public void cargarAhorro(int idCuenta,int idBolsillo){
+        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
     }
 
-    public void descargarAhorro(int valor, int id){
-        for (Bolsillo i : cuenta.getMisBolsillos()) {
-            if (id==cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(i)).getId()){
-                i.descargarBolsillo(valor);
-            }
-
-        }
+    public void descargarAhorro(int idCuenta, int IdBolsillo){
+        buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo();
     }
 
-    public String hacerPagoPrestamo( int indexPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
+    public void descargarAhorro(int valor,int idCuenta, int IdBolsillo){
+        buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo(valor);
+    }
+
+    /*public String hacerPagoPrestamo( int indexPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
         Pago pago = new Pago(this.getCuenta().getPrestamo().getValorCuota(),this.getCuenta());
         return pago.RealizarPagoPrestamo();
     }
@@ -111,7 +93,7 @@ public class Cliente implements Serializable {
     public String hacerPagoMulta(int valor, int indexMulta){ //arreglar para arrojar el prestamo numeroDeMulta
         Pago pago = new Pago(valor ,this.getCuenta());
         return pago.realizarPagoMulta(cuenta.getMulta());
-    }
+    }*/
 
 
     //Getters y Setters
