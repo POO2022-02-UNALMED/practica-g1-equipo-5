@@ -16,10 +16,8 @@ public class Cliente implements Serializable {
     public Cliente(String nombre, int cedula,int tipoCuenta) {
         this.nombre = nombre;
         this.cedula = cedula;
-        listaCuentas.add(new CuentaAhorro(this));
-        this.listaCuentas.get(0).setSaldoDisponible(10000);
-        listaCuentas.add(new CuentaCorriente(this));
-        this.listaCuentas.get(1).setSaldoDisponible(20000);
+        listaCuentas.add(new CuentaAhorro(this,10000));
+        listaCuentas.add(new CuentaCorriente(this,20000));
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -114,14 +112,14 @@ public class Cliente implements Serializable {
 
         Pago pago = new Pago(monto,buscarCuenta(idCuenta),"Multa");
 
-        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), idMulta, monto);
     }
 
     public String hacerPagoMulta(int idCuenta, int idMulta){ //arreglar para arrojar el prestamo numeroDeMulta
 
         Pago pago = new Pago( (int) Cliente.buscarMulta(idCuenta,idMulta).getMonto(),buscarCuenta(idCuenta),"Multa");
 
-        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), idMulta, idMulta);
     }
 
 
