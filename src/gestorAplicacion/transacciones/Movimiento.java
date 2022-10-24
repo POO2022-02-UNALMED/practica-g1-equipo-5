@@ -12,7 +12,7 @@ public  class Movimiento {
 	
 	
 	public static  void consultarTransferencias () {
-		Transferencia.consultarMovimientos();
+		Transferencia.Movimientos();
 		}
 
 

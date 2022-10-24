@@ -1,8 +1,6 @@
 package gestorAplicacion.usuario;
 
-import gestorAplicacion.transacciones.Bolsillo;
-import gestorAplicacion.transacciones.Prestamo;
-import gestorAplicacion.transacciones.Pago;
+import gestorAplicacion.transacciones.*;
 
 import java.util.ArrayList;
 
@@ -11,12 +9,15 @@ public class Cliente {
     public Cuenta cuenta;
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
     private int cedula;
+    public Movimiento movimiento;
 
     public Cliente(String nombre, int cedula,int tipoCuenta) {
         this.nombre = nombre;
         this.cedula = cedula;
         listaCuentas.add(new CuentaAhorro(this));
+        this.listaCuentas.get(0).setSaldoDisponible(10000);
         listaCuentas.add(new CuentaCorriente(this));
+        this.listaCuentas.get(1).setSaldoDisponible(20000);
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -38,7 +39,12 @@ public class Cliente {
         return null;
     }
 
-
+    public void hacerTransferencia (int id,int id1, int valor){
+        Cuenta c1 = this.buscarCuenta(id);
+        Cuenta c2 = this.buscarCuenta(id1);
+        Transferencia tr= new Transferencia ();
+        tr.enviarDinero(c1,c2,valor);
+    }
 
     public int consultarSaldo(){
         return cuenta.getSaldoTotal();
