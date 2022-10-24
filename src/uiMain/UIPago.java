@@ -1,6 +1,7 @@
 package uiMain;
 
 import gestorAplicacion.usuario.Cliente;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 public class UIPago extends UIMenu{
     public static void Pagar(Cliente cliente){
@@ -16,9 +17,12 @@ public class UIPago extends UIMenu{
         opcion = sc.nextInt(); //variable que trae la cuenta
         switch (opcionPagos) {
             case (1) -> {
+                if ((((CuentaAhorro) Cliente.buscarCuenta(opcion)).getPrestamos()).size() == 0) {
+                    System.out.println("Usted no cuenta con prestamos actualmente");
+                    return;
+                }
                 System.out.println("Prestamos Actualmente activos: ");
                 traerPrestamos(opcion);
-
                 System.out.println("elija el ID del prestamo que desea pagar");
                 int numeroDePrestamo=sc.nextInt(); //id del prestamo
                 System.out.println("""
@@ -60,6 +64,10 @@ public class UIPago extends UIMenu{
                 }
             }
             case (2) -> {
+                if ((((CuentaAhorro) Cliente.buscarCuenta(opcion)).getMultas()).size() == 0) {
+                    System.out.println("Usted no cuenta con multas actualmente");
+                    return;
+                }
                 System.out.println("Multas Actualmente activos: ");
                 traerMultas(opcion);
 

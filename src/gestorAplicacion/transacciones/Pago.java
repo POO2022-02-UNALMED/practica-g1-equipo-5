@@ -1,5 +1,6 @@
 package gestorAplicacion.transacciones;
 
+import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
@@ -70,15 +71,15 @@ public class Pago implements Serializable {
     * estado saldo y prestamo de cuenta y la consulta de cuotas fechas de pago y los dias de mora de prestamo
     * para al final calcular el nuevo saldo y el estado del prestamo
     * */
-    public String RealizarPagoPrestamo(){ //opcion 1 para pagar un prestamo (pago total del prestamo)
+    public String RealizarPagoPrestamo(int idPrestamo, int idCuenta){ //opcion 1 para pagar un prestamo (pago total del prestamo)
         //organizar para tener un index de prestamo
-        multa.mora(this,cuenta);
+        multa.mora(this,cuenta, idPrestamo, idCuenta );
 
         if(!cuenta.isEstado()) return "Su cuenta está bloqueada";
 
-        if (cuenta.getPrestamo().getValorPrestamo() <= cuenta.getSaldoDisponible()){
+        if (Cliente.buscarPrestamo(idCuenta,idPrestamo).getValorPrestamo() <= cuenta.getSaldoDisponible()){
 
-            cuenta.getPrestamo().saldarPrestamo();
+            Cliente.buscarPrestamo(idCuenta,idPrestamo).saldarPrestamo();
             return "Su deuda ha sido saldada" +
                     "\nNuevo saldo: " + cuenta.getSaldoDisponible();
 
@@ -91,27 +92,27 @@ public class Pago implements Serializable {
      * estado saldo y prestamo de cuenta y la consulta de cuotas fechas de pago y los dias de mora de prestamo
      * para al final calcular el nuevo saldo y el estado del prestamo
      * */
-    public String RealizarPagoPrestamo(int cuotas){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
+    public String RealizarPagoPrestamo(int cuotas,int idCuenta, int idPrestamo){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
         //organizar para tener un index de prestamo
-        multa.mora(this,cuenta);
+        multa.mora(this,cuenta, idPrestamo,  idCuenta);
 
         if(!cuenta.isEstado())return "Su cuenta está bloqueada";
 
-        if (cuotas > cuenta.getPrestamo().cuotasDePago) return "Valor de cuotas es exedente";
+        if (cuotas > Cliente.buscarPrestamo(idCuenta,idPrestamo).cuotasDePago) return "Valor de cuotas es exedente";
 
         if (this.monto > cuenta.getSaldoDisponible()) return "Saldo insuficiente";
 
-        if (cuotas == cuenta.getPrestamo().cuotasDePago){
+        if (cuotas == Cliente.buscarPrestamo(idCuenta,idPrestamo).cuotasDePago){
 
-            cuenta.getPrestamo().saldarPrestamo();
+            Cliente.buscarPrestamo(idCuenta,idPrestamo).saldarPrestamo();
             return "Su deuda ha sido saldada" +
                     "\nNuevo saldo: " + cuenta.getSaldoDisponible();
 
         } else {
-            cuenta.getPrestamo().saldarCuota(cuotas);
+            Cliente.buscarPrestamo(idCuenta,idPrestamo).saldarCuota(cuotas);
             return "Nuevo saldo: " + cuenta.getSaldoDisponible() +
                     "\nDeuda actual: " + cuenta.getDeuda() +
-                    "\nTe Faltan "+ cuenta.getPrestamo().cuotasDePago + "cuotas";
+                    "\nTe Faltan "+ Cliente.buscarPrestamo(idCuenta,idPrestamo).cuotasDePago + "cuotas";
         }
     }
 

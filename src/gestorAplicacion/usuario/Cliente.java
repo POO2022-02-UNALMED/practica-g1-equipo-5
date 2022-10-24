@@ -48,7 +48,7 @@ public class Cliente implements Serializable {
     public static Multa buscarMulta(int id,int idMulta){
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
         for (Multa multa : cuenta.getMultas()) {
-            if (idMulta == cuenta.getMisBolsillos().get(cuenta.getMultas().indexOf(multa)).getId()) {
+            if (idMulta == cuenta.getMultas().get(cuenta.getMultas().indexOf(multa)).getId()) {
                 return multa;
             }
         }
@@ -57,7 +57,7 @@ public class Cliente implements Serializable {
     public static Prestamo buscarPrestamo(int id,int idPrestamo){
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
         for (Prestamo prestamo : cuenta.getPrestamos()) {
-            if (idPrestamo == cuenta.getMisBolsillos().get(cuenta.getMultas().indexOf(prestamo)).getId()) {
+            if (idPrestamo == cuenta.getPrestamos().get(cuenta.getMultas().indexOf(prestamo)).getId()) {
                 return prestamo;
             }
         }
@@ -84,7 +84,7 @@ public class Cliente implements Serializable {
 
     public void solicitarPrestamo(int valor,String tipoPrestamo,int id){
         if (valor>=Prestamo.topeMin && valor<= Prestamo.topeMax)
-            ((CuentaAhorro)buscarCuenta(id)).getPrestamos().add(new Prestamo(valor, ((CuentaAhorro) buscarCuenta(id)), tipoPrestamo));
+            ((CuentaAhorro) buscarCuenta(id)).getPrestamos().add(new Prestamo(valor, ((CuentaAhorro) buscarCuenta(id)), tipoPrestamo));
     }
 
     public void generarAhorro(int valor,int categoria,int id){
@@ -109,12 +109,12 @@ public class Cliente implements Serializable {
 
     public String hacerPagoPrestamo(int idCuenta, int idPrestamo, int cuota){ //arreglar para arrojar el prestamo numeroDePrestamo
         Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorCuota() * cuota,buscarCuenta(idCuenta),"Prestamo");
-        return pago.RealizarPagoPrestamo(cuota);
+        return pago.RealizarPagoPrestamo(cuota, idCuenta,idPrestamo);
     }
 
     public String hacerPagoPrestamo( int idCuenta, int idPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
         Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorPrestamo(),buscarCuenta(idCuenta),"Prestamo");
-        return pago.RealizarPagoPrestamo();
+        return pago.RealizarPagoPrestamo(idCuenta, idPrestamo);
     }
 
     public String hacerPagoMulta(int idCuenta, int idMulta, int monto){ //arreglar para arrojar el prestamo numeroDeMulta
