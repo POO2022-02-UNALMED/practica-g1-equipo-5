@@ -1,5 +1,6 @@
 package gestorAplicacion.transacciones;
 
+import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 
 import gestorAplicacion.usuario.CuentaAhorro;
@@ -13,12 +14,12 @@ import java.util.ArrayList;
 public class Multa {
     public static final int plazoPago = 30;
     private long monto;
-
     private CuentaAhorro cuenta;
-    private int tiempoMulta;
     private String fecha;
     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
     static ArrayList<Multa> Multas = new ArrayList<Multa>();
+
+    private boolean Estado;
 
     public Multa(){
 
@@ -36,19 +37,21 @@ public class Multa {
         this.monto = monto;
         this.cuenta = (CuentaAhorro) cuenta;
         this.fecha = fecha;
-        Multas.add(this);
+        Multas.add(this); //Tooodas las multas que se han hecho independientemente de la cuenta
+        ((CuentaAhorro) cuenta).getMultas().add(this); //Tooodas las multas que se hagan se asociaran a la lista de la cuenta
+        this.Estado = true;
     }
 
-    public static void eliminarMulta(CuentaAhorro cuenta,long monto){
+    public void eliminarMulta(CuentaAhorro cuenta, long monto){
 
-
-        cuenta.setMulta(null);
+        this.setEstado(false);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
 
 
     public static void multarCuenta(CuentaAhorro cuenta){
-        cuenta.setMulta(new Multa(cuenta));
+
+        cuenta.getMultas().add(new Multa(cuenta));
 
     }
 
@@ -115,4 +118,12 @@ public class Multa {
     public String getFecha() {return fecha;}
 
     public void setFecha(String fecha) {this.fecha = fecha;}
+
+    public boolean isEstado() {return Estado;}
+
+    public void setEstado(boolean estado) {Estado = estado;}
+
+    public static ArrayList<Multa> getMultas() {return Multas;}
+
+    public static void setMultas(ArrayList<Multa> multas) {Multas = multas;}
 }

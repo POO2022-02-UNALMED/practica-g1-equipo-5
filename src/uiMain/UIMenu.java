@@ -1,9 +1,10 @@
 package uiMain;
 
+import baseDatos.*;
 import java.util.Scanner;
-import gestorAplicacion.transacciones.Bolsillo;
-import gestorAplicacion.usuario.Cliente;
-import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.transacciones.*;
+import gestorAplicacion.usuario.*;
+
 
 public class UIMenu {
     public static Cliente cliente= new Cliente("Jaimico",20192121,0);
@@ -61,7 +62,7 @@ public class UIMenu {
 
     }
     public static void traercuentas(){
-        for (Cuenta i: cliente.listaCuentas) {
+        for (Cuenta i: Cliente.listaCuentas) {
             System.out.println(i.toString());
         }
     }
@@ -73,6 +74,24 @@ public class UIMenu {
             System.out.println(bolsillo.toString());
         }
     }
+    public static void traerMultas(int idCuenta){
 
+        CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
 
+        for (Multa multa:  cuentas.getMultas()) {
+            if (multa.isEstado()) {
+                System.out.println(multa);
+            }
+        }
+    }
+    public static void traerPrestamos(int idCuenta){
+
+        CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
+
+        for (Prestamo prestamo:  cuentas.getPrestamos()) {
+            if (prestamo.isEstado()) {
+                System.out.println(prestamo);
+            }
+        }
+    }
 }

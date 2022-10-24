@@ -23,7 +23,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    ((CuentaAhorro) cliente.cuenta).setPrestamo(Prestamo ois.readObject());
+                    ((CuentaAhorro) cliente.cuenta).setPrestamo((Prestamo) ois.readObject());
                 }catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){

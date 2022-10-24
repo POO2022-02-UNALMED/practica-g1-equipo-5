@@ -1,6 +1,7 @@
 package gestorAplicacion.usuario;
 
 import gestorAplicacion.transacciones.Bolsillo;
+import gestorAplicacion.transacciones.Multa;
 import gestorAplicacion.transacciones.Prestamo;
 import gestorAplicacion.transacciones.Pago;
 
@@ -37,6 +38,25 @@ public class Cliente {
         }
         return null;
     }
+    public static Multa buscarMulta(int id,int idMulta){
+        CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
+        for (Multa multa : cuenta.getMultas()) {
+            if (idMulta == cuenta.getMisBolsillos().get(cuenta.getMultas().indexOf(multa)).getId()) {
+                return multa;
+            }
+        }
+        return null;
+    }
+    public static Prestamo buscarPrestamo(int id,int idPrestamo){
+        CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
+        for (Prestamo prestamo : cuenta.getPrestamos()) {
+            if (idPrestamo == cuenta.getMisBolsillos().get(cuenta.getMultas().indexOf(prestamo)).getId()) {
+                return prestamo;
+            }
+        }
+        return null;
+    }
+
 
 
 
@@ -52,7 +72,7 @@ public class Cliente {
 
     public void solicitarPrestamo(int valor,String tipoPrestamo,int id){
         if (valor>=Prestamo.topeMin && valor<= Prestamo.topeMax)
-            ((CuentaAhorro)buscarCuenta(id)).setPrestamo(new Prestamo(valor, ((CuentaAhorro) buscarCuenta(id)), tipoPrestamo));
+            ((CuentaAhorro)buscarCuenta(id)).getPrestamos().add(new Prestamo(valor, ((CuentaAhorro) buscarCuenta(id)), tipoPrestamo));
     }
 
     public void generarAhorro(int valor,int categoria,int id){
@@ -75,25 +95,29 @@ public class Cliente {
         buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo(valor);
     }
 
-    /*public String hacerPagoPrestamo( int indexPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
-        Pago pago = new Pago(this.getCuenta().getPrestamo().getValorCuota(),this.getCuenta());
+    public String hacerPagoPrestamo(int idCuenta, int idPrestamo, int cuota){ //arreglar para arrojar el prestamo numeroDePrestamo
+        Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorCuota() * cuota,buscarCuenta(idCuenta),"Prestamo");
+        return pago.RealizarPagoPrestamo(cuota);
+    }
+
+    public String hacerPagoPrestamo( int idCuenta, int idPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
+        Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorPrestamo(),buscarCuenta(idCuenta),"Prestamo");
         return pago.RealizarPagoPrestamo();
     }
 
-    public String hacerPagoPrestamo( int cuotas, int indexPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
-        Pago pago = new Pago(cuotas*this.getCuenta().getPrestamo().getValorCuota(),this.getCuenta());
-        return pago.RealizarPagoPrestamo(cuotas);
+    public String hacerPagoMulta(int idCuenta, int idMulta, int monto){ //arreglar para arrojar el prestamo numeroDeMulta
+
+        Pago pago = new Pago(monto,buscarCuenta(idCuenta),"Multa");
+
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
     }
 
-    public String hacerPagoMulta(int indexMulta){ //arreglar para arrojar el prestamo numeroDeMulta
-        Pago pago = new Pago((int) cuenta.getMulta().getMonto() ,this.getCuenta());
-        return pago.realizarPagoMulta(cuenta.getMulta());
-    }
+    public String hacerPagoMulta(int idCuenta, int idMulta){ //arreglar para arrojar el prestamo numeroDeMulta
 
-    public String hacerPagoMulta(int valor, int indexMulta){ //arreglar para arrojar el prestamo numeroDeMulta
-        Pago pago = new Pago(valor ,this.getCuenta());
-        return pago.realizarPagoMulta(cuenta.getMulta());
-    }*/
+        Pago pago = new Pago( (int) Cliente.buscarMulta(idCuenta,idMulta).getMonto(),buscarCuenta(idCuenta),"Multa");
+
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
+    }
 
 
     //Getters y Setters
