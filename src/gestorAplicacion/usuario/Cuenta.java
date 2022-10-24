@@ -27,19 +27,10 @@ public abstract class Cuenta implements Serializable {
 
     public abstract String toString();
 
-    public void aumentarSaldo(int cantidad) {
-        if (isEstado()){
-            setSaldoTotal(getSaldoTotal() + cantidad);
-        }
-    }
+    public abstract void aumentarSaldo(int cantidad);
 
-    public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
-        }
-    }
-
-
+    public abstract void disminuirSaldo(int cantidad);
+    
     public double getNumero() {
         return numero;
     }
