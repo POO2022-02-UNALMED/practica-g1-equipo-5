@@ -28,7 +28,6 @@ public class UIMenu {
             switch (opcion){
                 case 1:
                     UIPrestamo.prestamo(cliente);
-                    break;
                 case 2:
                     UIPago.Pagar(cliente);
                     break;
