@@ -30,7 +30,7 @@ public abstract class Cuenta implements Serializable {
     public abstract void aumentarSaldo(int cantidad);
 
     public abstract void disminuirSaldo(int cantidad);
-    
+
     public double getNumero() {
         return numero;
     }
