@@ -22,12 +22,14 @@ public class Prestamo implements Serializable {
     public int cuotasDePago=24;
     public CuentaAhorro cuenta;
     private int valorCuota;
+    private boolean estado;
     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
     public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
         if (this.cuenta.getPrestamo()==null)
             generarPrestamo(valor,tipoPrestamo);
+        this.estado = true;
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
@@ -71,6 +73,7 @@ public class Prestamo implements Serializable {
     public void saldarPrestamo(){
         cuenta.setDeuda(0);
         cuenta.setPrestamo(null);
+        this.setEstado(false);
     }
 
     public int getValorPrestamo() {
@@ -124,6 +127,10 @@ public class Prestamo implements Serializable {
     public String getFechaPrestamo() {
         return fechaPrestamo;
     }
+
+    public boolean isEstado() {return estado;}
+
+    public void setEstado(boolean estado) {this.estado = estado;}
 
     @Override
     public String toString() {

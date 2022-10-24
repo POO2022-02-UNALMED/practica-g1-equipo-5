@@ -3,10 +3,12 @@ package gestorAplicacion.usuario;
 import gestorAplicacion.transacciones.Multa;
 import gestorAplicacion.transacciones.Prestamo;
 
+import java.util.ArrayList;
+
 public class CuentaAhorro extends Cuenta{
     private int deuda;
-    private Multa multa;
-    private Prestamo prestamo;
+    public static ArrayList<Multa> multas = new ArrayList<>();
+    public static ArrayList<Prestamo> prestamos = new ArrayList<>();
 
 
     public CuentaAhorro(Cliente titular) {
@@ -20,26 +22,23 @@ public class CuentaAhorro extends Cuenta{
                 ", SaldoDisponible=" + SaldoDisponible +
                 ", titular=" + titular +
                 ", numero="+numero+
-                ", prestamo=" + prestamo +
+                ", prestamo=" +  prestamos +
                 ", deuda=" + deuda +
-                ", multa=" + multa +
+                ", multa=" + multas +
                 ", estado=" + estado +
                 '}';
     }
 
-    public void solicitarPrestamo(int valorPrestamo, String tipoPrestamo) {
-        prestamo = new Prestamo(valorPrestamo, this, tipoPrestamo);
-    }
+
 
     public boolean tieneMultta() {
-        return multa != null;
+        return multas != null;
 
     }
 
     public boolean tienePrestamo() {
-        return prestamo != null;
+        return prestamos != null;
     }
-
 
     public int getDeuda() {
         return deuda;
@@ -49,19 +48,12 @@ public class CuentaAhorro extends Cuenta{
         this.deuda = deuda;
     }
 
-    public Multa getMulta() {
-        return multa;
-    }
 
-    public void setMulta(Multa multa) {
-        this.multa = multa;
-    }
+    public ArrayList<Multa> getMultas() {return multas;}
 
-    public Prestamo getPrestamo() {
-        return prestamo;
-    }
+    public void setMultas(ArrayList<Multa> multas) {CuentaAhorro.multas = multas;}
 
-    public void setPrestamo(Prestamo prestamo) {
-        this.prestamo = prestamo;
-    }
+    public ArrayList<Prestamo> getPrestamos() {return prestamos;}
+
+    public void setPrestamos(ArrayList<Prestamo> prestamos) {CuentaAhorro.prestamos = prestamos;}
 }

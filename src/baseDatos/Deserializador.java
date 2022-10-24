@@ -24,6 +24,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
+
                     Cliente.setListaCuentas((ArrayList<Cuenta>) ois.readObject());
                 }catch (FileNotFoundException e){
                     e.printStackTrace();

@@ -56,7 +56,7 @@ public class Pago implements Serializable {
         if (cuenta.getSaldoDisponible()< monto) return "Saldo insuficiente";
 
         if (multa.getMonto() == this.monto) {
-            Multa.eliminarMulta(this.cuenta,this.monto);
+            multa.eliminarMulta(this.cuenta,this.monto);
             return "su multa fue pagada con exito" +
                     "\nEste es su nuevo Saldo: "+ multa.getCuenta().getSaldoDisponible();
         } else {
