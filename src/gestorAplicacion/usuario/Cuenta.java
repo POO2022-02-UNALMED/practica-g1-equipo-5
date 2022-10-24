@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Cuenta implements Serializable {
 
-    protected int id;
+    protected static int id = 1000;
     protected int numero;
     protected int saldoTotal;
     protected int SaldoDisponible;
@@ -21,6 +21,7 @@ public abstract class Cuenta implements Serializable {
         this.titular = titular;
         this.estado = true;
         this.numero = ((int)((Math.random() * ((100000 - 1000) + 1))) + 1000);
+        id = getId() + 1;
 
     }
 

@@ -78,8 +78,8 @@ public class Multa implements Serializable {
      *   fechaPago del prestamo. Si la cantidad de dias despues de haber pasado fechaPago
      *   es mayor a 90 se multa la cuenta pasando Multa:boolean a true y generando una nueva multa
      * */
-    public void mora(Pago pago,CuentaAhorro cuenta){
-        long fechaMulta = formato.parse(cuenta.getPrestamo().getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+    public void mora(Pago pago,CuentaAhorro cuenta,int idPrestamo, int idCuenta){
+        long fechaMulta = formato.parse(Cliente.buscarPrestamo(idCuenta,idPrestamo).getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
 
@@ -122,9 +122,13 @@ public class Multa implements Serializable {
 
     public boolean isEstado() {return Estado;}
 
+
     public void setEstado(boolean estado) {Estado = estado;}
 
     public static ArrayList<Multa> getMultas() {return Multas;}
 
     public static void setMultas(ArrayList<Multa> multas) {Multas = multas;}
+    public int getId() {
+        return cuenta.getMultas().indexOf(this);
+    }
 }
