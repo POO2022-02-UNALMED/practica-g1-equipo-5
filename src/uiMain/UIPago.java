@@ -28,6 +28,7 @@ public class UIPago extends UIMenu{
                 System.out.println("""
                                     1. Pago parcial
                                     2. Pago completo""");
+
                 int pago = sc.nextInt();
 
                 switch (pago) {
@@ -36,7 +37,7 @@ public class UIPago extends UIMenu{
                         int cuotas = sc.nextInt(); //numero de cuotas
                         System.out.println("Valor de la transaccion: ");
 
-                        System.out.println( Cliente.buscarPrestamo(opcion,numeroDePrestamo).getValorCuota()*cuotas );
+                        System.out.println((Cliente.buscarPrestamo(opcion,numeroDePrestamo)).getValorCuota()*cuotas );
 
                         System.out.println("""
                                             Desea realizar el pago?

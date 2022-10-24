@@ -44,7 +44,6 @@ public class Prestamo implements Serializable {
                 cuenta.setDeuda(valorTotalPrestamo + cuenta.getDeuda());
                 cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
                 cuenta.setSaldoDisponible(cuenta.getSaldoDisponible() + valorPrestamo);
-                cuenta.getPrestamos().add(this);
                 this.valorCuota=valorPrestamo/cuotasDePago;
                 this.valorPrestamo=valorPrestamo;
                 this.tipoPrestamo=tipoPrestamo;
@@ -131,9 +130,7 @@ public class Prestamo implements Serializable {
     public boolean isEstado() {return estado;}
 
     public void setEstado(boolean estado) {this.estado = estado;}
-    public int getId() {
-        return cuenta.getPrestamos().indexOf(this);
-    }
+    public int getId() { return cuenta.getPrestamos().indexOf(this); }
 
     public String mensajePrestamo(){
         return "Ha sido aprobado tu prestamo" +
@@ -148,7 +145,7 @@ public class Prestamo implements Serializable {
 
     @Override
     public String toString() {
-        return "Prestamo con un valor de " + valorPrestamo + " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
+        return this.getId() + ": Prestamo con un valor de " + valorPrestamo + " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
 
     }
 }

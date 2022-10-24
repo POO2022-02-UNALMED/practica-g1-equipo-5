@@ -76,13 +76,13 @@ public class UIMenu {
             }
         }
     }
-    public static Prestamo traerPrestamos(int idCuenta){
+    public static void traerPrestamos(int idCuenta){
 
         CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
 
         for (Prestamo prestamo:  cuentas.getPrestamos()) {
             if (prestamo.isEstado()) {
-                return prestamo;
+                System.out.println(prestamo);
             }
         }
     }

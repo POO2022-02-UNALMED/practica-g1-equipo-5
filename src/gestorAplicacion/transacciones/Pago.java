@@ -13,7 +13,7 @@ public class Pago implements Serializable {
     private static int id = 1000;
     private String fecha;
     private CuentaAhorro cuenta;
-    private final Multa multa;
+
     protected String tipo;
 
     LocalDate currentDate = LocalDate.now();
@@ -24,7 +24,6 @@ public class Pago implements Serializable {
         id = getId()+1;
         this.fecha = currentDate.toString();
         this.cuenta = (CuentaAhorro) cuenta;
-        this.multa = new Multa();
         this.tipo = tipo;
         pagos.add(this);
 
@@ -73,7 +72,7 @@ public class Pago implements Serializable {
     * */
     public String RealizarPagoPrestamo(int idPrestamo, int idCuenta){ //opcion 1 para pagar un prestamo (pago total del prestamo)
         //organizar para tener un index de prestamo
-        multa.mora(this,cuenta, idPrestamo, idCuenta );
+        Multa.mora(this,cuenta, idPrestamo, idCuenta );
 
         if(!cuenta.isEstado()) return "Su cuenta está bloqueada";
 
@@ -94,7 +93,7 @@ public class Pago implements Serializable {
      * */
     public String RealizarPagoPrestamo(int cuotas,int idCuenta, int idPrestamo){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
         //organizar para tener un index de prestamo
-        multa.mora(this,cuenta, idPrestamo,  idCuenta);
+        Multa.mora(this,cuenta, idPrestamo,  idCuenta);
 
         if(!cuenta.isEstado())return "Su cuenta está bloqueada";
 
