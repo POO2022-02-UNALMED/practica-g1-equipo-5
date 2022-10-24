@@ -2,7 +2,7 @@ package gestorAplicacion.usuario;
 
 public class CuentaCorriente extends Cuenta{
 
-    public CuentaCorriente(Cliente titular) {
+    public CuentaCorriente(Cliente titular,int saldo) {
         super(titular);
     }
 
@@ -10,7 +10,7 @@ public class CuentaCorriente extends Cuenta{
     public String toString() {
         return "Cuenta "+getId()+"\n"+
                 "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + SaldoDisponible +
+                ", SaldoDisponible=" + saldoDisponible +
                 ", titular=" + titular +
                 ", estado=" + estado +
                 '}';
