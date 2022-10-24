@@ -17,9 +17,6 @@ public class Cliente implements Serializable {
         this.nombre = nombre;
         this.cedula = cedula;
         listaCuentas.add(new CuentaAhorro(this));
-        this.listaCuentas.get(0).setSaldoDisponible(10000);
-        listaCuentas.add(new CuentaCorriente(this));
-        this.listaCuentas.get(1).setSaldoDisponible(20000);
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -91,12 +88,12 @@ public class Cliente implements Serializable {
         buscarCuenta(id).getMisBolsillos().add(Bolsillo.crearBolsillo(valor,buscarCuenta(id),categoria));
 
     }
-    public void cargarAhorro(int valor,int idCuenta,int idBolsillo){
-        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
+    public String cargarAhorro(int valor,int idCuenta,int idBolsillo){
+        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
     }
 
-    public void cargarAhorro(int idCuenta,int idBolsillo){
-        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
+    public String cargarAhorro(int idCuenta,int idBolsillo){
+        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
     }
 
     public void descargarAhorro(int idCuenta, int IdBolsillo){
