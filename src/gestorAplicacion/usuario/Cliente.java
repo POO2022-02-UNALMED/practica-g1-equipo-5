@@ -1,6 +1,7 @@
 package gestorAplicacion.usuario;
 
 
+import baseDatos.Deserializador;
 import gestorAplicacion.transacciones.*;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Cliente implements Serializable {
         this.listaCuentas.get(0).setSaldoDisponible(10000);
         listaCuentas.add(new CuentaCorriente(this));
         this.listaCuentas.get(1).setSaldoDisponible(20000);
+        Deserializador.deserializar(this);
     }
 
     public static Cuenta buscarCuenta(int id){
