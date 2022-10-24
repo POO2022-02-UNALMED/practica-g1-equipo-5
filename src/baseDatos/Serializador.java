@@ -1,6 +1,6 @@
 package baseDatos;
+import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.usuario.Cliente;
-import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.io.*;
 
@@ -20,13 +20,12 @@ public class Serializador {
                 e.printStackTrace();
             }
         }
-
         for (File file : docs) {
             if (file.getAbsolutePath().contains("prestamos.txt")) {
                 try {
                     fos = new FileOutputStream(file);
                     oos = new ObjectOutputStream(fos);
-                    oos.writeObject(((CuentaAhorro) cliente.cuenta).getPrestamo());
+                    oos.writeObject(Cliente.listaCuentas);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
 
@@ -37,13 +36,13 @@ public class Serializador {
                 try {
                     fos = new FileOutputStream(file);
                     oos = new ObjectOutputStream(fos);
-                    oos.writeObject(cliente.getCuenta().getMisBolsillos());
+                    oos.writeObject(Cliente.listarCuentas().misBolsillos);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }/*
             else if (file.getAbsolutePath().contains("pagos.txt")) {
                 try {
                     fos = new FileOutputStream(file);
@@ -65,7 +64,7 @@ public class Serializador {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
     }
 }

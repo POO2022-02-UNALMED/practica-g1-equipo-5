@@ -4,9 +4,10 @@ import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.transacciones.Prestamo;
 import gestorAplicacion.transacciones.Pago;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente {
+public class Cliente implements Serializable {
     private String nombre;
     public Cuenta cuenta;
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
@@ -27,7 +28,12 @@ public class Cliente {
         }
         return null;
     }
-
+    public static Cuenta listarCuentas(){
+        for (Cuenta cuenta : listaCuentas) {
+            return cuenta;
+        }
+        return null;
+    }
     public static Bolsillo buscarBolsillo(int id,int idbolsillo){
         Cuenta cuenta = buscarCuenta(id);
         for (Bolsillo bolsillo : cuenta.misBolsillos) {
@@ -121,4 +127,11 @@ public class Cliente {
         this.cedula = cedula;
     }
 
+    public static ArrayList<Cuenta> getListaCuentas() {
+        return listaCuentas;
+    }
+
+    public static void setListaCuentas(ArrayList<Cuenta> listaCuentas) {
+        Cliente.listaCuentas = listaCuentas;
+    }
 }
