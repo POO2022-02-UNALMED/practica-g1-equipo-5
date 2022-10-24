@@ -12,7 +12,7 @@ public abstract class Cuenta implements Serializable {
     protected static int id = 1000;
     protected int numero;
     protected int saldoTotal;
-    protected int saldoDisponible;
+    protected int SaldoDisponible;
     protected Cliente titular;
     public ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
     protected boolean estado;
@@ -22,7 +22,6 @@ public abstract class Cuenta implements Serializable {
         this.estado = true;
         this.numero = ((int)((Math.random() * ((100000 - 1000) + 1))) + 1000);
         id = getId() + 1;
-        this.saldoDisponible = this.saldoTotal;
 
     }
     public Cuenta(Cliente titular,int saldo) {
@@ -49,13 +48,6 @@ public abstract class Cuenta implements Serializable {
         }
     }
 
-    public int saldoEnBolsillos(){
-        int valorEnBolsilos = 0;
-        for (Bolsillo bolsillo: misBolsillos) {
-            valorEnBolsilos += bolsillo.getValorCargaBolsillo();
-        }return valorEnBolsilos;
-    }
-
 
 
     public double getNumero() {
@@ -75,11 +67,11 @@ public abstract class Cuenta implements Serializable {
     }
 
     public int getSaldoDisponible() {
-        return saldoDisponible;
+        return SaldoDisponible;
     }
 
     public void setSaldoDisponible(int saldoDisponible) {
-        this.saldoDisponible = saldoDisponible;
+        SaldoDisponible = saldoDisponible;
     }
 
     public Cliente getTitular() {

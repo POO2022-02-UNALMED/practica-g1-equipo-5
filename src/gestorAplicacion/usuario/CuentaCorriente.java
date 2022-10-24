@@ -1,8 +1,10 @@
 package gestorAplicacion.usuario;
 
+import gestorAplicacion.transacciones.Prestamo;
+
 public class CuentaCorriente extends Cuenta{
 
-    public CuentaCorriente(Cliente titular,int saldo) {
+    public CuentaCorriente(Cliente titular) {
         super(titular);
     }
     public CuentaCorriente(Cliente titular,int saldo) {
@@ -13,23 +15,7 @@ public class CuentaCorriente extends Cuenta{
     public String toString() {
         return "Cuenta "+getId() + ":" + "\n"+
                 "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + saldoDisponible +
-                ", titular=" + titular +
+                ", SaldoDisponible=" + SaldoDisponible +
                 ", estado=" + estado;
     }
-
-    @Override
-    public void aumentarSaldo(int cantidad) {
-        if (isEstado()){
-            setSaldoTotal(getSaldoTotal() + cantidad);
-        }
-    }
-
-    @Override
-    public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
-        }
-    }
-
 }
