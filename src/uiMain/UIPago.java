@@ -1,71 +1,79 @@
 package uiMain;
-import java.util.Scanner;
-import gestorAplicacion.transacciones.Bolsillo;
-import gestorAplicacion.transacciones.Multa;
-import gestorAplicacion.transacciones.Prestamo;
+
 import gestorAplicacion.usuario.Cliente;
-import gestorAplicacion.usuario.Cuenta;
-public class UIPago {
+import gestorAplicacion.usuario.CuentaAhorro;
+
+public class UIPago extends UIMenu{
     public static void Pagar(Cliente cliente){
-        Scanner sc = new Scanner(System.in);
         System.out.println(
                 """
                         Seleccione el tipo de pago que desea realizar
                         1. Pagar prestamo
                         2. Pagar multa""");
         int opcionPagos=sc.nextInt();
-        //linea de seleccione su cuenta
-
+        int opcion;
+        System.out.println("Ingresa el ID de la cuenta que deseas aplicar el prestamo");
+        UIMenu.traercuentas();
+        opcion = sc.nextInt(); //variable que trae la cuenta
         switch (opcionPagos) {
             case (1) -> {
+                if ((((CuentaAhorro) Cliente.buscarCuenta(opcion)).getPrestamos()).size() == 0) {
+                    System.out.println("Usted no cuenta con prestamos actualmente");
+                    return;
+                }
                 System.out.println("Prestamos Actualmente activos: ");
-                //linea para llamar una funcion que retorne uno por uno los prestamos en una lista
-
-                System.out.println("cual desea pagar?");
-                int numeroDePrestamo=sc.nextInt();
-                //linea que permite elegir el prestamo
-
+                traerPrestamos(opcion);
+                System.out.println("elija el ID del prestamo que desea pagar");
+                int numeroDePrestamo=sc.nextInt(); //id del prestamo
                 System.out.println("""
                                     1. Pago parcial
                                     2. Pago completo""");
+
                 int pago = sc.nextInt();
 
                 switch (pago) {
                     case (1) -> {
                         System.out.println("cuantas cuotas desea pagar?");
-                        int cuotas = sc.nextInt();
+                        int cuotas = sc.nextInt(); //numero de cuotas
                         System.out.println("Valor de la transaccion: ");
-                        //linea que retorna o imprime el valor del costo del prestamo
+
+                        System.out.println((Cliente.buscarPrestamo(opcion,numeroDePrestamo)).getValorCuota()*cuotas );
+
                         System.out.println("""
                                             Desea realizar el pago?
                                             1. Si
                                             2.No""");
                         int caso = sc.nextInt();
                         if (caso == 1) {
-                            //System.out.println(cliente.hacerPagoPrestamo(cuotas, numeroDePrestamo));
+                            //cuenta, prestamo, cuota
+                            System.out.println(cliente.hacerPagoPrestamo(opcion,numeroDePrestamo,cuotas));
                         }
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");
-                        //linea que retorna o imprime el valor del costo del prestamo
+                        System.out.println( Cliente.buscarPrestamo(opcion,numeroDePrestamo).getValorPrestamo() );
                         System.out.println("""
                                             Desea realizar el pago?
                                             1. Si
                                             2.No""");
                         int caso = sc.nextInt();
                         if (caso == 1) {
-                            //System.out.println(cliente.hacerPagoPrestamo(numeroDePrestamo));
+                            // cuenta, prestamo
+                            System.out.println(cliente.hacerPagoPrestamo(opcion,numeroDePrestamo));
                         }
                     }
                 }
             }
             case (2) -> {
+                if ((((CuentaAhorro) Cliente.buscarCuenta(opcion)).getMultas()).size() == 0) {
+                    System.out.println("Usted no cuenta con multas actualmente");
+                    return;
+                }
                 System.out.println("Multas Actualmente activos: ");
-                //linea para llamar una funcion que retorne uno por uno las multas en una lista
+                traerMultas(opcion);
 
-                System.out.println("cual desea pagar?");
-                int numeroDeMulta=sc.nextInt();
-                //linea que permite elegir la multa
+                System.out.println("Elija el ID de la multa que desea pagar");
+                int numeroDeMulta=sc.nextInt(); //
 
                 System.out.println("""
                                     1. Pago parcial
@@ -78,11 +86,12 @@ public class UIPago {
                         System.out.println("Ingrese el valor de la transaccion");
                         int valorM = sc.nextInt();
 
-                        //System.out.println(cliente.hacerPagoMulta(valorM, numeroDeMulta));
+                        String mensaje = cliente.hacerPagoMulta(opcion,numeroDeMulta,valorM);
+                        System.out.println(mensaje);
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");
-                        //linea que retorna o imprime el valor del costo de la multa
+                        System.out.println( Cliente.buscarMulta(opcion,numeroDeMulta).getMonto() );
                         System.out.println("""
                                             Desea realizar el pago?
                                             1. Si
@@ -90,7 +99,9 @@ public class UIPago {
 
                         int caso = sc.nextInt();
                         if (caso == 1) {
-                            //System.out.println(cliente.hacerPagoMulta(numeroDeMulta));
+
+                            String mensaje =cliente.hacerPagoMulta(opcion,numeroDeMulta);
+                            System.out.println(mensaje);
                         }
                     }
                 }

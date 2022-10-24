@@ -1,18 +1,16 @@
 package gestorAplicacion.transacciones;
 
-
 //import gestorAplicacion.Transferencia;
 import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.usuario.CuentaAhorro;
 
 public  class Movimiento {
 	private String tipoMovimiento;
 	private String fecha;
 	private Cuenta cuenta;
 
-	
-	
 	public static  void consultarTransferencias () {
-		Transferencia.consultarMovimientos();
+		Transferencia.Movimientos();
 		}
 
 

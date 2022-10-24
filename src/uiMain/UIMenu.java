@@ -1,17 +1,19 @@
 package uiMain;
-import baseDatos.Serializador;
+
+import baseDatos.*;
 import java.util.Scanner;
-import gestorAplicacion.transacciones.Bolsillo;
-import gestorAplicacion.usuario.Cliente;
-import gestorAplicacion.usuario.Cuenta;
+import gestorAplicacion.transacciones.*;
+import gestorAplicacion.usuario.*;
+
 
 public class UIMenu {
-    public static Cliente cliente= new Cliente("Jaimico",20192121,0);
+    public static Cliente cliente = new Cliente("Jaimico", 20192121, 0);
     public static Scanner sc = new Scanner(System.in);
-    public static void main(String [] args){
+
+    public static void main(String[] args) {
         int opcion;
 
-        do{
+        do {
             System.out.println("Bienvenido a PiggyBank\n Elija una opción:");
             System.out.println(
                     """
@@ -23,7 +25,7 @@ public class UIMenu {
                             6. Salir""");
             opcion = sc.nextInt();
 
-            switch (opcion){
+            switch (opcion) {
                 case 1:
                     UIPrestamo.prestamo(cliente);
                     break;
@@ -34,21 +36,12 @@ public class UIMenu {
                     UIBolsillos.bolsillo(cliente);
                     break;
                 case 4:
-                /*
-                	System.out.println("Ingrese el numero de cuenta Destino");
-                	int numeroCuenta= sc.nextInt();
-                	System.out.println("Ingrese valor a transferir");
-                	int valor1= sc.nextInt();
-                	for (int i = 0; i < cuentaExterna.size; i++) {
-                		if (cuentaExterna.get(i).getNumero()== numeroCuenta ) {
-                		Cuenta cuentaDestino= cuentaExterna.get(i);
-                		}
-                		}
 
-                	cliente.hacerTransferencia(cuentaDestino,valor1);*/
+                    UITranferencia.transaccion(cliente);
 
                     break;
                 case 5:
+                    UIMovimiento.movimiento(cliente);
                     break;
                 case 6:
                     System.out.println("Vuelva pronto");
@@ -58,22 +51,44 @@ public class UIMenu {
                     System.out.println("Por favor ingrese una opción valida");
             }
 
-        }while(opcion != 7);
+        } while (opcion != 7);
 
     }
-    public static void traercuentas(){
-        for (Cuenta i: cliente.listaCuentas) {
+
+    public static void traercuentas() {
+        for (Cuenta i : Cliente.listaCuentas) {
             System.out.println(i.toString());
         }
     }
-    public static void traerBolsillos(int idCuenta){
+
+    public static void traerBolsillos(int idCuenta) {
 
         Cuenta cuentas = Cliente.buscarCuenta(idCuenta);
 
-        for (Bolsillo bolsillo: cuentas.misBolsillos) {
+        for (Bolsillo bolsillo : cuentas.misBolsillos) {
             System.out.println(bolsillo.toString());
         }
     }
 
+    public static void traerMultas(int idCuenta) {
 
+        CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
+
+        for (Multa multa : cuentas.getMultas()) {
+            if (multa.isEstado()) {
+                System.out.println(multa);
+            }
+        }
+    }
+
+    public static Prestamo traerPrestamos(int idCuenta) {
+
+        CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
+
+        for (Prestamo prestamo : cuentas.getPrestamos()) {
+            if (prestamo.isEstado()) {
+                return prestamo;
+            }
+        }return null;
+    }
 }

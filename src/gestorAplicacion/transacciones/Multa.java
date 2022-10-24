@@ -1,8 +1,10 @@
 package gestorAplicacion.transacciones;
 
+import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 
 import gestorAplicacion.usuario.CuentaAhorro;
+import gestorAplicacion.usuario.CuentaCorriente;
 
 import java.io.Serializable;
 import java.text.ParsePosition;
@@ -14,12 +16,12 @@ import java.util.ArrayList;
 public class Multa implements Serializable {
     public static final int plazoPago = 30;
     private long monto;
-
     private CuentaAhorro cuenta;
-    private int tiempoMulta;
-    private String fecha;
-    SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+    private static String fecha;
+    static SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
     static ArrayList<Multa> Multas = new ArrayList<Multa>();
+
+    private boolean Estado;
 
     public Multa(){
 
@@ -37,19 +39,21 @@ public class Multa implements Serializable {
         this.monto = monto;
         this.cuenta = (CuentaAhorro) cuenta;
         this.fecha = fecha;
-        Multas.add(this);
+        Multas.add(this); //Tooodas las multas que se han hecho independientemente de la cuenta
+        ((CuentaAhorro) cuenta).getMultas().add(this); //Tooodas las multas que se hagan se asociaran a la lista de la cuenta
+        this.Estado = true;
     }
 
-    public static void eliminarMulta(CuentaAhorro cuenta,long monto){
+    public void eliminarMulta(CuentaAhorro cuenta, long monto){
 
-
-        cuenta.setMulta(null);
+        this.setEstado(false);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
     }
 
 
     public static void multarCuenta(CuentaAhorro cuenta){
-        cuenta.setMulta(new Multa(cuenta));
+
+        cuenta.getMultas().add(new Multa(cuenta));
 
     }
 
@@ -57,15 +61,14 @@ public class Multa implements Serializable {
     *   plazoPago. Si la cantidad de dias despues de haber pasado Plazopago
     *   es mayor a 90 se Bloquea la cuenta pasando Estado:boolean a false
     * */
-    public void mora(Pago pago){
-        long fechaMulta = formato.parse(this.fecha, new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+    public static void mora(Pago pago){
+        long fechaMulta = formato.parse(fecha, new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
 
         if (discriminante > plazoPago){
             long diasMora = discriminante- plazoPago;
-            this.setMonto((long) (this.monto*Math.pow(1.01,diasMora))); //aplicar un mora del 1% por dia de mora
-
+            ((CuentaAhorro) pago.getCuenta()).setDeuda((int) (((CuentaAhorro) pago.getCuenta()).getDeuda()*Math.pow(1.01,diasMora))); //aplicar un mora del 1% por dia de mora
             if (diasMora > 90){                 // esto deberia de compararse por ultima fecha de pago y no por los dias de mora
                 multarCuenta((CuentaAhorro) pago.getCuenta());
             }
@@ -75,8 +78,8 @@ public class Multa implements Serializable {
      *   fechaPago del prestamo. Si la cantidad de dias despues de haber pasado fechaPago
      *   es mayor a 90 se multa la cuenta pasando Multa:boolean a true y generando una nueva multa
      * */
-    public void mora(Pago pago,CuentaAhorro cuenta){
-        long fechaMulta = formato.parse(cuenta.getPrestamo().getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+    public static void mora(Pago pago, CuentaAhorro cuenta, int idPrestamo, int idCuenta){
+        long fechaMulta = formato.parse(Cliente.buscarPrestamo(idCuenta,idPrestamo).getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
 
@@ -116,4 +119,16 @@ public class Multa implements Serializable {
     public String getFecha() {return fecha;}
 
     public void setFecha(String fecha) {this.fecha = fecha;}
+
+    public boolean isEstado() {return Estado;}
+
+
+    public void setEstado(boolean estado) {Estado = estado;}
+
+    public static ArrayList<Multa> getMultas() {return Multas;}
+
+    public static void setMultas(ArrayList<Multa> multas) {Multas = multas;}
+    public int getId() {
+        return cuenta.getMultas().indexOf(this);
+    }
 }

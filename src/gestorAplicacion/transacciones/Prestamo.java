@@ -22,12 +22,15 @@ public class Prestamo implements Serializable {
     public int cuotasDePago=24;
     public CuentaAhorro cuenta;
     private int valorCuota;
+    private boolean estado;
     SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 
     public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
-        if (this.cuenta.getPrestamo()==null)
-            generarPrestamo(valor,tipoPrestamo);
+
+        generarPrestamo(valor,tipoPrestamo);
+
+        this.estado = true;
     }
 
     public void generarPrestamo(int valorPrestamo,String tipoPrestamo){
@@ -38,10 +41,9 @@ public class Prestamo implements Serializable {
                     default -> System.out.println("Ingresar uno de los tipos validos de prestamos");
                 }
                 int valorTotalPrestamo = (int) (valorPrestamo + valorPrestamo * interes);
-                cuenta.setDeuda(valorTotalPrestamo);
+                cuenta.setDeuda(valorTotalPrestamo + cuenta.getDeuda());
                 cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
                 cuenta.setSaldoDisponible(cuenta.getSaldoDisponible() + valorPrestamo);
-                cuenta.setPrestamo(this);
                 this.valorCuota=valorPrestamo/cuotasDePago;
                 this.valorPrestamo=valorPrestamo;
                 this.tipoPrestamo=tipoPrestamo;
@@ -69,8 +71,8 @@ public class Prestamo implements Serializable {
     }
 
     public void saldarPrestamo(){
-        cuenta.setDeuda(0);
-        cuenta.setPrestamo(null);
+        cuenta.setDeuda(cuenta.getDeuda()-valorPrestamo);
+        this.setEstado(false);
     }
 
     public int getValorPrestamo() {
@@ -125,8 +127,12 @@ public class Prestamo implements Serializable {
         return fechaPrestamo;
     }
 
-    @Override
-    public String toString() {
+    public boolean isEstado() {return estado;}
+
+    public void setEstado(boolean estado) {this.estado = estado;}
+    public int getId() { return cuenta.getPrestamos().indexOf(this); }
+
+    public String mensajePrestamo(){
         return "Ha sido aprobado tu prestamo" +
                 " con un valor de " + valorPrestamo +
                 " en la fecha " + fechaPrestamo +
@@ -134,8 +140,12 @@ public class Prestamo implements Serializable {
                 " con una tasa de interes del " + interes +
                 "," +"fue desembolsado en la cuenta " + cuenta.getNumero() +
                 "\nLa cuota a pagar será " + valorCuota +
-                " para una deuda total de " + cuenta.getDeuda()+
-                "\n";
+                " para una deuda total de " + cuenta.getDeuda();
+    }
+
+    @Override
+    public String toString() {
+        return this.getId() + ": Prestamo con un valor de " + valorPrestamo + " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
 
     }
 }

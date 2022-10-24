@@ -3,6 +3,7 @@ package baseDatos;
 import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.transacciones.Prestamo;
 import gestorAplicacion.usuario.Cliente;
+import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
 import java.io.*;
@@ -23,7 +24,8 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    ((CuentaAhorro) cliente.cuenta).setPrestamo(Prestamo ois.readObject());
+
+                    Cliente.setListaCuentas((ArrayList<Cuenta>) ois.readObject());
                 }catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -36,7 +38,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    cliente.getCuenta().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
+                    Cliente.listarCuentas().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -45,8 +47,7 @@ public class Deserializador {
                     e.printStackTrace();
                 }
 
-                //Corregir desde aquí
-            } else if (file.getAbsolutePath().contains("pagos.txt")) {
+            } /* else if (file.getAbsolutePath().contains("pagos.txt")) {
                 try {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
@@ -72,7 +73,7 @@ public class Deserializador {
                 } catch (ClassNotFoundException e){
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
     }
 
