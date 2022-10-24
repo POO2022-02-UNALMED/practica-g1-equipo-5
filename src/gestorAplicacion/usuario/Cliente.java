@@ -16,8 +16,10 @@ public class Cliente implements Serializable {
     public Cliente(String nombre, int cedula,int tipoCuenta) {
         this.nombre = nombre;
         this.cedula = cedula;
+
         listaCuentas.add(new CuentaAhorro(this,10000));
         listaCuentas.add(new CuentaCorriente(this,20000));
+
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -35,24 +37,31 @@ public class Cliente implements Serializable {
         return null;
     }
     public static Bolsillo buscarBolsillo(int id,int idbolsillo){
-
         Cuenta cuenta = buscarCuenta(id);
-        return  cuenta.getMisBolsillos().get(idbolsillo);
-
+        for (Bolsillo bolsillo : cuenta.misBolsillos) {
+            if (idbolsillo == cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(bolsillo)).getId()) {
+                return bolsillo;
+            }
         }
-
-
+        return null;
+    }
     public static Multa buscarMulta(int id,int idMulta){
-
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
-        return cuenta.getMultas().get(idMulta);
-
+        for (Multa multa : cuenta.getMultas()) {
+            if (idMulta == cuenta.getMultas().get(cuenta.getMultas().indexOf(multa)).getId()) {
+                return multa;
+            }
+        }
+        return null;
     }
     public static Prestamo buscarPrestamo(int id,int idPrestamo){
-
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
-        return cuenta.getPrestamos().get(idPrestamo);
-
+        for (Prestamo prestamo : cuenta.getPrestamos()) {
+            if (idPrestamo == cuenta.getPrestamos().get(cuenta.getMultas().indexOf(prestamo)).getId()) {
+                return prestamo;
+            }
+        }
+        return null;
     }
 
 
@@ -82,12 +91,12 @@ public class Cliente implements Serializable {
         buscarCuenta(id).getMisBolsillos().add(Bolsillo.crearBolsillo(valor,buscarCuenta(id),categoria));
 
     }
-    public void cargarAhorro(int valor,int idCuenta,int idBolsillo){
-        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
+    public String cargarAhorro(int valor,int idCuenta,int idBolsillo){
+        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
     }
 
-    public void cargarAhorro(int idCuenta,int idBolsillo){
-        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
+    public String cargarAhorro(int idCuenta,int idBolsillo){
+        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
     }
 
     public void descargarAhorro(int idCuenta, int IdBolsillo){
