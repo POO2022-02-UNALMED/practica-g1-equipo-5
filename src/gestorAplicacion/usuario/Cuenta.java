@@ -4,9 +4,10 @@ import gestorAplicacion.transacciones.Bolsillo;
 import gestorAplicacion.transacciones.Multa;
 import gestorAplicacion.transacciones.Prestamo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Cuenta {
+public abstract class Cuenta implements Serializable {
 
     protected int id;
     protected int numero;

@@ -1,23 +1,25 @@
 package gestorAplicacion.usuario;
 
-import gestorAplicacion.transacciones.Bolsillo;
-import gestorAplicacion.transacciones.Multa;
-import gestorAplicacion.transacciones.Prestamo;
-import gestorAplicacion.transacciones.Pago;
 
+import gestorAplicacion.transacciones.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente {
+public class Cliente implements Serializable {
     private String nombre;
     public Cuenta cuenta;
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
     private int cedula;
+    public Movimiento movimiento;
 
     public Cliente(String nombre, int cedula,int tipoCuenta) {
         this.nombre = nombre;
         this.cedula = cedula;
         listaCuentas.add(new CuentaAhorro(this));
+        this.listaCuentas.get(0).setSaldoDisponible(10000);
         listaCuentas.add(new CuentaCorriente(this));
+        this.listaCuentas.get(1).setSaldoDisponible(20000);
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -28,7 +30,12 @@ public class Cliente {
         }
         return null;
     }
-
+    public static Cuenta listarCuentas(){
+        for (Cuenta cuenta : listaCuentas) {
+            return cuenta;
+        }
+        return null;
+    }
     public static Bolsillo buscarBolsillo(int id,int idbolsillo){
         Cuenta cuenta = buscarCuenta(id);
         for (Bolsillo bolsillo : cuenta.misBolsillos) {
@@ -58,7 +65,12 @@ public class Cliente {
     }
 
 
-
+    public void hacerTransferencia (int id,int id1, int valor){
+        Cuenta c1 = this.buscarCuenta(id);
+        Cuenta c2 = this.buscarCuenta(id1);
+        Transferencia tr= new Transferencia ();
+        tr.enviarDinero(c1,c2,valor);
+    }
 
     public int consultarSaldo(){
         return cuenta.getSaldoTotal();
@@ -145,4 +157,11 @@ public class Cliente {
         this.cedula = cedula;
     }
 
+    public static ArrayList<Cuenta> getListaCuentas() {
+        return listaCuentas;
+    }
+
+    public static void setListaCuentas(ArrayList<Cuenta> listaCuentas) {
+        Cliente.listaCuentas = listaCuentas;
+    }
 }
