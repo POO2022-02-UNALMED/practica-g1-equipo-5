@@ -8,21 +8,38 @@ import java.util.ArrayList;
 
 public class Pago {
     private long monto;
-    private static int id =1000 ;
+    private static int id = 1000;
     private String fecha;
     private CuentaAhorro cuenta;
-    private Multa multa;
+    private final Multa multa;
+    protected String tipo;
+
     LocalDate currentDate = LocalDate.now();
     static ArrayList<Pago> pagos = new ArrayList<Pago>();
 
-    public Pago(int monto, Cuenta cuenta){
+    public Pago(int monto, Cuenta cuenta , String tipo){
         this.monto = monto;
         id = getId()+1;
         this.fecha = currentDate.toString();
         this.cuenta = (CuentaAhorro) cuenta;
         this.multa = new Multa();
+        this.tipo = tipo;
         pagos.add(this);
 
+    }
+    /*Este metodo filtra los pagos de prestamos y le añade los pagos de multas*/
+    public static ArrayList<Pago> separarPagos(){
+        ArrayList<Pago> multas = new ArrayList<Pago>();
+        ArrayList<Pago> prestamos = new ArrayList<Pago>();
+        for (Pago pago:pagos){
+            if (pago.getTipo().equals("Multa")){
+                multas.add(pago);
+            } else {
+                prestamos.add(pago);
+            }
+        }
+        prestamos.addAll(multas);
+        return prestamos;
     }
 
     /* Este metodo calcula la diferencia del monto a la hora de pagar una multa
@@ -95,8 +112,8 @@ public class Pago {
                     "\nDeuda actual: " + cuenta.getDeuda() +
                     "\nTe Faltan "+ cuenta.getPrestamo().cuotasDePago + "cuotas";
         }
-
     }
+
 
 
     //setters getters
@@ -112,4 +129,12 @@ public class Pago {
     public int getId() {return id;}
     public long getMonto() {return monto;}
     public void setMonto(long monto) {this.monto = monto;}
+
+    public static ArrayList<Pago> getPagos() {return pagos;}
+
+    public static void setPagos(ArrayList<Pago> pagos) {Pago.pagos = pagos;}
+
+    public String getTipo() {return tipo;}
+
+    public void setTipo(String tipo) {this.tipo = tipo;}
 }
