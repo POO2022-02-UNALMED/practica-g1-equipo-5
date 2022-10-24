@@ -14,19 +14,18 @@ public class CuentaAhorro extends Cuenta{
     public CuentaAhorro(Cliente titular) {
         super(titular);
     }
+    public CuentaAhorro(Cliente titular,int saldo) {
+        super(titular,saldo);
+    }
 
     @Override
     public String toString() {
-        return "Cuenta "+getId()+"\n"+
+        return "Cuenta "+getId()+ ":" + "\n"+
                 "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + saldoDisponible +
-                ", titular=" + titular +
+                ", SaldoDisponible=" + SaldoDisponible +
                 ", numero="+numero+
-                ", prestamo=" +  prestamos +
                 ", deuda=" + deuda +
-                ", multa=" + multas +
-                ", estado=" + estado +
-                '}';
+                ", estado=" + estado;
     }
 
     @Override

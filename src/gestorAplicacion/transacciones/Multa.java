@@ -17,7 +17,7 @@ public class Multa implements Serializable {
     public static final int plazoPago = 30;
     private long monto;
     private CuentaAhorro cuenta;
-    private static String fecha;
+    private  String fecha;
     static SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
     static ArrayList<Multa> Multas = new ArrayList<Multa>();
 
@@ -40,7 +40,6 @@ public class Multa implements Serializable {
         this.cuenta = (CuentaAhorro) cuenta;
         this.fecha = fecha;
         Multas.add(this); //Tooodas las multas que se han hecho independientemente de la cuenta
-        ((CuentaAhorro) cuenta).getMultas().add(this); //Tooodas las multas que se hagan se asociaran a la lista de la cuenta
         this.Estado = true;
     }
 
@@ -61,8 +60,8 @@ public class Multa implements Serializable {
     *   plazoPago. Si la cantidad de dias despues de haber pasado Plazopago
     *   es mayor a 90 se Bloquea la cuenta pasando Estado:boolean a false
     * */
-    public static void mora(Pago pago){
-        long fechaMulta = formato.parse(fecha, new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+    public static void mora(Pago pago, int idMulta){
+        long fechaMulta = formato.parse((((CuentaAhorro) pago.getCuenta()).getMultas().get(idMulta)).getFecha(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
 
@@ -95,16 +94,9 @@ public class Multa implements Serializable {
 
 
     public String toString() {
-        if (cuenta.tieneMultta()){
 
-            return "Usted actualmente cuenta con una multa de: " + this.getMonto() +
-                    "\nDesde: " + this.getFecha();
+            return this.getId() + ": multa de " + this.getMonto() + " desde " + this.getFecha();
 
-        } else {
-
-            return "Usted no cuenta con multas actualmente";
-
-        }
     }
 
     //Setters getters
@@ -118,7 +110,7 @@ public class Multa implements Serializable {
 
     public String getFecha() {return fecha;}
 
-    public void setFecha(String fecha) {this.fecha = fecha;}
+    public void setFecha(String fecha) { this.fecha = fecha;}
 
     public boolean isEstado() {return Estado;}
 

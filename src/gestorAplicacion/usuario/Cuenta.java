@@ -25,6 +25,15 @@ public abstract class Cuenta implements Serializable {
         this.saldoDisponible = this.saldoTotal;
 
     }
+    public Cuenta(Cliente titular,int saldo) {
+        this.titular = titular;
+        this.estado = true;
+        this.numero = ((int)((Math.random() * ((100000 - 1000) + 1))) + 1000);
+        this.saldoTotal=saldo;
+        this.SaldoDisponible=saldo;
+        id = getId() + 1;
+
+    }
 
     public abstract String toString();
 
@@ -46,6 +55,7 @@ public abstract class Cuenta implements Serializable {
             valorEnBolsilos += bolsillo.getValorCargaBolsillo();
         }return valorEnBolsilos;
     }
+
 
 
     public double getNumero() {

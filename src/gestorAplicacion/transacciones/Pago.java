@@ -47,9 +47,9 @@ public class Pago implements Serializable {
     * separa casos dependiendo si es mayor menor o igual
     * retorna un mensaje dependiendo del caso
     * */
-    public String realizarPagoMulta(Multa multa){
+    public String realizarPagoMulta(Multa multa,int idMulta, int monto){
 
-        multa.mora(this);
+        Multa.mora(this, idMulta);
 
         if (!cuenta.isEstado()) return "su cuenta está bloqueada"; //en caso de que el metodo anterior haya dado false evitar problemas de consola
 

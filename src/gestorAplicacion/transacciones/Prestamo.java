@@ -27,9 +27,18 @@ public class Prestamo implements Serializable {
 
     public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo){
         this.cuenta =cuenta;
-
+        this.fechaPrestamo = String.valueOf(currentDate);
+        long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
+        this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
         generarPrestamo(valor,tipoPrestamo);
-
+        this.estado = true;
+    }
+    public Prestamo(int valor,CuentaAhorro cuenta,String tipoPrestamo,String fechaPrestamo){
+        this.cuenta =cuenta;
+        this.fechaPrestamo = fechaPrestamo;
+        long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
+        this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
+        generarPrestamo(valor,tipoPrestamo);
         this.estado = true;
     }
 
@@ -47,10 +56,6 @@ public class Prestamo implements Serializable {
                 this.valorCuota=valorPrestamo/cuotasDePago;
                 this.valorPrestamo=valorPrestamo;
                 this.tipoPrestamo=tipoPrestamo;
-                this.fechaPrestamo = String.valueOf(currentDate);
-
-                long fechaPrestamoToLong = formato.parse(this.fechaPrestamo, new ParsePosition(0)).getTime();
-                this.fechaPago = formato.format(new Date(fechaPrestamoToLong + 2592000000L));   //sumar 30 dias para generar fecha de pago
         }
 
     public void saldarCuota(int cantidadCuotas){
