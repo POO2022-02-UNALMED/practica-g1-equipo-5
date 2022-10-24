@@ -28,19 +28,7 @@ public class CuentaAhorro extends Cuenta{
                 ", estado=" + estado;
     }
 
-    @Override
-    public void aumentarSaldo(int cantidad) {
-        if (isEstado()){
-            setSaldoTotal(getSaldoTotal() + cantidad);
-        }
-    }
 
-    @Override
-    public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
-        }
-    }
 
     public boolean tieneMultta() {
         return multas != null;
@@ -59,19 +47,12 @@ public class CuentaAhorro extends Cuenta{
         this.deuda = deuda;
     }
 
-    public static ArrayList<Multa> getMultas() {
-        return multas;
-    }
 
-    public static void setMultas(ArrayList<Multa> multas) {
-        CuentaAhorro.multas = multas;
-    }
+    public ArrayList<Multa> getMultas() {return multas;}
 
-    public static ArrayList<Prestamo> getPrestamos() {
-        return prestamos;
-    }
+    public void setMultas(ArrayList<Multa> multas) {CuentaAhorro.multas = multas;}
 
-    public static void setPrestamos(ArrayList<Prestamo> prestamos) {
-        CuentaAhorro.prestamos = prestamos;
-    }
+    public ArrayList<Prestamo> getPrestamos() {return prestamos;}
+
+    public void setPrestamos(ArrayList<Prestamo> prestamos) {CuentaAhorro.prestamos = prestamos;}
 }
