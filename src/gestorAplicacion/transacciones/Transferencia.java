@@ -11,8 +11,8 @@ import java.util.Date;
 
 public class Transferencia implements Serializable {
 	private static int id;
-	public static ArrayList <Transferencia> listatr=new ArrayList<>();
-	public ArrayList<String> lista= new ArrayList<>();
+	private static ArrayList <Transferencia> listatr=new ArrayList<>();
+	private ArrayList<String> lista= new ArrayList<>();
 
 	public Transferencia (){
 		listatr.add(this);
