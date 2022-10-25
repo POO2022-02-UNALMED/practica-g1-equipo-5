@@ -17,17 +17,14 @@ public class CuentaAhorro extends Cuenta{
 
     @Override
     public String toString() {
-        return "Cuenta "+getId()+"\n"+
+        return "Cuenta "+getId()+ ":" + "\n"+
                 "saldoTotal=" + saldoTotal +
                 ", SaldoDisponible=" + saldoDisponible +
-                ", titular=" + titular +
                 ", numero="+numero+
-                ", prestamo=" +  prestamos +
                 ", deuda=" + deuda +
-                ", multa=" + multas +
-                ", estado=" + estado +
-                ", tipoCuenta= " + tipoCuenta +
-                '}';
+                ", Tipo de Cuenta=" + tipoCuenta +
+                ", estado=" + estado;
+
     }
 
     @Override
@@ -61,19 +58,11 @@ public class CuentaAhorro extends Cuenta{
         this.deuda = deuda;
     }
 
-    public static ArrayList<Multa> getMultas() {
-        return multas;
-    }
+    public ArrayList<Multa> getMultas() {return multas;}
 
-    public static void setMultas(ArrayList<Multa> multas) {
-        CuentaAhorro.multas = multas;
-    }
+    public void setMultas(ArrayList<Multa> multas) {CuentaAhorro.multas = multas;}
 
-    public static ArrayList<Prestamo> getPrestamos() {
-        return prestamos;
-    }
+    public ArrayList<Prestamo> getPrestamos() {return prestamos;}
 
-    public static void setPrestamos(ArrayList<Prestamo> prestamos) {
-        CuentaAhorro.prestamos = prestamos;
-    }
+    public void setPrestamos(ArrayList<Prestamo> prestamos) {CuentaAhorro.prestamos = prestamos;}
 }

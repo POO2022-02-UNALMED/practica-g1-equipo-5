@@ -17,7 +17,6 @@ public class UITranferencia extends UIMenu  {
         System.out.println("Ingrese valor a transferir");
         int valor1= sc.nextInt();
         System.out.println(cliente.hacerTransferencia(idOrigen,idDestino,valor1));
-        traercuentas();
     }
 }
 

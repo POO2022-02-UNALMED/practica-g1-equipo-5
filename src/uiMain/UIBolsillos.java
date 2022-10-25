@@ -55,7 +55,7 @@ public class UIBolsillos extends UIMenu{
                 int op2 = sc.nextInt();
                 switch (op2) {
                     case (1) -> {
-                        cliente.descargarAhorro(op1,cuenta);
+                        cliente.descargarAhorro(cuenta,op1);
                     }
                     case (2) -> {
                         System.out.println("Valor a descargar de tu bolsillo");

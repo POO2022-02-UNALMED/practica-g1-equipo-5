@@ -9,10 +9,11 @@ public class Bolsillo implements Serializable {
         VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
     }
     public int id;
-    private int cargarBolsillo;
+    private int valorCargaBolsillo;
     private Cuenta cuenta;
     private Categoria categoria;
     private final int metaAhorro;
+    private int saldoDisponible;
 
 
     public Bolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
@@ -30,26 +31,26 @@ public class Bolsillo implements Serializable {
 
     public String cargarBolsillo() {
         saldoDisponible = cuenta.getSaldoTotal() - metaAhorro;
-        this.cargarBolsillo=metaAhorro;
+        this.valorCargaBolsillo =metaAhorro;
         cuenta.setSaldoDisponible(saldoDisponible);
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
         return "Lograste la meta";
     }
     public void cargarBolsillo(int valor) {
         saldoDisponible = cuenta.getSaldoTotal() - valor;
-        this.cargarBolsillo+=valor;
+        this.valorCargaBolsillo +=valor;
         cuenta.setSaldoDisponible(saldoDisponible);
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
     public void descargarBolsillo() {
         saldoDisponible= cuenta.getSaldoDisponible() + metaAhorro;
-        this.cargarBolsillo-=metaAhorro;
+        this.valorCargaBolsillo -=metaAhorro;
         cuenta.setSaldoTotal(saldoDisponible);
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
     public void descargarBolsillo(int valor) {
         saldoDisponible= cuenta.getSaldoDisponible() + metaAhorro;
-        this.cargarBolsillo-=valor;
+        this.valorCargaBolsillo -=valor;
         cuenta.setSaldoTotal(saldoDisponible);
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
@@ -82,10 +83,18 @@ public class Bolsillo implements Serializable {
         this.id = id;
     }
 
+    public int getValorCargaBolsillo() {
+        return valorCargaBolsillo;
+    }
+
+    public void setValorCargaBolsillo(int valorCargaBolsillo) {
+        this.valorCargaBolsillo = valorCargaBolsillo;
+    }
+
     @Override
     public String toString() {
         return "Bolsillo{" +
-                "Monto cargado =" + cargarBolsillo +
+                "Monto cargado =" + valorCargaBolsillo +
                 ", Número de cuenta =" + cuenta.getNumero() +
                 ", Categoria=" + categoria +
                 ", Meta de Ahorro=" + metaAhorro +

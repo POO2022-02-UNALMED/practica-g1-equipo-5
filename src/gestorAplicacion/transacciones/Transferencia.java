@@ -25,6 +25,8 @@ public class Transferencia implements Serializable {
 			else {
 				cuentaOrigen.disminuirSaldo(valor);
 				cuentaFinal.aumentarSaldo(valor);
+				cuentaOrigen.setSaldoDisponible(cuentaOrigen.getSaldoDisponible() - valor);
+				cuentaFinal.setSaldoDisponible(cuentaFinal.getSaldoDisponible() + valor);
 			setId(getId()+1);
 			String fecha= new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 			String cta1= String.valueOf(cuentaOrigen.getNumero());
