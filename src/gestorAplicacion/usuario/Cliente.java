@@ -5,6 +5,7 @@ import gestorAplicacion.transacciones.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Cliente implements Serializable {
     private String nombre;
@@ -12,12 +13,15 @@ public class Cliente implements Serializable {
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
     private int cedula;
     public Movimiento movimiento;
+    Random random = new Random();
 
-    public Cliente(String nombre, int cedula,int tipoCuenta) {
+    public Cliente(String nombre, int cedula) {
         this.nombre = nombre;
         this.cedula = cedula;
-        listaCuentas.add(new CuentaAhorro(this,10000));
-        listaCuentas.add(new CuentaCorriente(this,20000));
+        for (int i=0;i<random.nextInt(5);i++) {
+            listaCuentas.add(new CuentaAhorro(this, random.nextInt(9000000)));
+            listaCuentas.add(new CuentaCorriente(this, random.nextInt(9000000)));
+        }
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -61,16 +65,6 @@ public class Cliente implements Serializable {
         Cuenta c2 = this.buscarCuenta(id1);
         Transferencia tr= new Transferencia ();
         tr.enviarDinero(c1,c2,valor);
-    }
-
-    public int consultarSaldo(){
-        return cuenta.getSaldoTotal();
-    }
-    public void retirarDinero(int valorRetiro){
-        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorRetiro);
-    }
-    public void cosignarDinero(int valoraConsignacion){
-        cuenta.setSaldoTotal(cuenta.getSaldoTotal()+valoraConsignacion);
     }
 
     public void solicitarPrestamo(int valor,String tipoPrestamo,int id){

@@ -16,37 +16,32 @@ public abstract class Cuenta implements Serializable {
     protected Cliente titular;
     public ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
     protected boolean estado;
+    protected String tipoCuenta;
 
-    public Cuenta(Cliente titular) {
-        this.titular = titular;
-        this.estado = true;
-        this.numero = ((int)((Math.random() * ((100000 - 1000) + 1))) + 1000);
-        id = getId() + 1;
-
-    }
-    public Cuenta(Cliente titular,int saldo) {
+    public Cuenta(Cliente titular,int saldo,String tipoCuenta) {
         this.titular = titular;
         this.estado = true;
         this.numero = ((int)((Math.random() * ((100000 - 1000) + 1))) + 1000);
         this.saldoTotal=saldo;
         this.saldoDisponible=saldo;
+        this.tipoCuenta=tipoCuenta;
         id = getId() + 1;
+        if (misBolsillos.isEmpty()){
+            this.saldoDisponible=saldoTotal;
+        }
+        else{
+            this.saldoDisponible = saldoTotal-saldoEnBolsillos();
+        }
 
     }
 
     public abstract String toString();
 
-    public void aumentarSaldo(int cantidad) {
-        if (isEstado()){
-            setSaldoTotal(getSaldoTotal() + cantidad);
-        }
-    }
+    public abstract void aumentarSaldo(int cantidad);
 
-    public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
-        }
-    }
+    public abstract void disminuirSaldo(int cantidad);
+
+
     public int saldoEnBolsillos(){
         int valorEnBolsilos = 0;
         for (Bolsillo bolsillo: misBolsillos) {
@@ -76,7 +71,7 @@ public abstract class Cuenta implements Serializable {
     }
 
     public void setSaldoDisponible(int saldoDisponible) {
-        saldoDisponible = saldoDisponible;
+        this.saldoDisponible = saldoDisponible;
     }
 
     public Cliente getTitular() {

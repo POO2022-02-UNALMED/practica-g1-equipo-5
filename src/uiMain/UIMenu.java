@@ -7,12 +7,12 @@ import gestorAplicacion.usuario.*;
 
 
 public class UIMenu {
-    public static Cliente cliente= new Cliente("Jaimico",20192121,0);
+    public static Cliente cliente= new Cliente("Jaimico",20192121);
 
 
     public static Scanner sc = new Scanner(System.in);
     public static void main(String [] args){
-        crearObjetos();
+        //crearObjetos();
         int opcion;
 
         do{

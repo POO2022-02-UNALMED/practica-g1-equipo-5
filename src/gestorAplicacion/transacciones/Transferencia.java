@@ -25,21 +25,23 @@ public class Transferencia implements Serializable {
 			else {
 				cuentaOrigen.disminuirSaldo(valor);
 				cuentaFinal.aumentarSaldo(valor);
-			setId(getId()+1);
-			String fecha= new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-			String cta1= String.valueOf(cuentaOrigen.getNumero());
-			String cta2= String.valueOf(cuentaFinal.getNumero());
-			String val1= String.valueOf(cuentaOrigen.getSaldoDisponible());
-			String vt= String.valueOf(valor);
-			int id1=getId();
-			String id11=String.valueOf(id1);
-			lista.add(id11);
-			lista.add(fecha);
-			lista.add(cta1);
-			lista.add(cta2);
-			lista.add(vt);
-			lista.add(val1);
-		}	
+				cuentaOrigen.setSaldoDisponible(cuentaOrigen.getSaldoDisponible() - valor);
+				cuentaFinal.setSaldoDisponible(cuentaFinal.getSaldoDisponible() + valor);
+				setId(getId()+1);
+				String fecha= new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+				String cta1= String.valueOf(cuentaOrigen.getNumero());
+				String cta2= String.valueOf(cuentaFinal.getNumero());
+				String val1= String.valueOf(cuentaOrigen.getSaldoTotal());
+				String vt= String.valueOf(valor);
+				int id1=getId();
+				String id11=String.valueOf(id1);
+				lista.add(id11);
+				lista.add(fecha);
+				lista.add(cta1);
+				lista.add(cta2);
+				lista.add(vt);
+				lista.add(val1);
+			}
 	}
 	public  String verTransferencia() {
 
