@@ -19,20 +19,14 @@ public class UIBolsillos extends UIMenu{
         int cuenta = sc.nextInt();
         switch (opcionBolsillos) {
             case (1) -> {
-                System.out.println("Cuánto deseas ahorrar en este bolsillo");
+                System.out.println("menciona el valor de tu ahorro");
                 int valorAhorro = sc.nextInt();
-                System.out.println("Ingresa el número correspondiente al tipo de bolsillo que quieres generar");
-                System.out.println(
-                        """
-                                0. VIAJES          1. EDUCACION     2. SALUD
-                                3  ALIMENTACION    4  TRANSPORTE    5  HOGAR
-                                6  IMPREVISTOS     7  OTROS
-                                """);
+                System.out.println("menciona tu categoria");
                 int categoria = sc.nextInt();
                 cliente.generarAhorro(valorAhorro, categoria,cuenta);
             }
             case (2) -> {
-                System.out.println("Selecciona el bolsillo al cual deseas ingresar un monto");
+                System.out.println("selecciona tu bolsillo");
                 traerBolsillos(cuenta);
                 int op1 = sc.nextInt();
                 System.out.println("1. Carga completa");
@@ -40,12 +34,12 @@ public class UIBolsillos extends UIMenu{
                 int opcion1=sc.nextInt();
                 switch (opcion1) {
                     case (1) -> {
-                        System.out.println(cliente.cargarAhorro(cuenta,op1));
+                        cliente.cargarAhorro(cuenta,op1);
                     }
                     case (2) -> {
                         System.out.println("a cargar de tu bolsillo");
                         int valorCarga = sc.nextInt();
-                        System.out.println(cliente.cargarAhorro(valorCarga,cuenta,op1));
+                        cliente.cargarAhorro(valorCarga,cuenta,op1);
                     }
                     default -> {}
                 }

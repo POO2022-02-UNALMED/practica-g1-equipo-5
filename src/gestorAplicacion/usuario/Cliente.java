@@ -5,7 +5,6 @@ import gestorAplicacion.transacciones.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Cliente implements Serializable {
     private String nombre;
@@ -13,17 +12,12 @@ public class Cliente implements Serializable {
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
     private int cedula;
     public Movimiento movimiento;
-    String tipoCuenta;
-    Random random = new Random();
+
     public Cliente(String nombre, int cedula,int tipoCuenta) {
         this.nombre = nombre;
         this.cedula = cedula;
-        for (int i =0;i<random.nextInt(10);i++) {
-            listaCuentas.add(new CuentaCorriente(this, random.nextInt(10000000)));
-            listaCuentas.add(new CuentaAhorro(this, random.nextInt(10000000)));
-        }
-
-
+        listaCuentas.add(new CuentaAhorro(this,10000));
+        listaCuentas.add(new CuentaCorriente(this,20000));
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -41,43 +35,39 @@ public class Cliente implements Serializable {
         return null;
     }
     public static Bolsillo buscarBolsillo(int id,int idbolsillo){
+
         Cuenta cuenta = buscarCuenta(id);
-        for (Bolsillo bolsillo : cuenta.misBolsillos) {
-            if (idbolsillo == cuenta.getMisBolsillos().get(cuenta.getMisBolsillos().indexOf(bolsillo)).getId()) {
-                return bolsillo;
-            }
+        return  cuenta.getMisBolsillos().get(idbolsillo);
+
         }
-        return null;
-    }
+
+
     public static Multa buscarMulta(int id,int idMulta){
+
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
-        for (Multa multa : cuenta.getMultas()) {
-            if (idMulta == cuenta.getMultas().get(cuenta.getMultas().indexOf(multa)).getId()) {
-                return multa;
-            }
-        }
-        return null;
+        return cuenta.getMultas().get(idMulta);
+
     }
     public static Prestamo buscarPrestamo(int id,int idPrestamo){
+
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
-        for (Prestamo prestamo : cuenta.getPrestamos()) {
-            if (idPrestamo == cuenta.getPrestamos().get(cuenta.getMultas().indexOf(prestamo)).getId()) {
-                return prestamo;
-            }
-        }
-        return null;
+        return cuenta.getPrestamos().get(idPrestamo);
+
     }
 
 
-    public String hacerTransferencia (int id,int id1, int valor){
+    public void hacerTransferencia (int id,int id1, int valor){
         Cuenta c1 = this.buscarCuenta(id);
         Cuenta c2 = this.buscarCuenta(id1);
         Transferencia tr= new Transferencia ();
-        return tr.enviarDinero(c1,c2,valor);
+        tr.enviarDinero(c1,c2,valor);
     }
 
     public int consultarSaldo(){
         return cuenta.getSaldoTotal();
+    }
+    public void retirarDinero(int valorRetiro){
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorRetiro);
     }
     public void cosignarDinero(int valoraConsignacion){
         cuenta.setSaldoTotal(cuenta.getSaldoTotal()+valoraConsignacion);
@@ -92,12 +82,12 @@ public class Cliente implements Serializable {
         buscarCuenta(id).getMisBolsillos().add(Bolsillo.crearBolsillo(valor,buscarCuenta(id),categoria));
 
     }
-    public String cargarAhorro(int valor,int idCuenta,int idBolsillo){
-        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
+    public void cargarAhorro(int valor,int idCuenta,int idBolsillo){
+        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
     }
 
-    public String cargarAhorro(int idCuenta,int idBolsillo){
-        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
+    public void cargarAhorro(int idCuenta,int idBolsillo){
+        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
     }
 
     public void descargarAhorro(int idCuenta, int IdBolsillo){
@@ -122,14 +112,14 @@ public class Cliente implements Serializable {
 
         Pago pago = new Pago(monto,buscarCuenta(idCuenta),"Multa");
 
-        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), idMulta, monto);
     }
 
     public String hacerPagoMulta(int idCuenta, int idMulta){ //arreglar para arrojar el prestamo numeroDeMulta
 
         Pago pago = new Pago( (int) Cliente.buscarMulta(idCuenta,idMulta).getMonto(),buscarCuenta(idCuenta),"Multa");
 
-        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), idMulta, idMulta);
     }
 
 
