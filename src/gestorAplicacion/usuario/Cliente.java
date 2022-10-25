@@ -158,6 +158,7 @@ public class Cliente implements Serializable,Movimiento {
 
     }
     public void movimientoPago() {
-        System.out.println(Pago.movimientopago());
+        for (Pago pagos : Pago.pagos)
+        System.out.println(pagos.pagos);
     }
 }
