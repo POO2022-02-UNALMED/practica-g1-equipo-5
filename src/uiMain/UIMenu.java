@@ -7,15 +7,15 @@ import gestorAplicacion.usuario.*;
 
 
 public class UIMenu {
+
     public static Cliente cliente= new Cliente("Jaimico",20192121);
-
-
     public static Scanner sc = new Scanner(System.in);
     public static void main(String [] args){
-        //crearObjetos();
+        /*crearObjetos();*/
+
         int opcion;
 
-        do{
+        do {
             System.out.println("Bienvenido a PiggyBank\n Elija una opción:");
             System.out.println(
                     """
@@ -27,7 +27,7 @@ public class UIMenu {
                             6. Salir""");
             opcion = sc.nextInt();
 
-            switch (opcion){
+            switch (opcion) {
                 case 1:
                     UIPrestamo.prestamo(cliente);
                     break;
@@ -53,44 +53,48 @@ public class UIMenu {
                     System.out.println("Por favor ingrese una opción valida");
             }
 
-        }while(opcion != 7);
+        } while (opcion != 7);
 
     }
+
     public static void traercuentas(){
         for (Cuenta i: Cliente.listaCuentas) {
             System.out.println(i);
         }
     }
-    public static void traerBolsillos(int idCuenta){
+
+    public static void traerBolsillos(int idCuenta) {
 
         Cuenta cuentas = Cliente.buscarCuenta(idCuenta);
 
-        for (Bolsillo bolsillo: cuentas.misBolsillos) {
+        for (Bolsillo bolsillo : cuentas.misBolsillos) {
             System.out.println(bolsillo.toString());
         }
     }
-    public static void traerMultas(int idCuenta){
+
+    public static void traerMultas(int idCuenta) {
 
         CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
 
-        for (Multa multa:  cuentas.getMultas()) {
+        for (Multa multa : cuentas.getMultas()) {
             if (multa.isEstado()) {
                 System.out.println(multa);
             }
         }
     }
-    public static void traerPrestamos(int idCuenta){
+
+    public static void traerPrestamos(int idCuenta) {
 
         CuentaAhorro cuentas = (CuentaAhorro) Cliente.buscarCuenta(idCuenta);
 
-        for (Prestamo prestamo:  cuentas.getPrestamos()) {
+        for (Prestamo prestamo : cuentas.getPrestamos()) {
             if (prestamo.isEstado()) {
                 System.out.println(prestamo);
             }
-        }
     }
-    public static void crearObjetos(){
+    /*public static void crearObjetos(){
         CuentaAhorro c3 = new CuentaAhorro(cliente,2000000);
+        Cuenta c4 = new CuentaCorriente(cliente,654345621);
         Multa m1 = new Multa(500000,c3,"2022-12-10");
         Multa m2 = new Multa(30000,c3,"2022-12-07");
         Multa m3 = new Multa(c3);
@@ -109,5 +113,6 @@ public class UIMenu {
         c3.getPrestamos().add(p3);
 
         Cliente.getListaCuentas().add(c3);
-    }
-}
+        Cliente.getListaCuentas().add(c4);
+    }*/
+}}
