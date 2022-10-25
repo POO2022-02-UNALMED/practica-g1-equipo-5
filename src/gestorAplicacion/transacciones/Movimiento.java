@@ -4,9 +4,9 @@ import gestorAplicacion.usuario.Cuenta;
 
 public  interface Movimiento {
 
-	public void movimientoPago();
+	public String movimientoPago();
 
-	public void movimientoTransferencia();
+	public String movimientoTransferencia();
 }
 
 

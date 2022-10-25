@@ -18,7 +18,7 @@ public class Cliente implements Serializable,Movimiento {
     public Cliente(String nombre, int cedula) {
         this.nombre = nombre;
         this.cedula = cedula;
-        for (int i=0;i<random.nextInt(5);i++) {
+        for (int i=0;i<random.nextInt(2,6);i++) {
             listaCuentas.add(new CuentaAhorro(this, random.nextInt(9000000)));
             listaCuentas.add(new CuentaCorriente(this, random.nextInt(9000000)));
         }
@@ -45,7 +45,6 @@ public class Cliente implements Serializable,Movimiento {
 
         }
 
-
     public static Multa buscarMulta(int id,int idMulta){
 
         CuentaAhorro cuenta = (CuentaAhorro) buscarCuenta(id);
@@ -60,11 +59,11 @@ public class Cliente implements Serializable,Movimiento {
     }
 
 
-    public void hacerTransferencia (int id,int id1, int valor){
+    public String hacerTransferencia (int id,int id1, int valor){
         Cuenta c1 = this.buscarCuenta(id);
         Cuenta c2 = this.buscarCuenta(id1);
         Transferencia tr= new Transferencia ();
-        tr.enviarDinero(c1,c2,valor);
+        return tr.enviarDinero(c1,c2,valor);
     }
 
     public void solicitarPrestamo(int valor,String tipoPrestamo,int id){
@@ -93,27 +92,27 @@ public class Cliente implements Serializable,Movimiento {
     }
 
     public String hacerPagoPrestamo(int idCuenta, int idPrestamo, int cuota){ //arreglar para arrojar el prestamo numeroDePrestamo
-        Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorCuota() * cuota,buscarCuenta(idCuenta),"Prestamo");
-        return pago.RealizarPagoPrestamo(cuota, idCuenta,idPrestamo);
+        Pago pago = new Pago((int)(buscarPrestamo(idCuenta,idPrestamo).getValorCuota() * cuota),buscarCuenta(idCuenta),buscarPrestamo(idCuenta,idPrestamo),"Prestamo");
+        return pago.RealizarPagoPrestamo(cuota);
     }
 
     public String hacerPagoPrestamo( int idCuenta, int idPrestamo){ //arreglar para arrojar el prestamo numeroDePrestamo
-        Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorPrestamo(),buscarCuenta(idCuenta),"Prestamo");
-        return pago.RealizarPagoPrestamo(idCuenta, idPrestamo);
+        Pago pago = new Pago(buscarPrestamo(idCuenta,idPrestamo).getValorPrestamo(),buscarCuenta(idCuenta),buscarPrestamo(idCuenta, idPrestamo),"Prestamo");
+        return pago.RealizarPagoPrestamo();
     }
 
     public String hacerPagoMulta(int idCuenta, int idMulta, int monto){ //arreglar para arrojar el prestamo numeroDeMulta
 
-        Pago pago = new Pago(monto,buscarCuenta(idCuenta),"Multa");
+        Pago pago = new Pago(monto,buscarCuenta(idCuenta),buscarMulta(idCuenta,idMulta),"Multa");
 
-        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), idMulta, monto);
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), monto);
     }
 
     public String hacerPagoMulta(int idCuenta, int idMulta){ //arreglar para arrojar el prestamo numeroDeMulta
 
-        Pago pago = new Pago( (int) Cliente.buscarMulta(idCuenta,idMulta).getMonto(),buscarCuenta(idCuenta),"Multa");
+        Pago pago = new Pago( (int) Cliente.buscarMulta(idCuenta,idMulta).getMonto(),buscarCuenta(idCuenta),buscarMulta(idCuenta, idMulta),"Multa");
 
-        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta), idMulta, idMulta);
+        return pago.realizarPagoMulta(Cliente.buscarMulta(idCuenta,idMulta));
     }
 
 
@@ -151,14 +150,17 @@ public class Cliente implements Serializable,Movimiento {
     }
 
 
-    public void movimientoTransferencia() {
+    public String movimientoTransferencia() {
         for (int i = 0; i < transferencia.listatr.size(); i++) {
-            System.out.println(transferencia.listatr.get(i).verTransferencia());
+            return transferencia.listatr.get(i).verTransferencia();
         }
+        return "No tienes movimientos asociados";
+    }
+    public String movimientoPago() {
+        for (Pago pagos : Pago.getPagos()){
+        return pagos.getPagos().toString();
+        }
+    return null;
+    }
 
-    }
-    public void movimientoPago() {
-        for (Pago pagos : Pago.pagos)
-        System.out.println(pagos.pagos);
-    }
 }
