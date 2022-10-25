@@ -3,7 +3,6 @@ package gestorAplicacion.usuario;
 
 import baseDatos.Deserializador;
 import gestorAplicacion.transacciones.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,6 +22,7 @@ public class Cliente implements Serializable,Movimiento {
             listaCuentas.add(new CuentaAhorro(this, random.nextInt(9000000)));
             listaCuentas.add(new CuentaCorriente(this, random.nextInt(9000000)));
         }
+        Deserializador.deserializar(this);
     }
 
     public static Cuenta buscarCuenta(int id){

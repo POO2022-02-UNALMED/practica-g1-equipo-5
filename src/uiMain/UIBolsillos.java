@@ -55,11 +55,11 @@ public class UIBolsillos extends UIMenu{
                     System.out.println("1. Carga completa");
                     System.out.println("2. Carga parcial");
                     int opcion1 = sc.nextInt();
-                    if( op1 < 1 || op1 >2){
+                    if( opcion1 < 1 || opcion1 >2){
                         System.out.println("Opción no valida");
                         return;
                     }
-                    if(op1 < cliente.getCuenta().misBolsillos.size() || !cliente.getCuenta().misBolsillos.isEmpty()) {
+
                         switch (opcion1) {
                             case (1) -> {
                                 System.out.println(cliente.cargarAhorro(cuenta, op1));
@@ -73,7 +73,7 @@ public class UIBolsillos extends UIMenu{
                                 System.out.println("Opción no valida");
                             }
                         }
-                    }
+
 
                 }
 

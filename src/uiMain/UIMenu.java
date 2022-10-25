@@ -12,7 +12,6 @@ public class UIMenu {
 
     public static Scanner sc = new Scanner(System.in);
     public static void main(String [] args){
-        //crearObjetos();
         int opcion;
 
         do{
@@ -61,6 +60,12 @@ public class UIMenu {
             System.out.println(i);
         }
     }
+    public static void traercuentasAhorro(){
+        for (Cuenta i: Cliente.listaCuentas) {
+            if (i instanceof CuentaAhorro)
+            System.out.println(i);
+        }
+    }
     public static void traerBolsillos(int idCuenta){
 
         Cuenta cuentas = Cliente.buscarCuenta(idCuenta);
@@ -89,25 +94,4 @@ public class UIMenu {
             }
         }
     }
-    /*public static void crearObjetos(){
-        CuentaAhorro c3 = new CuentaAhorro(cliente,2000000);
-        Multa m1 = new Multa(500000,c3,"2022-12-10");
-        Multa m2 = new Multa(30000,c3,"2022-12-07");
-        Multa m3 = new Multa(c3);
-
-        //universitario hobbie libre
-        Prestamo p1 = new Prestamo(700000,(CuentaAhorro) c3,"universitario","2022-01-07");
-        Prestamo p2 = new Prestamo(900000,(CuentaAhorro) c3,"libre","2022-06-18");
-        Prestamo p3 = new Prestamo(40000000,(CuentaAhorro) c3,"hobbie","2022-05-01");
-
-        c3.getMultas().add(m1);
-        c3.getMultas().add(m2);
-        c3.getMultas().add(m3);
-
-        c3.getPrestamos().add(p1);
-        c3.getPrestamos().add(p2);
-        c3.getPrestamos().add(p3);
-
-        Cliente.getListaCuentas().add(c3);
-    }*/
 }

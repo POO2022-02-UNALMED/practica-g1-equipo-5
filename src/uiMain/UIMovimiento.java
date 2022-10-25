@@ -19,14 +19,15 @@ public class UIMovimiento extends UIMenu  {
                             """
                                     Elija una cuenta:
                                      """);
-                    UIMenu.traercuentas();
+                    UIMenu.traercuentasAhorro();
                     int id= sc.nextInt();
-                    if (id>=0 && id <= Cliente.listaCuentas.size()) {
+                    if (id>=0 && id <= cliente.listaCuentas.size()) {
                         System.out.println(" Estas son tus transacciones disponibles");
                         UIMenu.traerPrestamos(id);
                         UIMenu.traerMultas(id);
                         UIMenu.traerBolsillos(id);
                     }
+
                 }
                 case (2) -> {
                     System.out.println("Transferencias Realizadas:\n" );

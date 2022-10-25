@@ -51,7 +51,7 @@ public class UIPago extends UIMenu{
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");
-                        System.out.println( Cliente.buscarPrestamo(opcion,numeroDePrestamo).getValorPrestamo()* (1+Cliente.buscarPrestamo(opcion,numeroDePrestamo).getInteres()));
+                        System.out.println( Cliente.buscarPrestamo(opcion,numeroDePrestamo).getValorPrestamo()* ((int)(1+Cliente.buscarPrestamo(opcion,numeroDePrestamo).getInteres())));
                         System.out.println("""
                                             Desea realizar el pago?
                                             1. Si

@@ -1,7 +1,9 @@
 package baseDatos;
 
 import gestorAplicacion.transacciones.Bolsillo;
+import gestorAplicacion.transacciones.Pago;
 import gestorAplicacion.transacciones.Prestamo;
+import gestorAplicacion.transacciones.Transferencia;
 import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
@@ -24,8 +26,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-
-                    Cliente.setListaCuentas((ArrayList<Cuenta>) ois.readObject());
+                    cliente.setListaCuentas((ArrayList<Cuenta>) ois.readObject());
                 }catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -38,7 +39,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    Cliente.listarCuentas().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
+                    cliente.listarCuentas().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -47,12 +48,12 @@ public class Deserializador {
                     e.printStackTrace();
                 }
 
-            } /* else if (file.getAbsolutePath().contains("pagos.txt")) {
+            } else if (file.getAbsolutePath().contains("pagos.txt")) {
                 try {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    cliente.getCuenta().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
+                    Pago.setPagos((ArrayList<Pago>) ois.readObject());
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -60,12 +61,12 @@ public class Deserializador {
                 } catch (ClassNotFoundException e){
                     e.printStackTrace();
                 }
-            } else if (file.getAbsolutePath().contains("trasnferencias.txt")) {
+            } else if (file.getAbsolutePath().contains("transferencias.txt")) {
                 try {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    cliente.getCuenta().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
+                    Transferencia.setListatr((ArrayList<Transferencia>) ois.readObject());
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -73,7 +74,7 @@ public class Deserializador {
                 } catch (ClassNotFoundException e){
                     e.printStackTrace();
                 }
-            }*/
+            }
         }
     }
 
