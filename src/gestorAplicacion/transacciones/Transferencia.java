@@ -20,7 +20,7 @@ public class Transferencia implements Serializable {
 	}	
 	public void enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
 		if (cuentaOrigen.getSaldoDisponible() < valor || cuentaOrigen.isEstado()== false) {
-			System.out.println("No puede hacer la transferencia");
+			System.out.println("");
 		}
 			else {
 				cuentaOrigen.disminuirSaldo(valor);
