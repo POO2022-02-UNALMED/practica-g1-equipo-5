@@ -52,10 +52,11 @@ public class Transferencia implements Serializable {
 				" Valor: " + lista.get(4) +
 				" Saldo disponible: " + lista.get(5);
 	}
-	public static void Movimientos(){
+	public  void Movimientos(){
 		for (int i=0; i<listatr.size();i++){
 			System.out.println(listatr.get(i).verTransferencia());
 	}}
+
 
 
 	public static int getId() {return  id;}

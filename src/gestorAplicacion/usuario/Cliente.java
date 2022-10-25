@@ -7,12 +7,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Cliente implements Serializable {
+public class Cliente implements Serializable,Movimiento {
     private String nombre;
     public Cuenta cuenta;
     public static ArrayList<Cuenta> listaCuentas=new ArrayList<>();
     private int cedula;
-    public Movimiento movimiento;
+    public Transferencia transferencia;
     Random random = new Random();
 
     public Cliente(String nombre, int cedula) {
@@ -148,5 +148,16 @@ public class Cliente implements Serializable {
 
     public static void setListaCuentas(ArrayList<Cuenta> listaCuentas) {
         Cliente.listaCuentas = listaCuentas;
+    }
+
+
+    public void movimientoTransferencia() {
+        for (int i = 0; i < transferencia.listatr.size(); i++) {
+            System.out.println(transferencia.listatr.get(i).verTransferencia());
+        }
+
+    }
+    public void movimientoPago() {
+        System.out.println(Pago.movimientopago());
     }
 }

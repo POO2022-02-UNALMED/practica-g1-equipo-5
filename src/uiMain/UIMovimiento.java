@@ -30,11 +30,11 @@ public class UIMovimiento extends UIMenu  {
                 }
                 case (2) -> {
                     System.out.println("Transferencias Realizadas: ");
-                    cliente.movimiento.consultarTransferencias();
+                    cliente.movimientoTransferencia();
                 }
                 case (3) -> {
                     System.out.println("Pagos realizados: ");
-                    cliente.movimiento.consultarPagos();
+                    cliente.movimientoPago();
                 }
             }
     }
