@@ -18,10 +18,10 @@ public class Cliente implements Serializable,Movimiento {
     public Cliente(String nombre, int cedula) {
         this.nombre = nombre;
         this.cedula = cedula;
-        /*for (int i=0;i<random.nextInt(2,6);i++) {
+        for (int i=0;i<random.nextInt(2,6);i++) {
             listaCuentas.add(new CuentaAhorro(this, random.nextInt(9000000)));
             listaCuentas.add(new CuentaCorriente(this, random.nextInt(9000000)));
-        }*/
+        }
     }
 
     public static Cuenta buscarCuenta(int id){
@@ -44,7 +44,6 @@ public class Cliente implements Serializable,Movimiento {
         return  cuenta.getMisBolsillos().get(idbolsillo);
 
         }
-
 
     public static Multa buscarMulta(int id,int idMulta){
 

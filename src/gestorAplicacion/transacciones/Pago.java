@@ -8,14 +8,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Pago implements Serializable {
-    private long monto;
+    private static long monto;
     private static int id = 1000;
     private String fecha;
-    private CuentaAhorro cuenta;
+    private static CuentaAhorro cuenta;
     private Prestamo prestamo;
     private Multa multa;
 
-    protected String tipo;
+    protected static String tipo;
 
     LocalDate currentDate = LocalDate.now();
     static ArrayList<Pago> pagos = new ArrayList<Pago>();
@@ -157,4 +157,14 @@ public class Pago implements Serializable {
     public String getTipo() {return tipo;}
 
     public void setTipo(String tipo) {this.tipo = tipo;}
+
+
+
+    public static String movimientopago(){
+        return "Id pago: "+ Pago.id+
+                " cuenta: "+ Pago.cuenta+
+                "tipo pago: "+Pago.tipo+
+                "monto: "+Pago.monto+
+                "Saldo: "+ Pago.cuenta.getSaldoDisponible();
+    }
 }

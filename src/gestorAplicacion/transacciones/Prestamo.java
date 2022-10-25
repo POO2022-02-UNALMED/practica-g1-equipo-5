@@ -70,7 +70,7 @@ public class Prestamo implements Serializable {
     public void saldarPrestamo(){
         int valorTotal = (int)(valorPrestamo+ (valorPrestamo*interes));
         System.out.println(valorTotal);
-        cuenta.setDeuda(cuenta.getDeuda()-valorTotal);
+        cuenta.setDeuda(valorTotal-cuenta.getDeuda());
         cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valorTotal);
         cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorTotal);
         cuenta.getPrestamos().remove(this);

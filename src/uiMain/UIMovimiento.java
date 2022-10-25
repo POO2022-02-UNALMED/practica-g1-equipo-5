@@ -22,7 +22,7 @@ public class UIMovimiento extends UIMenu  {
                                      """);
                     UIMenu.traercuentas();
                     int id= sc.nextInt();
-                    System.out.println("Estos son tus movimientos Activos");
+                    System.out.println(" Estos son tus movimientos Activos ");
                     UIMenu.traerPrestamos(id);
                     UIMenu.traerMultas(id);
                     UIMenu.traerBolsillos(id);

@@ -12,7 +12,7 @@ public class UIMenu {
 
     public static Scanner sc = new Scanner(System.in);
     public static void main(String [] args){
-        crearObjetos();
+        //crearObjetos();
         int opcion;
 
         do{
@@ -89,7 +89,7 @@ public class UIMenu {
             }
         }
     }
-    public static void crearObjetos(){
+    /*public static void crearObjetos(){
         CuentaAhorro c3 = new CuentaAhorro(cliente,2000000);
         Multa m1 = new Multa(500000,c3,"2022-12-10");
         Multa m2 = new Multa(30000,c3,"2022-12-07");
@@ -109,5 +109,5 @@ public class UIMenu {
         c3.getPrestamos().add(p3);
 
         Cliente.getListaCuentas().add(c3);
-    }
+    }*/
 }
