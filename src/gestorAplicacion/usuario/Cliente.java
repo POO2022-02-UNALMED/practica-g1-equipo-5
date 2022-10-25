@@ -1,6 +1,7 @@
 package gestorAplicacion.usuario;
 
 
+import baseDatos.Deserializador;
 import gestorAplicacion.transacciones.*;
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ public class Cliente implements Serializable,Movimiento {
     public Cliente(String nombre, int cedula) {
         this.nombre = nombre;
         this.cedula = cedula;
-        for (int i=0;i<random.nextInt(2,6);i++) {
+        for (int i=0;i<random.nextInt(2,3);i++) {
             listaCuentas.add(new CuentaAhorro(this, random.nextInt(9000000)));
             listaCuentas.add(new CuentaCorriente(this, random.nextInt(9000000)));
         }
@@ -83,12 +84,12 @@ public class Cliente implements Serializable,Movimiento {
         return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
     }
 
-    public void descargarAhorro(int idCuenta, int IdBolsillo){
-        buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo();
+    public String descargarAhorro(int idCuenta, int IdBolsillo){
+        return buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo();
     }
 
-    public void descargarAhorro(int valor,int idCuenta, int IdBolsillo){
-        buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo(valor);
+    public String descargarAhorro(int valor,int idCuenta, int IdBolsillo){
+        return buscarBolsillo(idCuenta, IdBolsillo).descargarBolsillo(valor);
     }
 
     public String hacerPagoPrestamo(int idCuenta, int idPrestamo, int cuota){ //arreglar para arrojar el prestamo numeroDePrestamo
