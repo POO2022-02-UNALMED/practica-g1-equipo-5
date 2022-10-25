@@ -63,6 +63,7 @@ public class Cliente implements Serializable,Movimiento {
     public void hacerTransferencia (int id,int id1, int valor){
         Cuenta c1 = this.buscarCuenta(id);
         Cuenta c2 = this.buscarCuenta(id1);
+        
         this.transferencia= new Transferencia ();
         transferencia.enviarDinero(c1,c2,valor);
     }
