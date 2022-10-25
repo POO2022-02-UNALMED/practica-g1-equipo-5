@@ -51,7 +51,7 @@ public class UIPago extends UIMenu{
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");
-                        System.out.println( Cliente.buscarPrestamo(opcion,numeroDePrestamo).getValorPrestamo() );
+                        System.out.println( Cliente.buscarPrestamo(opcion,numeroDePrestamo).getValorPrestamo()* (1+Cliente.buscarPrestamo(opcion,numeroDePrestamo).getInteres()));
                         System.out.println("""
                                             Desea realizar el pago?
                                             1. Si
@@ -85,9 +85,7 @@ public class UIPago extends UIMenu{
 
                         System.out.println("Ingrese el valor de la transaccion");
                         int valorM = sc.nextInt();
-
-                        String mensaje = cliente.hacerPagoMulta(opcion,numeroDeMulta,valorM);
-                        System.out.println(mensaje);
+                        System.out.println(cliente.hacerPagoMulta(opcion,numeroDeMulta,valorM));
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");

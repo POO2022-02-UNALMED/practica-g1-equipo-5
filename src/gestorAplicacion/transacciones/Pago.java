@@ -1,6 +1,5 @@
 package gestorAplicacion.transacciones;
 
-import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
 
@@ -13,18 +12,31 @@ public class Pago implements Serializable {
     private static int id = 1000;
     private String fecha;
     private CuentaAhorro cuenta;
+    private Prestamo prestamo;
+    private Multa multa;
 
     protected String tipo;
 
     LocalDate currentDate = LocalDate.now();
     static ArrayList<Pago> pagos = new ArrayList<Pago>();
 
-    public Pago(int monto, Cuenta cuenta , String tipo){
+    public Pago(int monto, Cuenta cuenta,Multa multa , String tipo){
         this.monto = monto;
         id = getId()+1;
         this.fecha = currentDate.toString();
         this.cuenta = (CuentaAhorro) cuenta;
         this.tipo = tipo;
+        this.multa=multa;
+        pagos.add(this);
+
+    }
+    public Pago(int monto, Cuenta cuenta,Prestamo prestamo, String tipo){
+        this.monto = monto;
+        id = getId()+1;
+        this.fecha = currentDate.toString();
+        this.cuenta = (CuentaAhorro) cuenta;
+        this.tipo = tipo;
+        this.prestamo=prestamo;
         pagos.add(this);
 
     }
@@ -47,22 +59,30 @@ public class Pago implements Serializable {
     * separa casos dependiendo si es mayor menor o igual
     * retorna un mensaje dependiendo del caso
     * */
-    public String realizarPagoMulta(Multa multa,int idMulta, int monto){
+    public String realizarPagoMulta(Multa multa,int monto){
 
-        Multa.mora(this, idMulta);
+        Multa.mora(this, multa);
 
-        if (!cuenta.isEstado()) return "su cuenta está bloqueada"; //en caso de que el metodo anterior haya dado false evitar problemas de consola
+        if (!cuenta.isEstado()) {return "su cuenta está bloqueada";} //en caso de que el metodo anterior haya dado false evitar problemas de consola
 
-        if (cuenta.getSaldoDisponible()< monto) return "Saldo insuficiente";
+        else if (cuenta.getSaldoDisponible()< monto) {return "Saldo insuficiente";}
 
-        if (multa.getMonto() == this.monto) {
-            multa.eliminarMulta(this.cuenta,this.monto);
-            return "su multa fue pagada con exito" +
-                    "\nEste es su nuevo Saldo: "+ multa.getCuenta().getSaldoDisponible();
-        } else {
-            multa.setMonto(multa.getMonto()-this.monto);
+        else if (this.monto==multa.getMonto()){return realizarPagoMulta(multa);}
+            multa.pagarMulta(monto);
             return "Este es su nuevo monto: "+ multa.getMonto();
-        }
+    }
+
+    public String realizarPagoMulta(Multa multa){
+        Multa.mora(this, multa);
+
+        if (!cuenta.isEstado()){return "su cuenta está bloqueada";}//en caso de que el metodo anterior haya dado false evitar problemas de consola
+
+        else if(cuenta.getSaldoDisponible()< monto){ return "Saldo insuficiente";}
+
+        multa.pagarMulta();
+        return "su multa fue pagada con exito" +
+                "\nEste es su nuevo Saldo: "+ multa.getCuenta().getSaldoDisponible();
+
         // no se si poner que retorne algo para posteriores metodos
     }
 
@@ -70,15 +90,14 @@ public class Pago implements Serializable {
     * estado saldo y prestamo de cuenta y la consulta de cuotas fechas de pago y los dias de mora de prestamo
     * para al final calcular el nuevo saldo y el estado del prestamo
     * */
-    public String RealizarPagoPrestamo(int idPrestamo, int idCuenta){ //opcion 1 para pagar un prestamo (pago total del prestamo)
+    public String RealizarPagoPrestamo(){ //opcion 1 para pagar un prestamo (pago total del prestamo)
         //organizar para tener un index de prestamo
-        Multa.mora(this,cuenta, idPrestamo, idCuenta );
+        Multa.mora(this,cuenta,prestamo);
 
         if(!cuenta.isEstado()) return "Su cuenta está bloqueada";
 
-        if (Cliente.buscarPrestamo(idCuenta,idPrestamo).getValorPrestamo() <= cuenta.getSaldoDisponible()){
-
-            Cliente.buscarPrestamo(idCuenta,idPrestamo).saldarPrestamo();
+        if (prestamo.getValorPrestamo() <= cuenta.getSaldoDisponible()){
+            prestamo.saldarPrestamo();
             return "Su deuda ha sido saldada" +
                     "\nNuevo saldo: " + cuenta.getSaldoDisponible();
 
@@ -91,27 +110,27 @@ public class Pago implements Serializable {
      * estado saldo y prestamo de cuenta y la consulta de cuotas fechas de pago y los dias de mora de prestamo
      * para al final calcular el nuevo saldo y el estado del prestamo
      * */
-    public String RealizarPagoPrestamo(int cuotas,int idCuenta, int idPrestamo){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
+    public String RealizarPagoPrestamo(int cuotas){ //opcion 2 para pagar un prestamo. pago por x cuotas. dato (int cuotas) introducido por consola. se debe limitar que sea desde 1 hasta 24
         //organizar para tener un index de prestamo
-        Multa.mora(this,cuenta, idPrestamo,  idCuenta);
+        Multa.mora(this,cuenta,prestamo);
 
         if(!cuenta.isEstado())return "Su cuenta está bloqueada";
 
-        if (cuotas > Cliente.buscarPrestamo(idCuenta,idPrestamo).cuotasDePago) return "Valor de cuotas es exedente";
+        if (cuotas > prestamo.cuotasDePago) return "Valor de cuotas es exedente";
 
         if (this.monto > cuenta.getSaldoDisponible()) return "Saldo insuficiente";
 
-        if (cuotas == Cliente.buscarPrestamo(idCuenta,idPrestamo).cuotasDePago){
+        if (cuotas == prestamo.cuotasDePago){
 
-            Cliente.buscarPrestamo(idCuenta,idPrestamo).saldarPrestamo();
+            prestamo.saldarPrestamo();
             return "Su deuda ha sido saldada" +
                     "\nNuevo saldo: " + cuenta.getSaldoDisponible();
 
         } else {
-            Cliente.buscarPrestamo(idCuenta,idPrestamo).saldarCuota(cuotas);
+            prestamo.saldarCuota(cuotas);
             return "Nuevo saldo: " + cuenta.getSaldoDisponible() +
                     "\nDeuda actual: " + cuenta.getDeuda() +
-                    "\nTe Faltan "+ Cliente.buscarPrestamo(idCuenta,idPrestamo).cuotasDePago + "cuotas";
+                    "\nTe Faltan "+ prestamo.cuotasDePago + "cuotas";
         }
     }
 
