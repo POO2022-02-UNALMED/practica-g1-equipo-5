@@ -59,11 +59,11 @@ public class Cliente implements Serializable,Movimiento {
     }
 
 
-    public void hacerTransferencia (int id,int id1, int valor){
+    public String hacerTransferencia (int id,int id1, int valor){
         Cuenta c1 = this.buscarCuenta(id);
         Cuenta c2 = this.buscarCuenta(id1);
         Transferencia tr= new Transferencia ();
-        tr.enviarDinero(c1,c2,valor);
+        return tr.enviarDinero(c1,c2,valor);
     }
 
     public void solicitarPrestamo(int valor,String tipoPrestamo,int id){
@@ -150,14 +150,17 @@ public class Cliente implements Serializable,Movimiento {
     }
 
 
-    public void movimientoTransferencia() {
+    public String movimientoTransferencia() {
         for (int i = 0; i < transferencia.listatr.size(); i++) {
-            System.out.println(transferencia.listatr.get(i).verTransferencia());
+            return transferencia.listatr.get(i).verTransferencia();
         }
+        return "No tienes movimientos asociados";
+    }
+    public String movimientoPago() {
+        for (Pago pagos : Pago.getPagos()){
+        return pagos.getPagos().toString();
+        }
+    return null;
+    }
 
-    }
-    public void movimientoPago() {
-        for (Pago pagos : Pago.pagos)
-        System.out.println(pagos.pagos);
-    }
 }

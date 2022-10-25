@@ -158,4 +158,14 @@ public class Pago implements Serializable {
 
     public void setTipo(String tipo) {this.tipo = tipo;}
 
+    @Override
+    public String toString() {
+        return "Pago" +
+                "monto=" + monto +
+                ", id=" + pagos.indexOf(this) +
+                ", fecha='" + fecha + '\'' +
+                ", cuenta=" + cuenta.getNumero() +
+                ", tipo='" + tipo + '\'' +
+                '\n';
+    }
 }
