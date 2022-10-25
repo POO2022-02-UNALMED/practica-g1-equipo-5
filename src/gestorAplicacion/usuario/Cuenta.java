@@ -16,29 +16,29 @@ public abstract class Cuenta implements Serializable {
     protected Cliente titular;
     public ArrayList<Bolsillo> misBolsillos = new ArrayList<>();
     protected boolean estado;
+    protected String tipoCuenta;
 
-    public Cuenta(Cliente titular) {
+    public Cuenta(Cliente titular,int saldo,String tipoCuenta) {
         this.titular = titular;
         this.estado = true;
         this.numero = ((int)((Math.random() * ((100000 - 1000) + 1))) + 1000);
         id = getId() + 1;
-        this.saldoDisponible = this.saldoTotal;
+        this.saldoTotal=saldo;
+        this.tipoCuenta=tipoCuenta;
+        if (misBolsillos.isEmpty()){
+            this.saldoDisponible=saldoTotal;
+        }
+        else{
+            this.saldoDisponible = saldoTotal-saldoEnBolsillos();
+        }
 
     }
 
     public abstract String toString();
 
-    public void aumentarSaldo(int cantidad) {
-        if (isEstado()){
-            setSaldoTotal(getSaldoTotal() + cantidad);
-        }
-    }
+    abstract public void aumentarSaldo(int cantidad);
 
-    public void disminuirSaldo(int cantidad) {
-        if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
-        }
-    }
+    abstract public void disminuirSaldo(int cantidad);
 
     public int saldoEnBolsillos(){
         int valorEnBolsilos = 0;

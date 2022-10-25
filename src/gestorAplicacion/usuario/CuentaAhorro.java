@@ -11,8 +11,8 @@ public class CuentaAhorro extends Cuenta{
     public static ArrayList<Prestamo> prestamos = new ArrayList<>();
 
 
-    public CuentaAhorro(Cliente titular) {
-        super(titular);
+    public CuentaAhorro(Cliente titular,int saldo) {
+        super(titular,saldo,"Ahorros");
     }
 
     @Override
@@ -26,6 +26,7 @@ public class CuentaAhorro extends Cuenta{
                 ", deuda=" + deuda +
                 ", multa=" + multas +
                 ", estado=" + estado +
+                ", tipoCuenta= " + tipoCuenta +
                 '}';
     }
 
@@ -39,7 +40,7 @@ public class CuentaAhorro extends Cuenta{
     @Override
     public void disminuirSaldo(int cantidad) {
         if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
+            setSaldoTotal(getSaldoTotal() - cantidad);
         }
     }
 

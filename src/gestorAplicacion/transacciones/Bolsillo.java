@@ -13,17 +13,20 @@ public class Bolsillo implements Serializable {
     private Cuenta cuenta;
     private Categoria categoria;
     private final int metaAhorro;
-    private int saldoDisponible;
 
     public Bolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
         this.cuenta = cuenta;
         this.categoria = Categoria.values()[opcion];
         this.metaAhorro=metaAhorro;
+
     }
+
     public static Bolsillo crearBolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
         cuenta.setSaldoDisponible(cuenta.getSaldoTotal());
         return new Bolsillo(metaAhorro, cuenta, opcion);
     }
+
+
 
     public String cargarBolsillo() {
         if(cuenta.getSaldoDisponible()<metaAhorro){

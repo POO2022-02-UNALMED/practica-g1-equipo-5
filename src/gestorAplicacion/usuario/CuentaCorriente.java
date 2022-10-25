@@ -3,7 +3,7 @@ package gestorAplicacion.usuario;
 public class CuentaCorriente extends Cuenta{
 
     public CuentaCorriente(Cliente titular,int saldo) {
-        super(titular);
+        super(titular,saldo,"Corriente");
     }
 
     @Override
@@ -13,6 +13,7 @@ public class CuentaCorriente extends Cuenta{
                 ", SaldoDisponible=" + saldoDisponible +
                 ", titular=" + titular +
                 ", estado=" + estado +
+                ", tipo=" + tipoCuenta +
                 '}';
     }
 
@@ -26,8 +27,9 @@ public class CuentaCorriente extends Cuenta{
     @Override
     public void disminuirSaldo(int cantidad) {
         if (isEstado() && (getSaldoDisponible() > cantidad)){
-            setSaldoDisponible(getSaldoDisponible() - cantidad);
+            setSaldoTotal(getSaldoTotal() - cantidad);
         }
     }
+
 
 }

@@ -18,9 +18,9 @@ public class Transferencia implements Serializable {
 		listatr.add(this);
 
 	}	
-	public void enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
-		if (cuentaOrigen.getSaldoDisponible() < valor || cuentaOrigen.isEstado()== false) {
-			System.out.println("No puede hacer la transferencia");
+	public String enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
+		if (cuentaOrigen.getSaldoDisponible() < valor || cuentaOrigen.isEstado()==false) {
+			return"No puede hacer la transferencia";
 		}
 			else {
 				cuentaOrigen.disminuirSaldo(valor);
@@ -29,7 +29,7 @@ public class Transferencia implements Serializable {
 			String fecha= new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 			String cta1= String.valueOf(cuentaOrigen.getNumero());
 			String cta2= String.valueOf(cuentaFinal.getNumero());
-			String val1= String.valueOf(cuentaOrigen.getSaldoDisponible());
+			String val1= String.valueOf(cuentaOrigen.getSaldoTotal());
 			String vt= String.valueOf(valor);
 			int id1=getId();
 			String id11=String.valueOf(id1);
@@ -39,7 +39,9 @@ public class Transferencia implements Serializable {
 			lista.add(cta2);
 			lista.add(vt);
 			lista.add(val1);
-		}	
+
+		}
+		return verTransferencia();
 	}
 	public  String verTransferencia() {
 
