@@ -11,8 +11,8 @@ import java.util.Date;
 
 public class Transferencia implements Serializable {
 	private static int id;
-	private static ArrayList <Transferencia> listatr=new ArrayList<>();
-	private ArrayList<String> lista= new ArrayList<>();
+	public static ArrayList <Transferencia> listatr=new ArrayList<>();
+	public ArrayList<String> lista= new ArrayList<>();
 
 	public Transferencia (){
 		listatr.add(this);
@@ -52,10 +52,11 @@ public class Transferencia implements Serializable {
 				" Valor: " + lista.get(4) +
 				" Saldo disponible: " + lista.get(5);
 	}
-	public static void Movimientos(){
+	public  void Movimientos(){
 		for (int i=0; i<listatr.size();i++){
 			System.out.println(listatr.get(i).verTransferencia());
 	}}
+
 
 
 	public static int getId() {return  id;}
