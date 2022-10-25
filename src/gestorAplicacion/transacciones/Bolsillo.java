@@ -50,12 +50,8 @@ public class Bolsillo implements Serializable {
     }
     public void descargarBolsillo(int valor) {
         this.valorCargaBolsillo -=valor;
-        cuenta.setSaldoTotal(cuenta.getSaldoDisponible()-cuenta.saldoEnBolsillos());
+        cuenta.setSaldoTotal(cuenta.getSaldoDisponible()+cuenta.saldoEnBolsillos());
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
-    }
-
-    public void eliminarBolsillo() {
-        this.cuenta = null;
     }
 
     public Cuenta getCuenta() {
