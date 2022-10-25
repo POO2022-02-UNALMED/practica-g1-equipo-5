@@ -53,7 +53,7 @@ public class Prestamo implements Serializable {
                 cuenta.setDeuda(valorTotalPrestamo + cuenta.getDeuda());
                 cuenta.setSaldoTotal(cuenta.getSaldoTotal() + valorPrestamo);
                 cuenta.setSaldoDisponible(cuenta.getSaldoDisponible() + valorPrestamo);
-                this.valorCuota=valorPrestamo/cuotasDePago;
+                this.valorCuota=Math.round(valorTotalPrestamo/cuotasDePago);
                 this.valorPrestamo=valorPrestamo;
                 this.tipoPrestamo=tipoPrestamo;
         }
@@ -61,23 +61,22 @@ public class Prestamo implements Serializable {
     public void saldarCuota(int cantidadCuotas){
         int valor=valorCuota*cantidadCuotas;
         cuenta.setDeuda(cuenta.getDeuda()-(valor));
-        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valor);
         cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valor);
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valor);
         cuotasDePago-=cantidadCuotas;
         this.valorPrestamo-=valorCuota;
     }
 
-    public void saldarCuota(){
-        cuenta.setDeuda(cuenta.getDeuda()-valorCuota);
-        cuotasDePago-=1;
-        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorCuota);
-        cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valorCuota);
-        this.valorPrestamo-=valorCuota;
-    }
-
     public void saldarPrestamo(){
-        cuenta.setDeuda(cuenta.getDeuda()-valorPrestamo);
-        this.setEstado(false);
+        int valorTotal = (int)(valorPrestamo+ (valorPrestamo*interes));
+        System.out.println(valorTotal);
+        cuenta.setDeuda(valorTotal-cuenta.getDeuda());
+        cuenta.setSaldoTotal(cuenta.getSaldoTotal()-valorTotal);
+        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-valorTotal);
+        cuenta.getPrestamos().remove(this);
+        if (cuenta.getPrestamos().isEmpty()){
+            cuenta.setDeuda(0);
+        }
     }
 
     public int getValorPrestamo() {
@@ -150,7 +149,7 @@ public class Prestamo implements Serializable {
 
     @Override
     public String toString() {
-        return this.getId() + ": Prestamo con un valor de " + valorPrestamo + " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
+        return this.getId() + ": Prestamo con una deuda pendiente de "+cuenta.getDeuda()+ " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
 
     }
 }

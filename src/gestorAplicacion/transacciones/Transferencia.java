@@ -18,30 +18,29 @@ public class Transferencia implements Serializable {
 		listatr.add(this);
 
 	}	
-	public void enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
-		if (cuentaOrigen.getSaldoDisponible() < valor || cuentaOrigen.isEstado()== false) {
-			System.out.println("");
+	public String enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
+		if (cuentaOrigen.getSaldoDisponible()<valor || cuentaOrigen.isEstado()==false) {
+			return "saldo insuficiente o cuenta inactiva";
 		}
-			else {
-				cuentaOrigen.disminuirSaldo(valor);
-				cuentaFinal.aumentarSaldo(valor);
-				cuentaOrigen.setSaldoDisponible(cuentaOrigen.getSaldoDisponible() - valor);
-				cuentaFinal.setSaldoDisponible(cuentaFinal.getSaldoDisponible() + valor);
-				setId(getId()+1);
-				String fecha= new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-				String cta1= String.valueOf(cuentaOrigen.getNumero());
-				String cta2= String.valueOf(cuentaFinal.getNumero());
-				String val1= String.valueOf(cuentaOrigen.getSaldoTotal());
-				String vt= String.valueOf(valor);
-				int id1=getId();
-				String id11=String.valueOf(id1);
-				lista.add(id11);
-				lista.add(fecha);
-				lista.add(cta1);
-				lista.add(cta2);
-				lista.add(vt);
-				lista.add(val1);
-			}
+		cuentaOrigen.disminuirSaldo(valor);
+		cuentaFinal.aumentarSaldo(valor);
+		cuentaOrigen.setSaldoDisponible(cuentaOrigen.getSaldoDisponible() - valor);
+		cuentaFinal.setSaldoDisponible(cuentaFinal.getSaldoDisponible() + valor);
+		setId(getId()+1);
+		String fecha= new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+		String cta1= String.valueOf(cuentaOrigen.getNumero());
+		String cta2= String.valueOf(cuentaFinal.getNumero());
+		String val1= String.valueOf(cuentaOrigen.getSaldoTotal());
+		String vt= String.valueOf(valor);
+		int id1=getId();
+		String id11=String.valueOf(id1);
+		lista.add(id11);
+		lista.add(fecha);
+		lista.add(cta1);
+		lista.add(cta2);
+		lista.add(vt);
+		lista.add(val1);
+		return "Su transferencia fue exitosa con un valor de:"+valor;
 	}
 	public  String verTransferencia() {
 
@@ -52,10 +51,10 @@ public class Transferencia implements Serializable {
 				" Valor: " + lista.get(4) +
 				" Saldo disponible: " + lista.get(5);
 	}
-	public  void Movimientos(){
+	/*public  void Movimientos(){
 		for (int i=0; i<listatr.size();i++){
 			System.out.println(listatr.get(i).verTransferencia());
-	}}
+	}}*/
 
 
 

@@ -1,10 +1,8 @@
 package gestorAplicacion.transacciones;
 
-import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 
 import gestorAplicacion.usuario.CuentaAhorro;
-import gestorAplicacion.usuario.CuentaCorriente;
 
 import java.io.Serializable;
 import java.text.ParsePosition;
@@ -43,10 +41,19 @@ public class Multa implements Serializable {
         this.Estado = true;
     }
 
-    public void eliminarMulta(CuentaAhorro cuenta, long monto){
+    public void pagarMulta(long monto){
+        this.monto-=monto;
+        cuenta.setSaldoTotal((int)(cuenta.getSaldoTotal()-monto));
+        cuenta.setSaldoDisponible((int)(cuenta.getSaldoDisponible()-monto));
+        cuenta.getMultas().set(cuenta.getMultas().indexOf(this),this);
+    }
 
-        this.setEstado(false);
-        cuenta.setSaldoDisponible(cuenta.getSaldoDisponible()-((int) monto));
+    public void pagarMulta(){
+        cuenta.getMultas().remove(this);
+        cuenta.setSaldoTotal((int)(cuenta.getSaldoTotal()-monto));
+        cuenta.setSaldoDisponible((int)(cuenta.getSaldoDisponible()-monto));
+
+
     }
 
 
@@ -60,8 +67,8 @@ public class Multa implements Serializable {
     *   plazoPago. Si la cantidad de dias despues de haber pasado Plazopago
     *   es mayor a 90 se Bloquea la cuenta pasando Estado:boolean a false
     * */
-    public static void mora(Pago pago, int idMulta){
-        long fechaMulta = formato.parse((((CuentaAhorro) pago.getCuenta()).getMultas().get(idMulta)).getFecha(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+    public static void mora(Pago pago, Multa multa){
+        long fechaMulta = formato.parse((multa.getFecha()), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
 
@@ -77,8 +84,8 @@ public class Multa implements Serializable {
      *   fechaPago del prestamo. Si la cantidad de dias despues de haber pasado fechaPago
      *   es mayor a 90 se multa la cuenta pasando Multa:boolean a true y generando una nueva multa
      * */
-    public static void mora(Pago pago, CuentaAhorro cuenta, int idPrestamo, int idCuenta){
-        long fechaMulta = formato.parse(Cliente.buscarPrestamo(idCuenta,idPrestamo).getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
+    public static void mora(Pago pago, CuentaAhorro cuenta, Prestamo prestamo){
+        long fechaMulta = formato.parse(prestamo.getFechaPago(), new ParsePosition(0)).getTime(); // fecha a entero (en milisegundos desde 1970)
         long fechaPago = formato.parse(pago.getFecha(), new ParsePosition(0)).getTime();
         long discriminante =  (fechaPago-fechaMulta)/86400000;
 
@@ -95,7 +102,7 @@ public class Multa implements Serializable {
 
     public String toString() {
 
-            return this.getId() + ": multa de " + this.getMonto() + " desde " + this.getFecha();
+            return this.getId() + ": multa de " + (int)(this.getMonto())+ " desde " + this.getFecha();
 
     }
 
