@@ -9,12 +9,11 @@ public class Bolsillo implements Serializable {
         VIAJES, EDUCACION, SALUD, ALIMENTACION, TRANSPORTE, HOGAR, IMPREVISTOS, OTROS;
     }
     public int id;
-    private int cargarBolsillo;
+    private int valorCargaBolsillo;
     private Cuenta cuenta;
     private Categoria categoria;
     private final int metaAhorro;
     private int saldoDisponible;
-
 
     public Bolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
         this.cuenta = cuenta;
@@ -22,32 +21,36 @@ public class Bolsillo implements Serializable {
         this.metaAhorro=metaAhorro;
     }
     public static Bolsillo crearBolsillo(int metaAhorro, Cuenta cuenta, int opcion) {
+        cuenta.setSaldoDisponible(cuenta.getSaldoTotal());
         return new Bolsillo(metaAhorro, cuenta, opcion);
     }
 
     public String cargarBolsillo() {
-        saldoDisponible = cuenta.getSaldoTotal() - metaAhorro;
-        this.cargarBolsillo=metaAhorro;
-        cuenta.setSaldoDisponible(saldoDisponible);
+        if(cuenta.getSaldoDisponible()<metaAhorro){
+            return "No tienes saldo suficiente en la cuenta para cargar el bolsillo";
+        }
+        this.valorCargaBolsillo = metaAhorro;
+        cuenta.setSaldoDisponible(cuenta.getSaldoTotal()-cuenta.saldoEnBolsillos());
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
-        return "Lograste la meta";
+        return "Felicitaciones, alcanzaste tu meta de ahorro";
     }
-    public void cargarBolsillo(int valor) {
-        saldoDisponible = cuenta.getSaldoTotal() - valor;
-        this.cargarBolsillo+=valor;
-        cuenta.setSaldoDisponible(saldoDisponible);
+    public String cargarBolsillo(int valor) {
+        if(cuenta.getSaldoDisponible()<valor){
+            return "No tienes saldo suficiente en la cuenta para cargar el bolsillo";
+        }
+        this.valorCargaBolsillo +=valor;
+        cuenta.setSaldoDisponible(cuenta.getSaldoTotal()-cuenta.saldoEnBolsillos());
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
+        return "El bolsillo fue cargado con "+getValorCargaBolsillo();
     }
     public void descargarBolsillo() {
-        saldoDisponible= cuenta.getSaldoDisponible() + metaAhorro;
-        this.cargarBolsillo-=metaAhorro;
-        cuenta.setSaldoTotal(saldoDisponible);
+        this.valorCargaBolsillo -=metaAhorro;
+        cuenta.setSaldoTotal(cuenta.getSaldoDisponible()+cuenta.saldoEnBolsillos());
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
     public void descargarBolsillo(int valor) {
-        saldoDisponible= cuenta.getSaldoDisponible() + metaAhorro;
-        this.cargarBolsillo-=valor;
-        cuenta.setSaldoTotal(saldoDisponible);
+        this.valorCargaBolsillo -=valor;
+        cuenta.setSaldoTotal(cuenta.getSaldoDisponible()-cuenta.saldoEnBolsillos());
         cuenta.misBolsillos.set(cuenta.misBolsillos.indexOf(this),this);
     }
 
@@ -79,14 +82,22 @@ public class Bolsillo implements Serializable {
         this.id = id;
     }
 
+    public int getValorCargaBolsillo() {
+        return valorCargaBolsillo;
+    }
+
+    public void setValorCargaBolsillo(int valorCargaBolsillo) {
+        this.valorCargaBolsillo = valorCargaBolsillo;
+    }
+
     @Override
     public String toString() {
-        return "Bolsillo{" +
-                "Monto cargado =" + cargarBolsillo +
-                ", Número de cuenta =" + cuenta.getNumero() +
-                ", Categoria=" + categoria +
-                ", Meta de Ahorro=" + metaAhorro +
-                ", ID = "+this.getId()+
+        return "Has iniciado un nuevo ahorro: " +
+                " Se asoció a la cuenta = " + cuenta.getNumero() +
+                " número de bolsillo = "+this.getId()+
+                ", estableciste una meta de ahorro de = " + metaAhorro +
+                ", para ser usado en = " + categoria +
+                " hasta el momento has ahorrado = " + valorCargaBolsillo +
                 '}';
     }
 }

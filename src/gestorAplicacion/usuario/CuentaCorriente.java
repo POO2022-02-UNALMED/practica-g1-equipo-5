@@ -15,7 +15,7 @@ public class CuentaCorriente extends Cuenta{
     public String toString() {
         return "Cuenta "+getId() + ":" + "\n"+
                 "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + SaldoDisponible +
+                ", SaldoDisponible=" + saldoDisponible +
                 ", estado=" + estado;
     }
 }

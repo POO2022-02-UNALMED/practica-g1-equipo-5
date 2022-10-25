@@ -22,7 +22,7 @@ public class CuentaAhorro extends Cuenta{
     public String toString() {
         return "Cuenta "+getId()+ ":" + "\n"+
                 "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + SaldoDisponible +
+                ", SaldoDisponible=" + saldoDisponible +
                 ", numero="+numero+
                 ", deuda=" + deuda +
                 ", estado=" + estado;

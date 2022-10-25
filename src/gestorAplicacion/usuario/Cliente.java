@@ -82,12 +82,12 @@ public class Cliente implements Serializable {
         buscarCuenta(id).getMisBolsillos().add(Bolsillo.crearBolsillo(valor,buscarCuenta(id),categoria));
 
     }
-    public void cargarAhorro(int valor,int idCuenta,int idBolsillo){
-        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
+    public String cargarAhorro(int valor,int idCuenta,int idBolsillo){
+        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo(valor);
     }
 
-    public void cargarAhorro(int idCuenta,int idBolsillo){
-        buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
+    public String cargarAhorro(int idCuenta,int idBolsillo){
+        return buscarBolsillo(idCuenta,idBolsillo).cargarBolsillo();
     }
 
     public void descargarAhorro(int idCuenta, int IdBolsillo){
