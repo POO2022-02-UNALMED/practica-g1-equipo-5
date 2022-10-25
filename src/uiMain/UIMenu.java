@@ -91,7 +91,6 @@ public class UIMenu {
     }
     public static void crearObjetos(){
         CuentaAhorro c3 = new CuentaAhorro(cliente,2000000);
-        Cuenta c4 = new CuentaCorriente(cliente,654345621);
         Multa m1 = new Multa(500000,c3,"2022-12-10");
         Multa m2 = new Multa(30000,c3,"2022-12-07");
         Multa m3 = new Multa(c3);
@@ -110,6 +109,5 @@ public class UIMenu {
         c3.getPrestamos().add(p3);
 
         Cliente.getListaCuentas().add(c3);
-        Cliente.getListaCuentas().add(c4);
     }
 }
