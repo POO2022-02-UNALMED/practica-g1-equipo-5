@@ -89,7 +89,7 @@ public class UIPago extends UIMenu{
                     }
                     case (2) -> {
                         System.out.println("Valor de la transaccion: ");
-                        System.out.println( Cliente.buscarMulta(opcion,numeroDeMulta).getMonto() );
+                        System.out.println( Cliente.buscarMulta(opcion,numeroDeMulta).getMonto());
                         System.out.println("""
                                             Desea realizar el pago?
                                             1. Si

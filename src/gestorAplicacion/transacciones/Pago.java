@@ -91,11 +91,13 @@ public class Pago implements Serializable {
     * para al final calcular el nuevo saldo y el estado del prestamo
     * */
     public String RealizarPagoPrestamo(){ //opcion 1 para pagar un prestamo (pago total del prestamo)
-        //organizar para tener un index de prestamo
         Multa.mora(this,cuenta,prestamo);
 
         if(!cuenta.isEstado()) return "Su cuenta está bloqueada";
 
+        if(cuenta.getDeuda()!= prestamo.getValorPrestamo()) {
+                cuenta.setDeuda(0);
+            }
         if (prestamo.getValorPrestamo() <= cuenta.getSaldoDisponible()){
             prestamo.saldarPrestamo();
             return "Su deuda ha sido saldada" +
@@ -130,7 +132,7 @@ public class Pago implements Serializable {
             prestamo.saldarCuota(cuotas);
             return "Nuevo saldo: " + cuenta.getSaldoDisponible() +
                     "\nDeuda actual: " + cuenta.getDeuda() +
-                    "\nTe Faltan "+ prestamo.cuotasDePago + "cuotas";
+                    "\nTe Faltan "+ prestamo.cuotasDePago + " cuotas";
         }
     }
 
