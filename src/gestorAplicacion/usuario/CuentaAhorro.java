@@ -16,12 +16,21 @@ public class CuentaAhorro extends Cuenta{
 
     @Override
     public String toString() {
-        return "Cuenta "+getId()+ ":" + "\n"+
-                "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + saldoDisponible +
-                ", numero="+numero+
-                ", deuda=" + deuda +
-                ", estado=" + estado;
+        if (isEstado()){
+            return "Cuenta (Ahorro) -> ID = "+getId()+ ":" + "\n"+
+                    "Saldo total=" + saldoTotal +
+                    ", Saldo disponible=" + saldoDisponible +
+                    ", Numero="+numero+
+                    ", Dueda=" + deuda +
+                    ", Estado=Activo";
+        } else {
+            return "Cuenta (Ahorro) -> ID = "+getId()+ ":" + "\n"+
+                    "Saldo total=" + saldoTotal +
+                    ", Saldo disponible=" + saldoDisponible +
+                    ", Numero="+numero+
+                    ", Dueda=" + deuda +
+                    ", Estado=Inactivo";
+        }
     }
     @Override
     public void aumentarSaldo(int cantidad) {
@@ -36,7 +45,6 @@ public class CuentaAhorro extends Cuenta{
             setSaldoTotal(getSaldoTotal() - cantidad);
         }
     }
-
 
     public boolean tieneMultta() {
         return multas != null;

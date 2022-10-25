@@ -22,9 +22,18 @@ public class CuentaCorriente extends Cuenta{
 
     @Override
     public String toString() {
-        return "Cuenta "+getId() + ":" + "\n"+
-                "saldoTotal=" + saldoTotal +
-                ", SaldoDisponible=" + saldoDisponible +
-                ", estado=" + estado;
+        if (isEstado()){
+            return "Cuenta (Corriente) -> ID = "+getId() + ":" + "\n"+
+                    "Saldo total=" + saldoTotal +
+                    ", Saldo disponible=" + saldoDisponible +
+                    ", Estado=Activo" ;
+        }
+        else {
+            return "Cuenta (Corriente) -> ID = "+getId() + ":" + "\n"+
+                    "Saldo total=" + saldoTotal +
+                    ", Saldo disponible=" + saldoDisponible +
+                    ", Estado=Inactivo";
+
+        }
     }
 }
