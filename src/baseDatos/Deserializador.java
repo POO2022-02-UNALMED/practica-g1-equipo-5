@@ -26,7 +26,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    cliente.setListaCuentas((ArrayList<Cuenta>) ois.readObject());
+                    Cliente.setListaCuentas((ArrayList<Cuenta>) ois.readObject());
                 }catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -39,7 +39,7 @@ public class Deserializador {
                     fis = new FileInputStream(file);
                     ois = new ObjectInputStream(fis);
 
-                    cliente.listarCuentas().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
+                    Cliente.listarCuentas().setMisBolsillos((ArrayList<Bolsillo>) ois.readObject());
                 } catch (FileNotFoundException e){
                     e.printStackTrace();
                 } catch (IOException e){
@@ -79,3 +79,4 @@ public class Deserializador {
     }
 
 }
+

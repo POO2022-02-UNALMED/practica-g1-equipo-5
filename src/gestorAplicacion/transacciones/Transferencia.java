@@ -20,7 +20,8 @@ public class Transferencia implements Serializable {
 	}
 
 
-	public String enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
+
+    public String enviarDinero(Cuenta cuentaOrigen, Cuenta cuentaFinal, int valor) {
 		if (cuentaOrigen.getSaldoDisponible()<valor || cuentaOrigen.isEstado()==false) {
 			return "saldo insuficiente o cuenta inactiva";
 		}
@@ -53,13 +54,8 @@ public class Transferencia implements Serializable {
 				" Valor: " + lista.get(4) +
 				" Saldo disponible: " + lista.get(5);
 	}
-
-	public static ArrayList<Transferencia> getListatr() {
-		return listatr;
-	}
-
-	public static void setListatr(ArrayList<Transferencia> listatr) {
-		Transferencia.listatr = listatr;
+	
+	public static void setListatr(ArrayList<Transferencia> readObject) {
 	}
 
 	public static int getId() {return  id;}
