@@ -102,7 +102,7 @@ public class Multa implements Serializable {
 
     public String toString() {
 
-            return this.getId() + ": multa de " + this.getMonto() + " desde " + this.getFecha();
+            return this.getId() + ": multa de " + (int)(this.getMonto())+ " desde " + this.getFecha();
 
     }
 

@@ -149,7 +149,7 @@ public class Prestamo implements Serializable {
 
     @Override
     public String toString() {
-        return this.getId() + ": Prestamo con un valor de " + valorPrestamo + " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
+        return this.getId() + ": Prestamo con una deuda pendiente de "+cuenta.getDeuda()+ " de tipo " + tipoPrestamo + " La cuota a pagar es " + valorCuota;
 
     }
 }
