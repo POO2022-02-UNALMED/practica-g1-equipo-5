@@ -1,7 +1,5 @@
 package gestorAplicacion.transacciones;
 
-
-//import gestorAplicacion.Transferencia;
 import gestorAplicacion.usuario.Cuenta;
 
 public  class Movimiento {
@@ -9,11 +7,12 @@ public  class Movimiento {
 	private String fecha;
 	private Cuenta cuenta;
 
-	
-	
+	public static void consultarPagos(){
+		System.out.println(Pago.movimientopago());
+	}
 	public static  void consultarTransferencias () {
 		Transferencia.Movimientos();
-		}
+	}
 
 
 	public String getTipoMovimiento() {

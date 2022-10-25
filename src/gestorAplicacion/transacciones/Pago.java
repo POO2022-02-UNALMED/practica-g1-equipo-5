@@ -9,12 +9,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Pago implements Serializable {
-    private long monto;
+    private static long monto;
     private static int id = 1000;
     private String fecha;
-    private CuentaAhorro cuenta;
+    private static CuentaAhorro cuenta;
 
-    protected String tipo;
+    protected static String tipo;
 
     LocalDate currentDate = LocalDate.now();
     static ArrayList<Pago> pagos = new ArrayList<Pago>();
@@ -123,19 +123,27 @@ public class Pago implements Serializable {
 
     public void setFecha(String fecha) {this.fecha = fecha;}
 
-    public Cuenta getCuenta() {return cuenta;}
+    public static Cuenta getCuenta() {return cuenta;}
 
     public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
-    public int getId() {return id;}
-    public long getMonto() {return monto;}
+    public static int getId() {return id;}
+    public static long getMonto() {return monto;}
     public void setMonto(long monto) {this.monto = monto;}
 
     public static ArrayList<Pago> getPagos() {return pagos;}
 
     public static void setPagos(ArrayList<Pago> pagos) {Pago.pagos = pagos;}
 
-    public String getTipo() {return tipo;}
+    public static String getTipo() {return tipo;}
 
     public void setTipo(String tipo) {this.tipo = tipo;}
+
+    public static String movimientopago(){
+        return "Id pago: "+ Pago.getId()+
+                " cuenta: "+ Pago.getCuenta()+
+                "tipo pago: "+Pago.getTipo()+
+                "monto: "+Pago.getMonto()+
+                "Saldo: "+ cuenta.getSaldoDisponible();
+    }
 }
