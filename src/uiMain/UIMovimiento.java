@@ -1,4 +1,6 @@
 package uiMain;
+import gestorAplicacion.transacciones.Pago;
+import gestorAplicacion.transacciones.Transferencia;
 import gestorAplicacion.usuario.Cliente;
 import gestorAplicacion.usuario.Cuenta;
 import gestorAplicacion.usuario.CuentaAhorro;
@@ -29,12 +31,16 @@ public class UIMovimiento extends UIMenu  {
 
                 }
                 case (2) -> {
-                    System.out.println("Transferencias Realizadas: ");
-                    cliente.movimientoTransferencia();
+                    System.out.println("Transferencias Realizadas:" );
+                    if (cliente.transferencia.verTransferencia() == null){
+                        System.out.println("no hay transferencias realizas" );
+                    }
+                    else
+                        cliente.movimientoTransferencia();
                 }
                 case (3) -> {
                     System.out.println("Pagos realizados: ");
-                    cliente.movimientoPago();
+                        cliente.movimientoPago();
                 }
             }
     }

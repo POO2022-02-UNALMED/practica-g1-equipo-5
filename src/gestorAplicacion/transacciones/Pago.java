@@ -9,15 +9,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Pago implements Serializable {
-    private static long monto;
-    private static int id = 1000;
+    private  long monto;
+    private  int id = 1000;
     private String fecha;
-    private static CuentaAhorro cuenta;
+    private  CuentaAhorro cuenta;
 
-    protected static String tipo;
+    protected  String tipo;
 
     LocalDate currentDate = LocalDate.now();
-    static ArrayList<Pago> pagos = new ArrayList<Pago>();
+    public static ArrayList<Pago> pagos = new ArrayList<Pago>();
 
     public Pago(int monto, Cuenta cuenta , String tipo){
         this.monto = monto;
@@ -123,29 +123,27 @@ public class Pago implements Serializable {
 
     public void setFecha(String fecha) {this.fecha = fecha;}
 
-    public static Cuenta getCuenta() {return cuenta;}
+    public Cuenta getCuenta() {return cuenta;}
 
     public void setCuenta(CuentaAhorro cuenta) {this.cuenta = cuenta;}
 
-    public static int getId() {return id;}
-    public static long getMonto() {return monto;}
+    public  int getId() {return id;}
+    public  long getMonto() {return monto;}
     public void setMonto(long monto) {this.monto = monto;}
 
-    public static ArrayList<Pago> getPagos() {return pagos;}
+    public  ArrayList<Pago> getPagos() {return pagos;}
 
-    public static void setPagos(ArrayList<Pago> pagos) {Pago.pagos = pagos;}
+    public static void setPagos() {Pago.pagos = pagos;}
 
-    public static String getTipo() {return tipo;}
+    public  String getTipo() {return tipo;}
 
     public void setTipo(String tipo) {this.tipo = tipo;}
 
-    public static String movimientopago(){
-        return "Id pago: "+ Pago.getId()+
-                " cuenta: "+ Pago.getCuenta()+
-                "tipo pago: "+Pago.getTipo()+
-                "monto: "+Pago.getMonto()+
-                "Saldo: "+ cuenta.getSaldoDisponible();
+    public  String toString(){
+        return "Id pago: "+ this.getId()+
+                "  cuenta: "+ this.getCuenta().getNumero()+
+                "  Tipo de pago: "+this.getTipo()+
+                "  Monto: "+this.getMonto()+
+                "  Saldo: "+ cuenta.getSaldoDisponible();
     }
-
-
 }
