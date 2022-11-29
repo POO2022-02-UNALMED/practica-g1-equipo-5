@@ -1,83 +1,85 @@
 import random
 class Cuenta:
-    id = 1000
+    aux = 0    
 
-    def __int__(self, titular, saldo, tipoCuenta):
+    def __init__(self, titular, saldo, tipoCuenta):
         self.titular = titular
         self.tipoCuenta = tipoCuenta
+        self.estado = True
+        self.numero = random.randint(1000, 10000)
+        self.misBolsillos = []
         self.saldoTotal = saldo
         self.saldoDisponible = saldo
-        self.misBolsillos = []
-        self.estado = True
-        self.numero = random.randint(1000,10000)
-        #Cuenta.id = getId() + 1
-        """
-        if len(misBolsillos) == 0:
-            self.saldoDisponible = saldoTotal
+        self.id = Cuenta.aux +1
+        Cuenta.aux = Cuenta.aux + 1
+
+        if len(self.misBolsillos) == 0:
+            self.saldoDisponible = self.saldoTotal
         else:
-            self.saldoDisponible = saldoTotal - saldoEnBolsillos()
-        """
-
-        #Función para disminuir el saldo total de la cuenta
-        def aumentarSaldo(self, cantidad):
-            if self.estado:
-                setSaldoTotal(getSaldoTotal() + cantidad)
+            self.saldoDisponible = self.saldoTotal - self.saldoEnBolsillos()
 
 
-        #Función para disminuir el saldo total de la cuenta
-        def disminuirSaldo(self, cantidad):
-            if self.estado and (getSaldoDisponibles() >= cantidad):
-                setSaldoTotal(getSaldoTotal() - cantidad)
+    def aumentarSaldo(self, cantidad):
+        if self.estado:
+            self.setSaldoTotal(self.getSaldoTotal() + cantidad)
 
-        #Función que retorna el saldo de los bolsillos
-        def saldoEnBolsillos(self):
-            pass
 
-        #Getters y setters
-        def getId(self):
-            pass
-        def getTitular(self):
-            return self.titular
+    def disminuirSaldo(self, cantidad):
+        if self.estado and (self.getSaldoDisponible() >= cantidad):
+            self.setSaldoTotal(self.getSaldoTotal() - cantidad)
 
-        def setTitular(self, titular):
-            self.titular = titular
 
-        def getTipoCuenta(self):
-            return self.tipoCuenta
+    def saldoEnBolsillos(self):
+        valorEnBolsilos = 0
+        for bolsillo in self.misBolsillos:
+            valorEnBolsilos += bolsillo.getValorCargaBolsillo()
+        return valorEnBolsilos
+        
+    
+    def getId(self):
+        return self.id
+    
+    def getTitular(self):
+        return self.titular
 
-        def setTipoCuenta(self, tipoCuenta):
-            self.tipoCuenta = tipoCuenta
+    def setTitular(self, titular):
+        self.titular = titular
 
-        def getSaldoTotal(self):
-            return self.saldoTotal
+    def getTipoCuenta(self):
+        return self.tipoCuenta
 
-        def setSaldoTotal(self, saldoTotal):
-            self.saldoTotal = saldoTotal
+    def setTipoCuenta(self, tipoCuenta):
+        self.tipoCuenta = tipoCuenta
 
-        def getSaldoDisponibles(self):
-            return self.saldoDisponible
+    def getSaldoTotal(self):
+        return self.saldoTotal
 
-        def setSaldoDisponible(self, saldoDisponible):
-            self.saldoDisponible= saldoDisponible
+    def setSaldoTotal(self, saldoTotal):
+        self.saldoTotal = saldoTotal
 
-        def getMisBolsillos(self):
-            return self.misBolsillos
+    def getSaldoDisponible(self):
+        return self.saldoDisponible
 
-        def setMisBolsillos(self, misBolsillos):
-            self.misBolsillos = misBolsillos
+    def setSaldoDisponible(self, saldoDisponible):
+        self.saldoDisponible= saldoDisponible
 
-        def getEstado(self):
-            return self.estado
+    def getMisBolsillos(self):
+        return self.misBolsillos
 
-        def setEstado(self, estado):
-            self.estado = estado
+    def setMisBolsillos(self, misBolsillos):
+        self.misBolsillos = misBolsillos
 
-        def getNumero(self):
-            return self.numero
+    def isEstado(self):
+        return self.estado
 
-        def setNumero(self, numero):
-            self.numero = numero
+    def setEstado(self, estado):
+        self.estado = estado
 
+    def getNumero(self):
+        return self.numero
+
+    def setNumero(self, numero):
+        self.numero = numero
 
 
 

@@ -1,37 +1,27 @@
-from Python.gestorAplicacion.cuenta import Cuenta
+from gestorAplicacion.usuarios.cuenta import Cuenta
 
 class CuentaAhorro(Cuenta):
-    def __int__(self, titular, saldo):
-        super.__init__(titular, saldo, "Ahorro")
-        self._deuda = 0
-        self.multas = []
-        self.prestamos = []
 
-    #Función para verificar si la cuenta tiene multas
+    def __init__(self, titular, saldo, tipoCuenta):
+        super().__init__(titular, saldo, tipoCuenta)
+        self.deuda = 0
+        self.multas = []
+        self.prestamos =[]
+
     def tieneMulta(self):
         return self.multas != None
 
-    def __str__(self): #Incompleto, falta el id
+    def __str__(self): 
         if self.estado:
-            return f'Cuenta (Ahorro) -> ID = ... :\nSaldo total = {self.saldoTotal} ' \
-                   f', Saldo disponible = {self.saldoDisponible}' \
-                   f', Número de cuenta {self.numero}' \
-                   f', Deuda = {self._deuda}' \
-                   f', Estado = Activo'
-
+            return f'Cuenta (Ahorro) -> ID = {self.getId()} :\nSaldo total = {self.saldoTotal}, Saldo disponible = {self.saldoDisponible}, Número de cuenta {self.numero}, Deuda = {self.deuda}, Estado = activo' 
         else:
-            return f'Cuenta (Ahorro) -> ID = ... :\nSaldo total = {self.saldoTotal} ' \
-                   f', Saldo disponible = {self.saldoDisponible}' \
-                   f', Número de cuenta {self.numero}' \
-                   f', Deuda = {self._deuda}' \
-                   f', Estado = Inactivo'
-
-    #Getters y setters
+           return f'Cuenta (Ahorro) -> ID = {self.getId()} :\nSaldo total = {self.saldoTotal}, Saldo disponible = {self.saldoDisponible}, Número de cuenta {self.numero}, Deuda = {self.deuda}, Estado = inactivo'  
+            
     def getDeuda(self):
-        return self._deuda
+        return self.deuda
 
     def setDeuda(self, deuda):
-        self._deuda = deuda
+        self.deuda = deuda
 
     def getMultas(self):
         return self.multas
