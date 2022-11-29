@@ -1,12 +1,12 @@
 import random
-from gestorAplicacion.usuarios.cuentaAhorro import CuentaAhorro
-from gestorAplicacion.usuarios.cuentaCorriente import CuentaCorriente
+from gestorAplicacion.usuario.cuentaAhorro import CuentaAhorro
+from gestorAplicacion.usuario.cuentaCorriente import CuentaCorriente
 from gestorAplicacion.transacciones.transferencia import Transferencia
 from gestorAplicacion.transacciones.prestamo import Prestamo
 from gestorAplicacion.transacciones.multa import Multa
 from gestorAplicacion.transacciones.pago import Pago
 from gestorAplicacion.transacciones.bolsillo import Bolsillo
-from gestorAplicacion.transacciones.movimiento import Movimiento
+from gestorAplicacion.transacciones.Movimiento import Movimiento
 
 class Cliente:
     listaCuentas = []

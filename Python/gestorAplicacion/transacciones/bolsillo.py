@@ -1,4 +1,4 @@
-from gestorAplicacion.transacciones.movimiento import Movimiento
+from gestorAplicacion.transacciones.Movimiento import Movimiento
 from datetime import datetime as dt
 
 class Bolsillo():

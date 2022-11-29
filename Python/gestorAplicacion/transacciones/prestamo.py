@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from datetime import timedelta
-from gestorAplicacion.transacciones.movimiento import Movimiento
+from gestorAplicacion.transacciones.Movimiento import Movimiento
 
 
 class Prestamo:

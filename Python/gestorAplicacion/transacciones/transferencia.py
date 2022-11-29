@@ -1,5 +1,5 @@
 from datetime import datetime as dt
-from gestorAplicacion.transacciones.movimiento import Movimiento
+from gestorAplicacion.transacciones.Movimiento import Movimiento
 import random 
 
 class Transferencia:

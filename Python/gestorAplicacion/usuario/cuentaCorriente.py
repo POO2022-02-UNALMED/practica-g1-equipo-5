@@ -1,4 +1,4 @@
-from gestorAplicacion.usuarios.cuenta import Cuenta
+from gestorAplicacion.usuario.cuenta import Cuenta
 
 class CuentaCorriente(Cuenta):
 

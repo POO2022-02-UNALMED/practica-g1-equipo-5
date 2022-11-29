@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from gestorAplicacion.usuarios.cliente import Cliente
+from gestorAplicacion.usuario.cliente import Cliente
 from gestorAplicacion.transacciones.bolsillo import Bolsillo
 
 

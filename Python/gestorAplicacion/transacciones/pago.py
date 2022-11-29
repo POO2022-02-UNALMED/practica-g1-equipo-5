@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 from gestorAplicacion.transacciones.multa import Multa
-from gestorAplicacion.transacciones.movimiento import Movimiento
+from gestorAplicacion.transacciones.Movimiento import Movimiento
 
 class Pago:
     pagos = []

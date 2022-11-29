@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 from gestorAplicacion.fieldFrame import FieldFrame
-from gestorAplicacion.usuarios.cliente import Cliente
-from gestorAplicacion.transacciones.movimiento import Movimiento
+from gestorAplicacion.usuario.cliente import Cliente
+from gestorAplicacion.transacciones.Movimiento import Movimiento
 from gestorAplicacion.transacciones.bolsillo import Bolsillo
 import os
 import pathlib
