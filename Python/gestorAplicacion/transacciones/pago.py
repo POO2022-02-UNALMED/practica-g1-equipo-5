@@ -1,53 +1,44 @@
 from datetime import datetime as dt
-from gestorAplicacion.usuario import cuenta
-from multa import Multa
-import random
+from gestorAplicacion.transacciones.multa import Multa
+from gestorAplicacion.transacciones.movimiento import Movimiento
 
 class Pago:
-    id = 1000 + random.randint(8999)
     pagos = []
-    def __init__(self, monto, cuenta, tipo, tipo_clase=None):
+    aux = 0
+    def __init__(self, monto, cuenta, multaOPrestamo,tipo): #multaOPrestamo hace referencia a si el objeto es de clase multa o prestamo
         self.monto = monto
+        self.id = Pago.aux +1
+        Pago.aux = Pago.aux + 1
         self.fecha = dt.now().strftime("%d/%m/%Y")
-        self.cuenta = cuenta
+        self.cuenta = cuenta 
         self.tipo = tipo
-        self.tipo_clase = tipo_clase # aqui se deberia de almacenar objetos tipo multa o prestamo
-        Pago.pagos.add(self)
+        Pago.pagos.append(self)
+        self.multaOPrestamo = multaOPrestamo
 
-    
-    # Este metodo filtra los pagos de prestamos y le añade los pagos de multas
-    def separarPagos():
-        multas = []
-        prestamos = []
-        for pago in Pago.pagos:
-            if (pago.getTipo().equals("Multa")):
-                multas.add(pago)
-            else:
-                prestamos.add(pago)
-            
-        
-        prestamos.addAll(multas)
-        return prestamos
-    
+
 
     ''' Este metodo calcula la diferencia del monto a la hora de pagar una multa
     * separa casos dependiendo si es mayor menor o igual
     * retorna un mensaje dependiendo del caso
     * '''
     def realizarPagoMulta(self, multa, monto=None):
-
         Multa.moraMulta(self, multa)
-
         if (not self.cuenta.isEstado()):return "su cuenta está bloqueada" #en caso de que el metodo anterior haya dado false evitar problemas de consola
-
-        if (self.cuenta.getSaldoDisponible()< monto):return "Saldo insuficiente"
-
-        if monto is None:
+        
+        if monto is None: #Pago total
             multa.pagarMulta()
+            Movimiento(self.cuenta,self,multa.getMonto(),"Pago de multa",dt.now().strftime("%d/%m/%Y"))
             return f"su multa fue pagada con exito\nEste es su nuevo Saldo: {multa.getCuenta().getSaldoDisponible()}"
+            
+            
+        if (self.cuenta.getSaldoDisponible()< monto):
+            
+            return "Saldo insuficiente"
+
         else:
             multa.pagarMulta(monto)
-            return "Este es su nuevo monto: "+ multa.getMonto()
+            Movimiento(self.cuenta,self,monto,"Pago de multa",dt.now().strftime("%d/%m/%Y"))
+            return f"Este es su nuevo monto: {multa.getMonto()}" #Pago parcial
     
 
     ''' Este metodo realiza el pago de prestamo a travez de la consulta del
@@ -55,29 +46,37 @@ class Pago:
     para al final calcular el nuevo saldo y el estado del prestamo
     '''
     def RealizarPagoPrestamo(self,cuotas=None): #opcion 1 para pagar un prestamo (pago total del prestamo)
-        Multa.moraPrestamo(self,self.cuenta,self.tipo_clase)
+        Multa.moraPrestamo(self, self, self.cuenta, self.multaOPrestamo)
+        if(not self.cuenta.isEstado()):
+            return "Su cuenta está bloqueada"
 
-        if(not self.cuenta.isEstado()): return "Su cuenta está bloqueada"
-
-        if(self.cuenta.getDeuda()!= self.tipo_clase.getValorPrestamo()): self.cuenta.setDeuda(0)
+        if(self.cuenta.getDeuda()!= self.multaOPrestamo.getValorPrestamo()):
+            self.cuenta.setDeuda(0)
             
-        if (self.tipo_clase.getValorPrestamo() >= self.cuenta.getSaldoDisponible()): return "Saldo insuficiente"
+        if (self.multaOPrestamo.getValorPrestamo() >= self.cuenta.getSaldoDisponible()):
+            return "Saldo insuficiente"
 
-        if cuotas is None:
-            self.tipo_clase.saldarPrestamo()
+        if cuotas is None: #Pago total
+            Movimiento(self.cuenta,self,self.multaOPrestamo.getValorPrestamo(),"Pago de prestamo",dt.now().strftime("%d/%m/%Y"))
+
+            self.multaOPrestamo.saldarPrestamo()
             return f"Su deuda ha sido saldada\nNuevo saldo: {self.cuenta.getSaldoDisponible()}"
 
-        if ( cuotas is None and cuotas > self.tipo_clase.cuotasDePago): return "Valor de cuotas es exedente"
+        if (cuotas is None and cuotas > self.multaOPrestamo.cuotasDePago):
+            return "Valor de cuotas es excedente"
 
-        if (cuotas == self.tipo_clase.cuotasDePago):
-            self.tipo_clase.saldarPrestamo()
-            return f"Su deuda ha sido saldada\nNuevo saldo: {cuenta.getSaldoDisponible()}"
+        #pago parcial
+        if (cuotas == self.multaOPrestamo.cuotasDePago):
+            Movimiento(self.cuenta,self,self.multaOPrestamo.getValorPrestamo(),"Pago de prestamo",dt.now().strftime("%d/%m/%Y"))
+            self.multaOPrestamo.saldarPrestamo()
+            return f"Su deuda ha sido saldada\nNuevo saldo: {self.cuenta.getSaldoDisponible()}"
 
-        else :
-            self.tipo_clase.saldarCuota(cuotas)
+        else:
+            Movimiento(self.cuenta,self,self.multaOPrestamo.getValorCuota(),"Pago de prestamo",dt.now().strftime("%d/%m/%Y"))
+            self.multaOPrestamo.saldarCuota(cuotas)
             return f"Nuevo saldo: {self.cuenta.getSaldoDisponible()} \
             \nDeuda actual: {self.cuenta.getDeuda()} \
-            \nTe Faltan {self.prestamo.cuotasDePago} cuotas"
+            \nTe Faltan {self.multaOPrestamo.cuotasDePago} cuotas"
 
     #setters getters
 
@@ -85,11 +84,12 @@ class Pago:
 
     def setFecha(self, fecha): self.fecha = fecha
 
-    def getCuenta(self):return cuenta
+    def getCuenta(self):return self.cuenta
 
     def setCuenta(self, cuenta):self.cuenta = cuenta
 
-    def getId(self):return id
+    # def getId(self):
+    #     return self.id
 
     def getMonto(self):return self.monto
 
